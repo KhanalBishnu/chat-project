@@ -1,0 +1,124 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="card p-5"> <b>Ticket Configuration Send Email</b>
+</div>
+<div class="row">
+    <div class="col-md-9">
+
+
+        <form action="{{ route('backend.configuration.store') }}" method="POST">
+            @csrf
+            <div class="col-md-8" id="send_mail_form">
+                <div>
+                    {{-- <label for="">Lable </label>
+                    <input type="text" name="lable"  class="form-control"> --}}
+                    <br>
+
+                    <div id="email-section">
+                        <label for="">Send Email section </label>
+                        @if($emails!==null)
+                        @foreach ($emails as $email)
+                        <div id="send_mail">
+
+                            <input type="email" name="value[]" id="mail_id-1" class="form-control"
+                                value="{{ $email}}"><span class="text-end" style="color:red" onclick="removeMail()"
+                                id="remove-mail"><i class="fa-solid fa-trash"></i> </span>
+                        </div> <br>
+                        @endforeach
+                        @else
+                        <div id="send_mail-">
+
+                            <input type="email" name="value[]" id="mail_id-1" class="form-control"><span
+                                style="color:blue" onclick="sendMail()" id="send_mail"><i
+                                    class="fa-solid fa-plus"></i></span>
+                        </div> <br>
+                        @endif
+
+                    </div>
+
+                </div>
+
+            </div>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    var n = 2;
+    function scrollemailSection(){
+        $('#send_mail_form').animate({
+            ScrollTop: $('#send_mail_form').offset().top+$('#send_mail_form')[0].scrollHeight
+
+        },0);
+    }
+        function sendMail() {
+            scrollemailSection()
+            let html='  <div id="send_mail-'+n+'">  <span  class="text-end" style="color:red" onclick="removeMail('+n+')" id="remove-mail-'+ n +'"><i class="fa-solid fa-trash"></i> </span>  <input type="email" name="value[]" id="mail_id'+ n++ +'" class="form-control"> <span style="color:blue" onclick="sendMail()" id="send_mail"><i class="fa-solid fa-plus"></i></span> </div>';
+            $('#send_mail_form').append(html);
+          }
+
+          function removeMail(n){
+            scrollemailSection()
+              $('#send_mail').remove();
+          }
+
+</script>
+@endsection
+
+
+
+
+
+
+<?php
+
+namespace App\Http\Controllers;
+
+use App\TicketConfiguration;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
+use function GuzzleHttp\json_decode;
+
+class TicketConfigurationController extends Controller
+{
+    public function index(){
+        $sendEmail=TicketConfiguration::where('lable','send_email_on_ticket_create')->first();
+        $emails=null;
+        if($sendEmail){
+            $emails=json_decode($sendEmail->value);      
+         }
+        return view('Backend.ticketConfiguration.ticketConfiguration',compact('emails'));
+    }
+
+    public function store(Request $request){
+        
+        $data=$request->all();
+     
+        // $request->validate([
+        //     'lable'=>'required',
+        // ]);
+       
+        try {
+            
+            DB::transaction(function() use($data){
+                $json_email = json_encode($data['value']);
+                TicketConfiguration::where('lable','send_email_on_ticket_create')->delete();
+                TicketConfiguration::create([
+                    'lable'=>'send_email_on_ticket_create',
+                    'value'=>$json_email,
+                ]);
+            });
+            Alert::success('Success', ' Configure success');
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            Alert::error('error', $th->getMessage());
+            return redirect()->back();
+        }
+
+    }
+}
