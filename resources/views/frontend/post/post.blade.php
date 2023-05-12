@@ -243,7 +243,7 @@
                     <form id="like-post-form">
                         <input type="hidden" id="like_unlike{{ $key }}"
                             value="{{ $postItem->likeBy(auth()->user())?'Unlike':'Like' }}">
-                        <button bishnu="me" type="button" class="btn btn-outline-primary btn-sm post-like"
+                        <button  type="button" class="btn btn-outline-primary btn-sm post-like"
                             id="{{ $postItem->id }}-likeUnlike_btn"
                             onclick="likeunlike('{{ $postItem->id }}','like_count{{ $key }}','unlikeWhen{{ $key }}','like_unlike{{ $key }}')">
                             <i class="bi bi-hand-thumbs-up"></i><span

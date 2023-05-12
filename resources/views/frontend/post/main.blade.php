@@ -610,6 +610,7 @@
         </div>
     </div>
     <script>
+         
         var sender_id=@json(auth()->user()->id);
             // console.log(sender_id);
             var receiver_id;
@@ -658,6 +659,7 @@
     <script src="{{asset('admin/js/hoverable-collapse.js')}}"></script>
     <script src="{{asset('admin/js/template.js')}}"></script>
     <!-- endinject -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Custom js for this page-->
     <script src="{{asset('admin/js/dashboard.js')}}"></script>
     <script src="{{asset('admin/js/data-table.js')}}"></script>

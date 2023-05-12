@@ -24,5 +24,11 @@ class FriendShip extends Model  implements HasMedia
         return $this->belongsTo(User::class, 'friend_id' );
     }
 
+    public function friends(){
+        return $this->belongsTo(User::class, 'user_id','friend_id');
+    } 
+   
+
+
    
 }

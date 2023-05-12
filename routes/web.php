@@ -83,6 +83,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::post('/friends/request-accept/{id}','FriendRequestAccept')->name('friend_request.accept');
         Route::get('/friends/request-cancle/{id}','FriendRequestCancleByUser')->name('friend_request.ByUsercancle');
         Route::get('/friends/request-profile/{id}','FriendRequestProfile')->name('friend_list.profile');
+        Route::get('/friends/profile-delete/{id}','FriendDelete')->name('friend_list.delete');
        
     });
 
