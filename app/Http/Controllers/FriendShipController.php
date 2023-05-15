@@ -141,16 +141,13 @@ class FriendShipController extends Controller
     public function Yourfriends()
     {
         // for main blade 
-        $user = User::find(Auth::id());
-
-
         // for joinnign user also 
         // $yourFriends = DB::table('friend_ships')->join('users as u','u.id','=','friend_ships.user_id')->join('users as ud','ud.id','=','friend_ships.friend_id')->where(function ($q) use ($user) {
         //         $q->where('friend_ships.user_id',$user->id)
         //         ->orwhere('friend_ships.friend_id',$user->id);
         // })->get();
         // dd($yourFriends);
-
+        $user = User::find(Auth::id());
 
         $yourFriends = User::where(function ($query) use ($user) {
             $query->whereExists(function ($query) use ($user) {

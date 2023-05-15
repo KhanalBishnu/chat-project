@@ -12,7 +12,7 @@
                     @if(! in_array($user->id,$ifacceptedByUser_arr))
 
                     <div class="col-md-4 mt-2 pt-2">
-                        {{-- @if(!$acceptedByUser['friend_id']==$user->id) --}}
+                       
                         <div class="card">
                             <a href="{{ route('friend_list.profile',$user->id) }}">
                                 <img style="height:100px;"

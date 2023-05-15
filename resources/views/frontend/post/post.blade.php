@@ -1,60 +1,41 @@
 @extends('frontend.post.main')
-{{-- <style>
-    .accordion {
-        background-color: #eee;
-        color: #444;
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-        transition: 0.4s;
+<style>
+    .dark-mode{
+        background-color: black
     }
-
-    .active,
-    .accordion:hover {
-        background-color: #ccc;
-    }
-
-    .panel {
-        padding: 0 18px;
-        background-color: white;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.2s ease-out;
-    }
-</style> --}}
+</style>
 @section('content')
+<div id="allpage">
+    <div class="container  " style="display:flex; flex-wrap: wrap;">
+        <div class="col-lg-6 mt-5 pt-5">
+            <button id="allpostbtn" class="">AllPosts </button><button id="friendpostbtn" class="float-end">Friend
+                Posts</button>
+            <div id="messagecommentupdate"></div>
+        </div>
+        <div class="col-lg-6 mt-5 pt-4 d-flex justify-content-end align-items-center">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                Create Post
+            </button>
+            <button class="px-2 mx-2" onclick="modeChange()">Mode</button>
+        </div>
 
-<div class="container  " style="display:flex; flex-wrap: wrap;">
-    <div class="col-lg-6 mt-5 pt-5">
-        <button id="allpostbtn" class="btn">AllPosts </button><button id="friendpostbtn" class="float-end">Friend Posts</button>
-        <div id="messagecommentupdate"></div>
+        <hr>
     </div>
-    <div class="col-lg-6 mt-5 pt-4 d-flex justify-content-end align-items-center">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-            Create Post
-        </button>
-    </div>
-   
-    <hr>
-</div>
-<div id="allpost" class="container-fluid">
+    <div id="allpost" class="container-fluid">
 
-    @foreach ($post as $key=>$postItem)
-    <div class="row justify-content-evenly" id="post_div{{ $key }}">
-        {{-- <div class="col-lg-12"> --}}
+        @foreach ($post as $key=>$postItem)
+        <div class="row justify-content-evenly allpost-page" id="post_div{{ $key }}">
+            {{-- <div class="col-lg-12"> --}}
             <div id="" class="card bg-light col-lg-9 px-5 mx-5 my-2 ">
                 @if(Auth::id()==$postItem->user_id)
-                    <span class=""> <a class="float-end" onclick="deletePost('{{ $postItem->id }}','{{ $key }}')"><i  class="fa-solid fa-trash-can text-danger"></i> </a> </span>
+                <span class=""> <a class="float-end" onclick="deletePost('{{ $postItem->id }}','{{ $key }}')"><i
+                            class="fa-solid fa-trash-can text-danger"></i> </a> </span>
                 @endif
-                    <div>
+                <div class=" allpost-dess">
                     <p class="float-end">posted by:<b>{{ $postItem->user->name }}</b></p>
                     <p class="text-black"> Post name:: <span class="card-title ">{{ $postItem->name }}</span></p>
-                    <small class=" float-end"> 
-                        Posted on {{ $postItem->created_at->diffForHumans() }} 
+                    <small class=" float-end">
+                        Posted on {{ $postItem->created_at->diffForHumans() }}
 
                     </small>
                 </div>
@@ -62,12 +43,12 @@
                     src="{{ $postItem->hasMedia('post_image') ? $postItem->getMedia('post_image')[0]->getFullUrl() : 'https://via.placeholder.com/350x200.png?text=No+Image' }}"
                     alt="Post Image" class="card-img-top">
 
-                <div class="card-body">
+                <div class="card-body allpost-des">
                     <p class="card-text">description:<b>{{$postItem->description }}</b></p>
                 </div>
                 @if (Auth::id())
 
-                <div class="like-dislike-form">
+                <div class="like-dislike-form allpost-pages">
                     <span class="badge bg-primary rounded-pill " id="like_count{{ $key }}">
                         {{ $postItem->like->count() }} {{ Str::plural('like', $postItem->like->count()) }}
                     </span>
@@ -94,136 +75,138 @@
                         </div>
                     </form>
                     {{-- <small id="comment_count{{ $postItem->id }}"> {{ $postItem->comments->count() }}
-                        {{ Str::plural('comment', $postItem->comments->count()) }} --}}
+                    {{ Str::plural('comment', $postItem->comments->count()) }} --}}
 
-                        <div class="comments mx-1">
+                    <div class="comments mx-1">
 
-                            <div class="accordion" id="accordionExample{{ $key }}">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            onclick="commentshowhide('{{ $key }}')"
-                                            data-bs-target="#collapseOne{{ $key }}" aria-expanded="true"
-                                            aria-controls="collapseOne{{ $key }}">
-                                            <small id="comment_count{{ $postItem->id }}"> {{ $postItem->comments->count() }}
-                                                {{ Str::plural('comment', $postItem->comments->count()) }}
-                                            </small>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne{{ $key }}" class="accordion-collapse collapse"
-                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body" id="accordion-body{{ $key }}">
-                                            @foreach($postItem->comments as $key=> $comment)
-                                            <div id="comment_section{{ $comment->id }}">
-                                                <i class="fa-solid fa-user mx-2"></i> <b>{{ $comment->user->name }}</b>
-                                                <br>
-                                                <span class="mx-3 px-4" id="commentshow{{ $comment->id }}">
-                                                    {{ $comment->comment }} </span> <span> Comment on {{ $comment->created_at->diffForHumans() }}</span>
+                        <div class="accordion" id="accordionExample{{ $key }}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        onclick="commentshowhide('{{ $key }}')" data-bs-target="#collapseOne{{ $key }}"
+                                        aria-expanded="true" aria-controls="collapseOne{{ $key }}">
+                                        <small id="comment_count{{ $postItem->id }}"> {{ $postItem->comments->count() }}
+                                            {{ Str::plural('comment', $postItem->comments->count()) }}
+                                        </small>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne{{ $key }}" class="accordion-collapse collapse"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body" id="accordion-body{{ $key }}">
+                                        @foreach($postItem->comments as $key=> $comment)
+                                        <div id="comment_section{{ $comment->id }}">
+                                            <i class="fa-solid fa-user mx-2"></i> <b>{{ $comment->user->name }}</b>
+                                            <br>
+                                            <span class="mx-3 px-4" id="commentshow{{ $comment->id }}">
+                                                {{ $comment->comment }} </span> <span> Comment on
+                                                {{ $comment->created_at->diffForHumans() }}</span>
 
-                                                    
-                                                @if ($comment->user_id==Auth::id())
-                                                <a type="button" class="btn btn-primary editbtn btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal{{ $comment->id }}"><i
-                                                        class="fas fa-edit"></i>
-                                                </a>
-                                                <a type="button" class="btn btn-primary editbtn btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#deleteTestModal{{ $comment->id }}"><i
-                                                        class="fas fa-trash"></i>
-                                                </a>
-                                                 {{-- delete test  --}}
-                                                  <div class="modal fade" id="deleteTestModal{{ $comment->id }}" role="dialog">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title">Delete Comment</h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <input type="hidden" id="delete_test_id" >
-                                                                            <h4>Are You sure Delete this Data?</h4>
-                                                                            <input type="text" name="comment" value="{{ $comment->comment }}" class="form-control" disabled>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancle</button>
-                                                                            <button onclick="deletecomment('{{ $comment->id }}','{{ $postItem->id }}')" type="button" class="delete_test btn btn-primary" id="delete_comment">Confirm</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                    {{--end delete test  --}}
 
-                                                <!-- Modal edit comment -->
-                                                <div class="modal fade" id="exampleModal{{ $comment->id }}"
-                                                    tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Comment
-                                                                    Updating..
-
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <form class="form">
-                                                                <div class="modal-body">
-                                                                    <div class="container-fluid">
-                                                                        <div class="row">
-
-                                                                            <input type="hidden" name="comment_id"
-                                                                                id="comment_id"
-                                                                                value="{{ $comment->id }}"> <br>
-                                                                            <label for="comment">Comment update</label>
-                                                                            <br>
-                                                                            <input type="text" class="form-control"
-                                                                                name="comment"
-                                                                                id="comment_update{{ $comment->id }}"
-                                                                                value="{{ $comment->comment }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
+                                            @if ($comment->user_id==Auth::id())
+                                            <a type="button" class="btn btn-primary editbtn btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal{{ $comment->id }}"><i class="fas fa-edit"></i>
+                                            </a>
+                                            <a type="button" class="btn btn-primary editbtn btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#deleteTestModal{{ $comment->id }}"><i
+                                                    class="fas fa-trash"></i>
+                                            </a>
+                                            {{-- delete test  --}}
+                                            <div class="modal fade" id="deleteTestModal{{ $comment->id }}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Delete Comment</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="hidden" id="delete_test_id">
+                                                            <h4>Are You sure Delete this Data?</h4>
+                                                            <input type="text" name="comment"
+                                                                value="{{ $comment->comment }}" class="form-control"
+                                                                disabled>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button class="btn btn-primary"
-                                                                    onclick="updatecomment('{{ $comment->id }}')">Update</button>
+                                                                <button type="button" class="btn btn-default"
+                                                                    data-bs-dismiss="modal">Cancle</button>
+                                                                <button
+                                                                    onclick="deletecomment('{{ $comment->id }}','{{ $postItem->id }}')"
+                                                                    type="button" class="delete_test btn btn-primary"
+                                                                    id="delete_comment">Confirm</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            {{--end delete test  --}}
 
-                                                @endif
+                                            <!-- Modal edit comment -->
+                                            <div class="modal fade" id="exampleModal{{ $comment->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Comment
+                                                                Updating..
+
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <form class="form">
+                                                            <div class="modal-body">
+                                                                <div class="container-fluid">
+                                                                    <div class="row">
+
+                                                                        <input type="hidden" name="comment_id"
+                                                                            id="comment_id" value="{{ $comment->id }}"> <br>
+                                                                        <label for="comment">Comment update</label>
+                                                                        <br>
+                                                                        <input type="text" class="form-control"
+                                                                            name="comment"
+                                                                            id="comment_update{{ $comment->id }}"
+                                                                            value="{{ $comment->comment }}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button class="btn btn-primary"
+                                                                onclick="updatecomment('{{ $comment->id }}')">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            @endforeach
+                                            @endif
                                         </div>
+
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
         @endforeach
     </div>
-<div id="friendpost" class="container-fluid">
+    <div id="friendpost" class="container-fluid">
 
-    @foreach ($friendpoSt as $key=>$postItem)
-    {{-- @if(in_array($postItem->user_id,$friendPost_arr)) --}}
-    <div class="row justify-content-evenly" id="post_div{{ $key }}">
-        {{-- <div class="col-lg-12"> --}}
+        @foreach ($friendpoSt as $key=>$postItem)
+        {{-- @if(in_array($postItem->user_id,$friendPost_arr)) --}}
+        <div class="row justify-content-evenly" id="post_div{{ $key }}">
+            {{-- <div class="col-lg-12"> --}}
             <div id="" class="card bg-light col-lg-9 px-5 mx-5 my-2 ">
                 @if(Auth::id()==$postItem->user_id)
-                    <span class=""> <a class="float-end" onclick="deletePost('{{ $postItem->id }}','{{ $key }}')"><i  class="fa-solid fa-trash-can text-danger"></i> </a> </span>
+                <span class=""> <a class="float-end" onclick="deletePost('{{ $postItem->id }}','{{ $key }}')"><i
+                            class="fa-solid fa-trash-can text-danger"></i> </a> </span>
                 @endif
-                    <div>
+                <div>
                     <p class="float-end">posted by:<b>{{ $postItem->user->name }}</b></p>
                     <p class="text-black"> Post name:: <span class="card-title ">{{ $postItem->name }}</span></p>
-                    <small class=" float-end"> 
-                        Posted on {{ $postItem->created_at->diffForHumans() }} 
+                    <small class=" float-end">
+                        Posted on {{ $postItem->created_at->diffForHumans() }}
 
                     </small>
                 </div>
@@ -243,7 +226,7 @@
                     <form id="like-post-form">
                         <input type="hidden" id="like_unlike{{ $key }}"
                             value="{{ $postItem->likeBy(auth()->user())?'Unlike':'Like' }}">
-                        <button  type="button" class="btn btn-outline-primary btn-sm post-like"
+                        <button type="button" class="btn btn-outline-primary btn-sm post-like"
                             id="{{ $postItem->id }}-likeUnlike_btn"
                             onclick="likeunlike('{{ $postItem->id }}','like_count{{ $key }}','unlikeWhen{{ $key }}','like_unlike{{ $key }}')">
                             <i class="bi bi-hand-thumbs-up"></i><span
@@ -263,122 +246,124 @@
                         </div>
                     </form>
                     {{-- <small id="comment_count{{ $postItem->id }}"> {{ $postItem->comments->count() }}
-                        {{ Str::plural('comment', $postItem->comments->count()) }} --}}
+                    {{ Str::plural('comment', $postItem->comments->count()) }} --}}
 
-                        <div class="comments mx-1">
+                    <div class="comments mx-1">
 
-                            <div class="accordion" id="accordionExample{{ $key }}">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            onclick="commentshowhide('{{ $key }}')"
-                                            data-bs-target="#collapseOne{{ $key }}" aria-expanded="true"
-                                            aria-controls="collapseOne{{ $key }}">
-                                            <small id="comment_count{{ $postItem->id }}"> {{ $postItem->comments->count() }}
-                                                {{ Str::plural('comment', $postItem->comments->count()) }}
-                                            </small>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne{{ $key }}" class="accordion-collapse collapse"
-                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body" id="accordion-body{{ $key }}">
-                                            @foreach($postItem->comments as $key=> $comment)
-                                            <div id="comment_section{{ $comment->id }}">
-                                                <i class="fa-solid fa-user mx-2"></i> <b>{{ $comment->user->name }}</b>
-                                                <br>
-                                                <span class="mx-3 px-4" id="commentshow{{ $comment->id }}">
-                                                    {{ $comment->comment }} </span> <span> Comment on {{ $comment->created_at->diffForHumans() }}</span>
+                        <div class="accordion" id="accordionExample{{ $key }}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        onclick="commentshowhide('{{ $key }}')" data-bs-target="#collapseOne{{ $key }}"
+                                        aria-expanded="true" aria-controls="collapseOne{{ $key }}">
+                                        <small id="comment_count{{ $postItem->id }}"> {{ $postItem->comments->count() }}
+                                            {{ Str::plural('comment', $postItem->comments->count()) }}
+                                        </small>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne{{ $key }}" class="accordion-collapse collapse"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body" id="accordion-body{{ $key }}">
+                                        @foreach($postItem->comments as $key=> $comment)
+                                        <div id="comment_section{{ $comment->id }}">
+                                            <i class="fa-solid fa-user mx-2"></i> <b>{{ $comment->user->name }}</b>
+                                            <br>
+                                            <span class="mx-3 px-4" id="commentshow{{ $comment->id }}">
+                                                {{ $comment->comment }} </span> <span> Comment on
+                                                {{ $comment->created_at->diffForHumans() }}</span>
 
-                                                    
-                                                @if ($comment->user_id==Auth::id())
-                                                <a type="button" class="btn btn-primary editbtn btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal{{ $comment->id }}"><i
-                                                        class="fas fa-edit"></i>
-                                                </a>
-                                                <a type="button" class="btn btn-primary editbtn btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#deleteTestModal{{ $comment->id }}"><i
-                                                        class="fas fa-trash"></i>
-                                                </a>
-                                                 {{-- delete test  --}}
-                                                  <div class="modal fade" id="deleteTestModal{{ $comment->id }}" role="dialog">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title">Delete Comment</h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <input type="hidden" id="delete_test_id" >
-                                                                            <h4>Are You sure Delete this Data?</h4>
-                                                                            <input type="text" name="comment" value="{{ $comment->comment }}" class="form-control" disabled>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancle</button>
-                                                                            <button onclick="deletecomment('{{ $comment->id }}','{{ $postItem->id }}')" type="button" class="delete_test btn btn-primary" id="delete_comment">Confirm</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                    {{--end delete test  --}}
 
-                                                <!-- Modal edit comment -->
-                                                <div class="modal fade" id="exampleModal{{ $comment->id }}"
-                                                    tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Comment
-                                                                    Updating..
-
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <form class="form">
-                                                                <div class="modal-body">
-                                                                    <div class="container-fluid">
-                                                                        <div class="row">
-
-                                                                            <input type="hidden" name="comment_id"
-                                                                                id="comment_id"
-                                                                                value="{{ $comment->id }}"> <br>
-                                                                            <label for="comment">Comment update</label>
-                                                                            <br>
-                                                                            <input type="text" class="form-control"
-                                                                                name="comment"
-                                                                                id="comment_update{{ $comment->id }}"
-                                                                                value="{{ $comment->comment }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
+                                            @if ($comment->user_id==Auth::id())
+                                            <a type="button" class="btn btn-primary editbtn btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal{{ $comment->id }}"><i class="fas fa-edit"></i>
+                                            </a>
+                                            <a type="button" class="btn btn-primary editbtn btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#deleteTestModal{{ $comment->id }}"><i
+                                                    class="fas fa-trash"></i>
+                                            </a>
+                                            {{-- delete test  --}}
+                                            <div class="modal fade" id="deleteTestModal{{ $comment->id }}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Delete Comment</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="hidden" id="delete_test_id">
+                                                            <h4>Are You sure Delete this Data?</h4>
+                                                            <input type="text" name="comment"
+                                                                value="{{ $comment->comment }}" class="form-control"
+                                                                disabled>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button class="btn btn-primary"
-                                                                    onclick="updatecomment('{{ $comment->id }}')">Update</button>
+                                                                <button type="button" class="btn btn-default"
+                                                                    data-bs-dismiss="modal">Cancle</button>
+                                                                <button
+                                                                    onclick="deletecomment('{{ $comment->id }}','{{ $postItem->id }}')"
+                                                                    type="button" class="delete_test btn btn-primary"
+                                                                    id="delete_comment">Confirm</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            {{--end delete test  --}}
 
-                                                @endif
+                                            <!-- Modal edit comment -->
+                                            <div class="modal fade" id="exampleModal{{ $comment->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Comment
+                                                                Updating..
+
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <form class="form">
+                                                            <div class="modal-body">
+                                                                <div class="container-fluid">
+                                                                    <div class="row">
+
+                                                                        <input type="hidden" name="comment_id"
+                                                                            id="comment_id" value="{{ $comment->id }}"> <br>
+                                                                        <label for="comment">Comment update</label>
+                                                                        <br>
+                                                                        <input type="text" class="form-control"
+                                                                            name="comment"
+                                                                            id="comment_update{{ $comment->id }}"
+                                                                            value="{{ $comment->comment }}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button class="btn btn-primary"
+                                                                onclick="updatecomment('{{ $comment->id }}')">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            @endforeach
+                                            @endif
                                         </div>
+
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
         {{-- @endif --}}
         @endforeach
     </div>
+</div>
 
 
 {{-- post modal  --}}
@@ -454,7 +439,7 @@
 {{-- post modal end  --}}
 
 <script>
- $('#friendpost').hide();
+    $('#friendpost').hide();
     $('#allpostbtn').click(function(){
         $('#friendpost').hide();
         $('#allpost').show();
@@ -581,27 +566,35 @@
                 }
             });
          }
-    function deletePost(post_id,key){
-        var checkstr =  confirm('are you sure you want to delete this post?');
-        if(checkstr == true){
-        let url="{{ route('deletepost',':id') }}";
-        url=url.replace(':id',post_id);
+        function deletePost(post_id,key){
+            var checkstr =  confirm('are you sure you want to delete this post?');
+            if(checkstr == true){
+                let url="{{ route('deletepost',':id') }}";
+                url=url.replace(':id',post_id);
 
-        $.ajax({
-            type: "get",
-            url: url,
-            data: {id:post_id},
-            success: function (res) {
-                if(res.status==true){
-                    $('#post_div'+key).remove();
-                    $.notify("Post deleted successfully", "success");
-                }
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    data: {id:post_id},
+                    success: function (res) {
+                        if(res.status==true){
+                            $('#post_div'+key).remove();
+                            $.notify("Post deleted successfully", "success");
+                        }
+                    }
+                });
+            }else{
+                return false;
             }
-        });
-    }else{
-        return false;
         }
+    //   for mode 
+    function modeChange(){
+        $('#allpage').toggleClass('dark-mode');
+        $('#allpost').toggleClass('dark-mode');
+        $('.allpost-page').toggleClass('dark-mode');
+    //     $('.allpost-pages').toggleClass('dark-mode');
+    //     $('.allpost-des').toggleClass('dark-mode');
+    //     $('.allpost-dess').toggleClass('dark-mode');
     }
-      
 </script>
 @endsection

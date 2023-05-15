@@ -187,3 +187,26 @@ Echo.private('message-delete')
     .listen('MessageDeletedEvent',(data)=>{
         $('#'+data.id+'-chat').remove();
     });
+
+
+    // groups 
+// $(document).ready(function () {
+//     $('#createGroupForm').submit(function (e) {
+//         e.preventDefault();
+//         let url="{{route('groupCreate')}}";
+
+//         $.ajax({
+//             type: "POST",
+//             url: url,
+//             data: new FormData(this),
+//             contentType:false,
+//             cache:false,
+//             processData:false,
+//             success: function (res) {
+//                 if(res.status==true){
+//                     alert('success');
+//                 }
+//             }
+//         });
+//       })
+// });

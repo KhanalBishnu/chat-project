@@ -468,6 +468,11 @@
                         <a class="btn" href="{{ route('chat') }}">Chat</a>
 
                     </li>
+                    <li id="chat_li"
+                        class="{{ request()->url()==route('group')?'active':'' }}   ml-4 nav-link btn btn-dark btn-sm">
+                        <a class="btn" href="{{ route('group') }}">Group</a>
+
+                    </li>
                     <li id="post_li"
                         class="{{ request()->url()==route('post')?'active':'' }}   ml-4 nav-link btn btn-dark btn-sm">
                         <a class="btn" href="{{ route('post') }}">Post</a>

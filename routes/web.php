@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FriendShipController;
@@ -19,26 +20,17 @@ use App\Http\Controllers\FriendShipController;
 |
 */
 
-// Route::get('/user', function () {
-//     return view('welcome');
-// });
+
 Route::get('/javascript', function () {
     return view('userView');
 });
 Route::get('/', function () {
     return view('front.index');
 });
-// Route::get('/', [App\Http\Controllers\HomeController::class, 'front']);
+
 Route::get('/user', [App\Http\Controllers\HomeController::class, 'userHome']);
 
 
-// Route::get('/view', function () {
-//     $data=[1,2,3,4,5];
-//     return  response()->json([
-//         'success'=>true,
-//         'view'=>view('random',compact('data'))->render()
-//     ]);
-// })->name('ajaxView');
 
 Auth::routes();
 
@@ -60,7 +52,9 @@ Route::middleware('auth')->controller(UserController::class)->group(function () 
     Route::get('/userProfile','userProfile')->name('userProfile')->middleware('auth');
     Route::post('/ProfileChange/photo/{id}','ProfileChange')->name('ProfileChange');
     Route::PUT('/ProfileChange/{id}','user_password')->name('user_password');
+
     // notification 
+    
     Route::post('/notification/{id}','motification_read')->name('motification_read');
     Route::post('/notification','motification_readAll')->name('motification_readAll');
 
@@ -110,6 +104,12 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::get('/home/comment/delete/{id}','comment_delete')->name('comment_delete');
 
 
+    });
+    // group 
+    Route::controller(GroupController::class)->group(function(){
+        Route::get('/group','index')->name('group');
+        Route::post('/groups','store')->name('groupCreate');
+        Route::get('/groups/members','getMember')->name('getmember');
     });
 
 
