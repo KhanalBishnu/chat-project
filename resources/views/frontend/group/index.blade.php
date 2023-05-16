@@ -38,7 +38,7 @@
                     <td>{{ $group->join_limit}}</td>
                     <td>
 
-                        <a  id="member_add{{ $key }}" data-id="{{ $group->id }}" data-limit="{{ $group->join_limit }}"
+                        <a id="member_add{{ $key }}" data-id="{{ $group->id }}" data-limit="{{ $group->join_limit }}"
                             data-bs-toggle="modal" data-bs-target="#memberAdd{{ $key }}"> Members
                         </a>
                         {{-- group member add modal --}}
@@ -51,8 +51,12 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form action="" id="member Add">
+                                    <form id="memberAdd{{ $key }}">
+
                                         <div class="modal-body">
+                                            <input type="hidden" name="group_id" id="" value="{{ $group->id }}">
+                                            <input type="hidden" name="limit" id="" value="{{ $group->join_limit}}">
+                                           
                                             <table class="table">
                                                 <thead>
                                                     <tr>
@@ -60,19 +64,14 @@
                                                         <th>Name </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody >
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <table id="member_show">
+                                                <tbody id="member_show{{ $key }}">
 
-                                                            </table>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Add</button>
+                                            <span id="error_add_member{{ $key }}" class="text-danger"></span>
+                                            <button  type="submit" class="btn btn-primary">Add</button>
                                         </div>
                                     </form>
                                 </div>
@@ -133,7 +132,6 @@
                 processData:false,
                 success: function (res) {
                     if(res.status==true){
-                        // $('#exampleModal').modal('hide');
                         location.reload();
                         $.notify(res.message,"success");
                     
@@ -143,36 +141,63 @@
     });
    $('a[id^="member_add"]').click(function(e){
         e.preventDefault();
+        var key=this.id.slice(-1);
             var group_id=$(this).attr('data-id');
             var group_limit=$(this).attr('data-limit');
+            debugger;
             console.log(group_id,group_limit);
             $.ajax({
                 type: "get",
                 url: "{{ route('getmember') }}",
+                data:{group_id:group_id},
                 success: function (res) {
                     if(res.status==true){
                         let users=res.data;
-                        console.log(users);
                          let html='';
                          for (let i = 0; i < users.length; i++) {
-                             html+='<tr>'+
-                                   ' <td>'+
-                                        '<input type="checkbox" name="members[]" id="" value="'+users[i]['id']+'">'+
-                                   ' </td>'+
-                                    '<td>'+
-                                    ''+users[i]['name']+' '
-                                    '</td> '+                
-                                '</tr> ';
+                             let isChecked=res.groupMembers.includes(users[i].id);
+                             html+=`<tr>
+                                    <td>
+                                        <input ${isChecked?'checked':' '}  type="checkbox" name="members[]" id="" value="${users[i]['id']}">
+                                    </td>
+                                    <td>
+                                    ${users[i]['name']}
+                                    </td>                 
+                                </tr>`;
+                          
                          }
-                         $('#member_show').html(html);
-
-                         
-                                
+                         $('#member_show'+key).html(html);
                         
                     }
                 }
             });
     });
+
+    $('form[id^="memberAdd"]').submit(function (e) { 
+        e.preventDefault();
+        var key=this.id.slice(-1);
+        let formData=$(this).serialize();
+        $.ajax({
+            type: "post",
+            url: "{{ route('groupMember') }}",
+            data: formData,
+            success: function (res) {
+                if(res.status){
+                    $('#memberAdd'+key).modal('hide');
+                   
+                    // $('#memberAdd'+key)[0].reset();
+                    $.notify(res.message,"success");
+                    location.reload();
+                }
+                else{
+                    $('#error_add_member'+key).text(res.message);
+                    setTimeout(function(){
+                        $('#error_add_member'+key).text('');
+                          }, 3000);
+                }
+            }
+        });
+     });
 
 </script>
 @endsection

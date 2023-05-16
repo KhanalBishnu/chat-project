@@ -110,6 +110,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::get('/group','index')->name('group');
         Route::post('/groups','store')->name('groupCreate');
         Route::get('/groups/members','getMember')->name('getmember');
+        Route::post('/groups/members','AddMember')->name('groupMember');
     });
 
 
