@@ -466,6 +466,7 @@
                     $('#'+countDivId).text(res.count+' Like');
                     $('#'+buttonText).text(res.text);
                     $('#'+statusDiv).val(res.text);
+                    $.notify(res.message,"success");
                    
                 }
               }

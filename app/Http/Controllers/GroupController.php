@@ -50,7 +50,7 @@ class GroupController extends Controller
         
         // $checkedGroupMember=GroupMember::where('group_id',$data['group_id'])->get('user_id')->toArray();
         $checkedGroupMember=GroupMember::where('group_id',$data['group_id'])->pluck('user_id')->toArray();
-        dd($checkedGroupMember);
+        // dd($checkedGroupMember);
 
         $members = User::where(function ($query) use ($user) {
             $query->whereExists(function ($query) use ($user) {
@@ -65,10 +65,13 @@ class GroupController extends Controller
                     ->where('friend_ships.status', 'accepted');
             });
         })->get();
+        // dd($members);
+
         return response()->json([
             'status' => true,
             'data' => $members,
-            'groupMembers'=>$checkedGroupMember
+            'groupMembers'=>$checkedGroupMember,
+            'view'=>view('frontend.group.response_group_member',compact('members','checkedGroupMember'))->render()
         ]);
     }
 

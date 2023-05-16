@@ -56,6 +56,7 @@
                                         <div class="modal-body">
                                             <input type="hidden" name="group_id" id="" value="{{ $group->id }}">
                                             <input type="hidden" name="limit" id="" value="{{ $group->join_limit}}">
+                                            
                                            
                                             <table class="table">
                                                 <thead>
@@ -85,6 +86,7 @@
             </tbody>
         </table>
         @else
+       
         <h2>No Groups Found!</h2>
         @endif
     </div>
@@ -144,29 +146,15 @@
         var key=this.id.slice(-1);
             var group_id=$(this).attr('data-id');
             var group_limit=$(this).attr('data-limit');
-            debugger;
-            console.log(group_id,group_limit);
+            $('#member_show'+key).html('');
             $.ajax({
                 type: "get",
                 url: "{{ route('getmember') }}",
                 data:{group_id:group_id},
                 success: function (res) {
                     if(res.status==true){
-                        let users=res.data;
-                         let html='';
-                         for (let i = 0; i < users.length; i++) {
-                             let isChecked=res.groupMembers.includes(users[i].id);
-                             html+=`<tr>
-                                    <td>
-                                        <input ${isChecked?'checked':' '}  type="checkbox" name="members[]" id="" value="${users[i]['id']}">
-                                    </td>
-                                    <td>
-                                    ${users[i]['name']}
-                                    </td>                 
-                                </tr>`;
-                          
-                         }
-                         $('#member_show'+key).html(html);
+                       
+                         $('#member_show'+key).append(res.view);
                         
                     }
                 }
@@ -183,9 +171,7 @@
             data: formData,
             success: function (res) {
                 if(res.status){
-                    $('#memberAdd'+key).modal('hide');
-                   
-                    // $('#memberAdd'+key)[0].reset();
+                    // $('#memberAdd'+key).modal('hide');
                     $.notify(res.message,"success");
                     location.reload();
                 }
