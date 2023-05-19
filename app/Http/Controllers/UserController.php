@@ -123,8 +123,21 @@ class UserController extends Controller
 
     public function post(){
         // get friend post 
-        $friendPost=FriendShip::where('user_id',Auth::id())->where('status','accepted')->get('friend_id');
-        $friendpoSt=Post::whereIn('user_id',$friendPost)->get();
+        $friendPost=FriendShip::where('status','accepted')->where('user_id',Auth::id())->orwhere('friend_id',auth::id())->where('status','accepted')->get();
+        
+        // dd($friendPost);
+        $post_arr=[];
+        foreach ($friendPost as $key => $friend) {
+            if(Auth::id()!=$friend->friend_id){
+                array_push($post_arr,$friend->friend_id);
+            }
+            if(Auth::id() !=$friend->user_id){
+                array_push($post_arr,$friend->user_id);
+            }
+        }
+        // dd($post_arr);
+        $friendpoSt=Post::whereIn('user_id',$post_arr)->get();
+
         // dd($friendpoSt);
       
         $categories=Category::all();
