@@ -364,8 +364,6 @@
         @endforeach
     </div>
 </div>
-
-
 {{-- post modal  --}}
 <!-- The Modal -->
 <div class="modal" id="myModal">
@@ -437,7 +435,6 @@
     </div>
 </div>
 {{-- post modal end  --}}
-
 <script>
             $('#friendpost').hide();
             $('#allpostbtn').click(function(){
