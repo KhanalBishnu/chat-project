@@ -439,19 +439,19 @@
 {{-- post modal end  --}}
 
 <script>
-    $('#friendpost').hide();
-    $('#allpostbtn').click(function(){
-        $('#friendpost').hide();
-        $('#allpost').show();
-    });
-    $('#friendpostbtn').click(function(){
-        $('#allpost').hide();
-        $('#friendpost').show();
-    });
-    $(document).ready(function(){
-    
+            $('#friendpost').hide();
+            $('#allpostbtn').click(function(){
+                $('#friendpost').hide();
+                $('#allpost').show();
+            });
+            $('#friendpostbtn').click(function(){
+                $('#allpost').hide();
+                $('#friendpost').show();
+            });
+            $(document).ready(function(){
+            
 
- });
+        });
        function likeunlike(postId,countDivId,buttonText,statusDiv){
           let status=$('#'+statusDiv).val();
           var url="{{ route('likeStore',':id') }}";
@@ -474,24 +474,24 @@
        }
 
        function commentpost(postId,key){
-        var comment=$('#comment'+postId).val();
-        var url="{{ route('post.comment',':id') }}";
-          url=url.replace(':id',postId);
-          
+            var comment=$('#comment'+postId).val();
+            var url="{{ route('post.comment',':id') }}";
+            url=url.replace(':id',postId);
+            
 
-          $.ajax({
-              type: "post",
-              url: url,
-              data:{id:postId,comment:comment},
-              success: function (res) {
-                  $('#comment_count'+postId).text(res.count==1?res.count +' comment':res.count +' comments');
+            $.ajax({
+                type: "post",
+                url: url,
+                data:{id:postId,comment:comment},
+                success: function (res) {
+                    $('#comment_count'+postId).text(res.count==1?res.count +' comment':res.count +' comments');
 
-              
-                  $('#accordion-body'+key).append(res.view);
-                  $.notify("Comment Added", "success");
+                
+                    $('#accordion-body'+key).append(res.view);
+                    $.notify("Comment Added", "success");
 
-              }
-          });
+                }
+            });
        }
        function commentShow(postId){
         var url="{{ route('comment.show',':id') }}";
@@ -519,15 +519,15 @@
         });
        }
 
-         function commentshowhide(key){
-             $('#collapseOne'+key).toggle();
-         }   
-       
-         function updatecomment(id){
-        
-            // var comment_id=$('#comment_id').val();
+        function commentshowhide(key){
+            $('#collapseOne'+key).toggle();
+        }   
+    
+        function updatecomment(id){
+    
+         // var comment_id=$('#comment_id').val();
             var comment=$('#comment_update'+id).val();
-             let url="{{ route('comment_update',':id') }}";
+                let url="{{ route('comment_update',':id') }}";
             url=url.replace(':id',id);
 
             $.ajax({
@@ -535,18 +535,18 @@
                 url: url,
                 data: {id:id,comment:comment},
                 success: function (res) {
-      
+        
                     $('#exampleModal'+id).hide();
                     $('.modal-backdrop').hide();
                     $('#comment_update'+id).val(res.data.comment);
-                     $('#commentshow'+id).text(res.data.comment);
-                     $.notify("Comment Updated", "success");
-                   
+                        $('#commentshow'+id).text(res.data.comment);
+                        $.notify("Comment Updated", "success");
+                    
                     
                 }
             });
-         }   
-         function deletecomment(id,postId){
+        }   
+        function deletecomment(id,postId){
             let url="{{ route('comment_delete',':id') }}";
             url=url.replace(':id',id);
             // debugger;
@@ -567,7 +567,7 @@
                     }
                 }
             });
-         }
+        }
         function deletePost(post_id,key){
             var checkstr =  confirm('are you sure you want to delete this post?');
             if(checkstr == true){
@@ -590,13 +590,13 @@
             }
         }
     //   for mode 
-    function modeChange(){
-        $('#allpage').toggleClass('dark-mode');
-        $('#allpost').toggleClass('dark-mode');
-        $('.allpost-page').toggleClass('dark-mode');
-    //     $('.allpost-pages').toggleClass('dark-mode');
-    //     $('.allpost-des').toggleClass('dark-mode');
-    //     $('.allpost-dess').toggleClass('dark-mode');
-    }
+        function modeChange(){
+            $('#allpage').toggleClass('dark-mode');
+            $('#allpost').toggleClass('dark-mode');
+            $('.allpost-page').toggleClass('dark-mode');
+            //     $('.allpost-pages').toggleClass('dark-mode');
+            //     $('.allpost-des').toggleClass('dark-mode');
+            //     $('.allpost-dess').toggleClass('dark-mode');
+        }
 </script>
 @endsection
