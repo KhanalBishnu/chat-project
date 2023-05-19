@@ -124,7 +124,6 @@ class UserController extends Controller
     public function post(){
         // get friend post 
         $friendPost=FriendShip::where('status','accepted')->where('user_id',Auth::id())->orwhere('friend_id',auth::id())->where('status','accepted')->get();
-        
         // dd($friendPost);
         $post_arr=[];
         foreach ($friendPost as $key => $friend) {
@@ -135,11 +134,7 @@ class UserController extends Controller
                 array_push($post_arr,$friend->user_id);
             }
         }
-        // dd($post_arr);
         $friendpoSt=Post::whereIn('user_id',$post_arr)->get();
-
-        // dd($friendpoSt);
-      
         $categories=Category::all();
         $user=User::find(Auth::id());
         $post=Post::with('comments')->latest()->get();

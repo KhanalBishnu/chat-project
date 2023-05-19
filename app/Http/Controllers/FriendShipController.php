@@ -140,15 +140,8 @@ class FriendShipController extends Controller
 
     public function Yourfriends()
     {
-        // for main blade 
-        // for joinnign user also 
-        // $yourFriends = DB::table('friend_ships')->join('users as u','u.id','=','friend_ships.user_id')->join('users as ud','ud.id','=','friend_ships.friend_id')->where(function ($q) use ($user) {
-        //         $q->where('friend_ships.user_id',$user->id)
-        //         ->orwhere('friend_ships.friend_id',$user->id);
-        // })->get();
-        // dd($yourFriends);
+      
         $user = User::find(Auth::id());
-
         $yourFriends = User::where(function ($query) use ($user) {
             $query->whereExists(function ($query) use ($user) {
                 $query->from('friend_ships')
@@ -162,6 +155,8 @@ class FriendShipController extends Controller
                     ->where('friend_ships.status', 'accepted');
             });
         })->get();
+        // $yourFriends=FriendShip::with('users')->where('user_id',Auth::id())->where('status','accepted')->orwhere('friend_id',Auth::id())->where('status','accepted')->get();
+
         // dd($yourFriends);
 
         $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();

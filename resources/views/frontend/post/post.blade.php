@@ -540,6 +540,7 @@
                     $('.modal-backdrop').hide();
                     $('#comment_update'+id).val(res.data.comment);
                      $('#commentshow'+id).text(res.data.comment);
+                     $.notify("Comment Updated", "success");
                    
                     
                 }
