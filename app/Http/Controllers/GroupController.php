@@ -33,13 +33,18 @@ class GroupController extends Controller
             if ($request->image) {
                 $group->addMedia($request->image)->toMediaCollection('group_image');
             }
-
             return response()->json([
                 'status' => true,
                 'message' => $data['name'] . 'Group Created Successfully',
                 'data' => $group
             ]);
-        } catch (\Throwable $th) { }
+        } catch (\Throwable $th) { 
+            return response()->json([
+                'status' => false,
+                'message' =>$th->getMessage(),
+                
+            ]);
+        }
     }
 
     public function getMember(Request $request)
@@ -110,4 +115,91 @@ class GroupController extends Controller
             ]);
         }
     }
+
+    // delete group 
+    public function groupDelete($id){
+        // dd($id);
+        $group=Group::find($id);
+        // dd($group);
+        try {
+            if($group){
+
+                GroupMember::where('group_id',$id)->delete();
+                $group->delete();
+            }
+            
+            return response()->json([
+                'status' => true,
+                'message'=>'Group Deleted Successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message'=>$th->getMessage(),
+            ]);
+        }
+    }
+
+    // edit group 
+    public function groupEdit(Request $request,$id){
+        $data=$request->all();
+        // dd($data);
+        $updateGroup=Group::find($id);
+        try {
+       
+        if($updateGroup){
+            $updateGroup->update([
+                'name'=>$data['name'],
+                'join_limit'=>$data['group_limit']
+            ]);
+            if($request->hasFile('image')){
+                $updateGroup->clearMediaCollection('group_image');
+                $updateGroup->addMedia($data['image'])->toMediaCollection('group_image');
+            }
+            return response()->json([
+                'status' => true,
+                'message'=>'Group Updated Successfully',
+            ]);
+        }
+    } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message'=>$th->getMessage(),
+            ]);
+            }
+
+    }
+    // share group 
+
+    public function GroupShare($id){
+        $group=Group::find($id);
+        $totalMember=GroupMember::where('group_id',$id)->count();
+        $available_seet=$group->join_limit-$totalMember;
+        $isOwner_member=$group->creator_id==Auth::id()?true:false;
+        $isJoind_member=GroupMember::where(['group_id'=>$id,'user_id'=>Auth::id()])->count();
+        $user = User::find(Auth::id());
+        $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();
+
+
+        return view('frontend.group.share',compact('group','totalMember','available_seet','isOwner_member','isJoind_member','user','count'));
+    }
+
+    public function joinGroup(Request $request){
+        try {
+            GroupMember::insert([
+                'group_id'=>$request->id,
+                'user_id'=>Auth::id(),
+            ]);
+            return response()->json([
+                'status'=>true,
+                'message'=>'Joining this group successfully'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status'=>false,
+                'message'=>$th->getMessage(),
+            ]);
+        }
+    }
+    
 }

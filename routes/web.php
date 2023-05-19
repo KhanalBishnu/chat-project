@@ -111,6 +111,10 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::post('/groups','store')->name('groupCreate');
         Route::get('/groups/members','getMember')->name('getmember');
         Route::post('/groups/members','AddMember')->name('groupMember');
+        Route::get('/groups/members/{id}','groupDelete')->name('groupDelete');
+        Route::post('/groups/members/edit/{id}','groupEdit')->name('groupEdit');
+        Route::get('share-group/{id}','GroupShare')->name('GroupShare');
+        Route::post('group/joinGroup','joinGroup')->name('joinGroup');
     });
 
 
