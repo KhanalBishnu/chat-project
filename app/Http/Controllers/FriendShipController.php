@@ -15,7 +15,7 @@ class FriendShipController extends Controller
     public function index()
     {
         $users = User::latest()->whereNotIn('id', [Auth::id()])->get();
-        // jaslai send gareko ho tesko ma feri send request dekhinu vayan jasle pathako ho 
+        // jaslai send gareko ho tesko ma feri send request dekhinu vayan jasle pathako ho
         $friend_send = FriendShip::where('friend_id', Auth::id())->get();
         // dd($friend_send);
         $user_id_arr = [];
@@ -25,7 +25,7 @@ class FriendShipController extends Controller
         $friends = FriendShip::with('users')->where('friend_id', Auth::id())->where('status', 'pending')->get();
         $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();
 
-        // if uaer accept your friend request and you need remove from list 
+        // if uaer accept your friend request and you need remove from list
         $acceptedByUser = FriendShip::where('user_id', Auth::id())->where('status', 'accepted')->get();
         $ifacceptedByUser_arr = [];
         foreach ($acceptedByUser as $key => $value) {
@@ -140,7 +140,13 @@ class FriendShipController extends Controller
 
     public function Yourfriends()
     {
-      
+        // for main blade
+        // for joinnign user also
+        // $yourFriends = DB::table('friend_ships')->join('users as u','u.id','=','friend_ships.user_id')->join('users as ud','ud.id','=','friend_ships.friend_id')->where(function ($q) use ($user) {
+        //         $q->where('friend_ships.user_id',$user->id)
+        //         ->orwhere('friend_ships.friend_id',$user->id);
+        // })->get();
+        // dd($yourFriends);
         $user = User::find(Auth::id());
         $yourFriends = User::where(function ($query) use ($user) {
             $query->whereExists(function ($query) use ($user) {
@@ -159,7 +165,7 @@ class FriendShipController extends Controller
 
         // dd($yourFriends);
 
-        $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();
+        // $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();
 
         return view('frontend.friend.yourFriend', compact('yourFriends', 'count', 'user'));
     }
@@ -168,7 +174,6 @@ class FriendShipController extends Controller
     {
         $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();
 
-        $user = User::find($id);
-        return view('frontend.friend.friendsProfile', compact('user', 'count'));
+        return view('frontend.friend.friendsProfile', compact('user'));
     }
 }
