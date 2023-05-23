@@ -1,0 +1,27 @@
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+// Get the first media item from the media collection
+$media = $model->getFirstMedia('images');
+
+// Resize the image to a specific width and height
+$media->manipulate(function (\Spatie\Image\Manipulations $manipulations) {
+    $manipulations->fit(800, 600);
+});
+
+// Crop the image to a specific aspect ratio
+$media->manipulate(function (\Spatie\Image\Manipulations $manipulations) {
+    $manipulations->crop(400, 300);
+});
+
+// Apply a filter to the image
+$media->manipulate(function (\Spatie\Image\Manipulations $manipulations) {
+    $manipulations->greyscale();
+});
+
+// Add a watermark to the image
+$media->manipulate(function (\Spatie\Image\Manipulations $manipulations) {
+    $manipulations->watermark('path/to/watermark.png')->opacity(50);
+});
+
+// Save the manipulated image
+$media->save();

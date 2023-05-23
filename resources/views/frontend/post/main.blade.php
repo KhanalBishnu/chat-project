@@ -473,6 +473,11 @@
                         <a class="btn" href="{{ route('group') }}">Group</a>
 
                     </li>
+                    <li id="chat_li"
+                        class="{{ request()->url()==route('groupChat')?'active':'' }}   ml-4 nav-link btn btn-dark btn-sm">
+                        <a class="btn" href="{{ route('groupChat') }}">GroupChat</a>
+
+                    </li>
                     <li id="post_li"
                         class="{{ request()->url()==route('post')?'active':'' }}   ml-4 nav-link btn btn-dark btn-sm">
                         <a class="btn" href="{{ route('post') }}">Post</a>
@@ -545,8 +550,8 @@
                                         <span class="count"></span>
                                     </a>
                                     @if ($count >0 )
-                                        
-                                  
+
+
                                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                                         aria-labelledby="notificationDropdown">
                                         <p class="mb-0 font-weight-normal float-left dropdown-header text-black">
@@ -581,7 +586,7 @@
                                     aria-labelledby="notificationDropdown">
                                     <small class="mb-0 font-weight-normal float-left dropdown-header text-black">
                                        Not Notification send by Anyone </small>
-                                        
+
                                     @endif
                                 </li>
                             </div>
@@ -615,7 +620,7 @@
         </div>
     </div>
     <script>
-         
+
         var sender_id=@json(auth()->user()->id);
             // console.log(sender_id);
             var receiver_id;
@@ -638,8 +643,8 @@
                 });
               }
             function readAllNotification(){
-                
-               
+
+
                 $.ajax({
                     type: "post",
                     url: "{{ route('motification_readAll') }}",
