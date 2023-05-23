@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GroupChatController;
 use App\Http\Controllers\FriendShipController;
 
 /*
@@ -53,8 +54,8 @@ Route::middleware('auth')->controller(UserController::class)->group(function () 
     Route::post('/ProfileChange/photo/{id}','ProfileChange')->name('ProfileChange');
     Route::PUT('/ProfileChange/{id}','user_password')->name('user_password');
 
-    // notification 
-    
+    // notification
+
     Route::post('/notification/{id}','motification_read')->name('motification_read');
     Route::post('/notification','motification_readAll')->name('motification_readAll');
 
@@ -78,7 +79,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::get('/friends/request-cancle/{id}','FriendRequestCancleByUser')->name('friend_request.ByUsercancle');
         Route::get('/friends/request-profile/{id}','FriendRequestProfile')->name('friend_list.profile');
         Route::get('/friends/profile-delete/{id}','FriendDelete')->name('friend_list.delete');
-       
+
     });
 
     Route::controller(PostController::class)->group(function(){
@@ -105,11 +106,16 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
 
     });
-    // group 
+    // group
     Route::controller(GroupController::class)->group(function(){
         Route::get('/group','index')->name('group');
         Route::post('/groups','store')->name('groupCreate');
         Route::get('/groups/members','getMember')->name('getmember');
+    });
+    Route::controller(GroupChatController::class)->group(function(){
+        Route::get('/groupchat','index')->name('groupChat');
+        // Route::post('/groups','store')->name('groupCreate');
+        // Route::get('/groups/members','getMember')->name('getmember');
     });
 
 
