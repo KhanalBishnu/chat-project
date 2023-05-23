@@ -6,7 +6,6 @@
         </div>
         <hr>
     </div>
-<<<<<<< HEAD
     <hr>
 </div>
 <div class="create-groups mx-4">
@@ -129,86 +128,6 @@
                         </div>
                         {{-- delete section  --}}
                         <a data-bs-toggle="modal" data-bs-target="#GroupDelte{{ $key }}"><i class="fa-solid fa-trash"></i></a>
-=======
-    <div class="create-groups mx-4">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary float-end my-3 py-2" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">
-            Create Group
-        </button>
-
-        <div class="show-group">
-            @if (count($groups) > 0)
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Group Image</th>
-                            <th>Group Name</th>
-                            <th>Group Limit Member</th>
-                            <th>Add Members</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($groups as $key => $group)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>
-                                    <img src="{{ $group->hasMedia('group_image') ? $group->getMedia('group_image')[0]->getFullUrl() : 'Not Image Found' }}"
-                                        style="height:80px;weight:100px" class="img-fluid">
-                                </td>
-                                <td>{{ $group->name }}</td>
-                                <td>{{ $group->join_limit }}</td>
-                                <td>
-
-                                    <a id="member_add{{ $key }}" data-id="{{ $group->id }}"
-                                        data-limit="{{ $group->join_limit }}" data-bs-toggle="modal"
-                                        data-bs-target="#memberAdd{{ $key }}"> Members
-                                    </a>
-                                    {{-- group member add modal --}}
-                                    <div class="modal fade" id="memberAdd{{ $key }}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Member Add In Group</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <form action="" id="memberAddForm{{ $key }}">
-                                                    <div class="modal-body">
-                                                        <table class="table" >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Select</th>
-                                                                    <th>Name</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="member_show{{ $key }}">
-                                                                <!-- Group members will be populated here -->
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary">Add</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </td>
-                                <td>Action</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <h2>No Groups Found!</h2>
-            @endif
-        </div>
->>>>>>> bishnu
 
                         {{-- group  Delete modal --}}
                         <div class="modal fade" id="GroupDelte{{ $key }}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -233,7 +152,6 @@
                         </div>
                         {{-- share link  --}}
 
-<<<<<<< HEAD
                         <a class="copy cursor-pointer" data-id={{ $group->id }} ><i class="fas fa-share"></i></a>
                     </td>
                     </tr>
@@ -279,26 +197,26 @@
 
                 </div>
 <script>
-    //   group create 
+    //   group create
     $('#createGroupForm').submit(function (e) {
         e.preventDefault()
-        var name=$('#group_name') ;          
-        var image=$('#group_image') ;          
-        var limit=$('#group_limit')  ;  
-        
+        var name=$('#group_name') ;
+        var image=$('#group_image') ;
+        var limit=$('#group_limit')  ;
+
         function validation(){
             if(name.val()=='' ) {
                 $('#error_name').text('Group Name Field is Required');
                 setTimeout(()=>{
                     $('#error_name').text('');
                 },2000)
-            } 
+            }
             if(limit.val()==''){
                 $('#error_limit').text('Group Limit Field is Required');
                 setTimeout(()=>{
                     $('#error_limit').text('');
                 },2000)
-            } 
+            }
             if(image.val()==''){
                 $('#error_image').text('Group Image Field is Required');
                 setTimeout(()=>{
@@ -310,50 +228,14 @@
             }else{
                 return true;
             }
-            
+
         }
         if(validation()==true){
             let url="{{route('groupCreate')}}";
-=======
-        <!-- Group Add Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Create Group</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="" enctype="multipart/form-data" id="createGroupForm">
-                        <div class="modal-body">
-                            <label for="">Group Name</label>
-                            <input type="text" class="form-control" name="name">
-                            <label for="">Group Image</label>
-                            <input type="file" class="form-control" name="image">
-                            <label for="">Group Limit-Friends</label>
-                            <input type="number" class="form-control" name="group_limit">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Create</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    <script>
-        //   group create
-        $('#createGroupForm').submit(function(e) {
-            e.preventDefault();
-            let url = "{{ route('groupCreate') }}";
-
->>>>>>> bishnu
             $.ajax({
                 type: "POST",
                 url: url,
                 data: new FormData(this),
-<<<<<<< HEAD
                 contentType:false,
                 cache:false,
                 processData:false,
@@ -372,15 +254,15 @@
                 }
             });
         }
-       
+
     });
-    // show member from friend model 
+    // show member from friend model
 
     $('a[id^="member_add"]').click(function(e){
         e.preventDefault();
         // var key=this.id.slice(-1);
         var key=$(this).attr('data-key');
-        
+
             var group_id=$(this).attr('data-id');
             var group_limit=$(this).attr('data-limit');
             $('#member_show'+key).html('');
@@ -390,16 +272,16 @@
                 data:{group_id:group_id},
                 success: function (res) {
                     if(res.status==true){
-                       
+
                          $('#member_show'+key).append(res.view);
-                        
+
                     }
                 }
             });
     });
 
-    // add member 
-    $('form[id^="memberAdd"]').submit(function (e) { 
+    // add member
+    $('form[id^="memberAdd"]').submit(function (e) {
         e.preventDefault();
         var key=$(this).attr('data-key');
         let formData=$(this).serialize();
@@ -423,7 +305,7 @@
         });
      });
 
-    //  delete group 
+    //  delete group
      $('button[id^="delete_group"]').click(function(){
         // var group_id=this.id.slice(-1);
         var group_id=$(this).attr('data-id');
@@ -467,7 +349,7 @@
             contentType: false,
             cache: false,
             processData: false,
-           
+
             success: function (res) {
                 $('.update_group').text('')
                 $.notify(res.message,"success");
@@ -475,7 +357,7 @@
 
             }
         });
-        
+
     });
 
     //share link of group
@@ -486,7 +368,7 @@
             $('.copied').text('');
         },3000);
         var url=window.location.host+'/admin/share-group/'+id;
-        // url copy 
+        // url copy
         var temp=$("<input>");
         $('body').append(temp);
         temp.val(url).select();
@@ -496,84 +378,3 @@
 
 </script>
 @endsection
-=======
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function(res) {
-                    if (res.status == true) {
-                        // $('#exampleModal').modal('hide');
-                        location.reload();
-                        $.notify(res.message, "success");
-
-                    }
-                }
-            });
-        });
-        // $('a[id^="member_add"]').click(function(e) {
-        //     e.preventDefault();
-        //     var group_id = $(this).attr('data-id');
-        //     var group_limit = $(this).attr('data-limit');
-        //     console.log(group_id, group_limit);
-        //     $.ajax({
-        //         type: "get",
-        //         url: "{{ route('getmember') }}",
-        //         success: function(res) {
-        //             if (res.status == true) {
-        //                 let users = res.data;
-        //                 console.log(users);
-        //                 let html = '';
-        //                 for (let i = 0; i < users.length; i++) {
-        //                     html += '<tr>' +
-        //                         ' <td>' +
-        //                         '<input type="checkbox" name="members[]" id="" value="' + users[i][
-        //                         'id'] + '">' +
-        //                         ' </td>' +
-        //                         '<td>' +
-        //                         '' + users[i]['name'] + ' '
-        //                     '</td> ' +
-        //                     '</tr> ';
-        //                 }
-        //                 $('#member_show').html(html);
-
-
-
-
-        //             }
-        //         }
-        //     });
-        // });
-        $('a[id^="member_add"]').click(function(e) {
-            e.preventDefault();
-            var key = this.id.slice(-1);
-            // var group_id = $(this).attr('data-id');
-            // var group_limit = $(this).attr('data-limit');
-            // console.log(group_id, group_limit);
-            $.ajax({
-                type: "get",
-                url: "{{ route('getmember') }}",
-                success: function(res) {
-                    if (res.status == true) {
-                        let users = res.data;
-                        console.log(users);
-                        let html = '';
-                        for (let i = 0; i < users.length; i++) {
-                            html += '<tr>' +
-                                ' <td>' +
-                                '<input type="checkbox" name="members[]" id="" value="' + users[i][
-                                    'id'
-                                ] + '">' +
-                                ' </td>' +
-                                '<td>' +
-                                '' + users[i]['name'] + ' ' +
-                                '</td> ' +
-                                '</tr> ';
-                        }
-                        $('#member_show' + key).html(html);
-                    }
-                }
-            });
-        });
-    </script>
-@endsection
->>>>>>> bishnu
