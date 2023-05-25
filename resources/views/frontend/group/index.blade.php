@@ -1,8 +1,10 @@
 @extends('frontend.post.main')
 @section('content')
-<div class="container mt-5 pt-5">
-    <div>
-        <h2 class="text-info text-center"> Groups</h2>
+    <div class="container mt-5 pt-5">
+        <div>
+            <h2 class="text-info text-center"> Groups</h2>
+        </div>
+        <hr>
     </div>
     <hr>
 </div>
@@ -195,26 +197,26 @@
 
                 </div>
 <script>
-    //   group create 
+    //   group create
     $('#createGroupForm').submit(function (e) {
         e.preventDefault()
-        var name=$('#group_name') ;          
-        var image=$('#group_image') ;          
-        var limit=$('#group_limit')  ;  
-        
+        var name=$('#group_name') ;
+        var image=$('#group_image') ;
+        var limit=$('#group_limit')  ;
+
         function validation(){
             if(name.val()=='' ) {
                 $('#error_name').text('Group Name Field is Required');
                 setTimeout(()=>{
                     $('#error_name').text('');
                 },2000)
-            } 
+            }
             if(limit.val()==''){
                 $('#error_limit').text('Group Limit Field is Required');
                 setTimeout(()=>{
                     $('#error_limit').text('');
                 },2000)
-            } 
+            }
             if(image.val()==''){
                 $('#error_image').text('Group Image Field is Required');
                 setTimeout(()=>{
@@ -226,7 +228,7 @@
             }else{
                 return true;
             }
-            
+
         }
         if(validation()==true){
             let url="{{route('groupCreate')}}";
@@ -252,15 +254,15 @@
                 }
             });
         }
-       
+
     });
-    // show member from friend model 
+    // show member from friend model
 
     $('a[id^="member_add"]').click(function(e){
         e.preventDefault();
         // var key=this.id.slice(-1);
         var key=$(this).attr('data-key');
-        
+
             var group_id=$(this).attr('data-id');
             var group_limit=$(this).attr('data-limit');
             $('#member_show'+key).html('');
@@ -270,16 +272,16 @@
                 data:{group_id:group_id},
                 success: function (res) {
                     if(res.status==true){
-                       
+
                          $('#member_show'+key).append(res.view);
-                        
+
                     }
                 }
             });
     });
 
-    // add member 
-    $('form[id^="memberAdd"]').submit(function (e) { 
+    // add member
+    $('form[id^="memberAdd"]').submit(function (e) {
         e.preventDefault();
         var key=$(this).attr('data-key');
         let formData=$(this).serialize();
@@ -303,7 +305,7 @@
         });
      });
 
-    //  delete group 
+    //  delete group
      $('button[id^="delete_group"]').click(function(){
         // var group_id=this.id.slice(-1);
         var group_id=$(this).attr('data-id');
@@ -347,7 +349,7 @@
             contentType: false,
             cache: false,
             processData: false,
-           
+
             success: function (res) {
                 $('.update_group').text('')
                 $.notify(res.message,"success");
@@ -355,7 +357,7 @@
 
             }
         });
-        
+
     });
 
     //share link of group
@@ -366,7 +368,7 @@
             $('.copied').text('');
         },3000);
         var url=window.location.host+'/admin/share-group/'+id;
-        // url copy 
+        // url copy
         var temp=$("<input>");
         $('body').append(temp);
         temp.val(url).select();
