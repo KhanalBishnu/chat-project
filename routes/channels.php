@@ -25,3 +25,6 @@ Broadcast::channel('chat-data',function($user){
 Broadcast::channel('message-delete',function($user){
     return $user;
 });
+Broadcast::channel('group-chat-channel',function($user){
+    return $user;
+});

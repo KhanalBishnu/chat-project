@@ -119,6 +119,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     });
     Route::controller(GroupChatController::class)->group(function(){
         Route::get('/groupchat','index')->name('groupChat');
+        Route::post('/groupchat/message','chatStore')->name('GroupchatStore');
         // Route::post('/groups','store')->name('groupCreate');
         // Route::get('/groups/members','getMember')->name('getmember');
     });

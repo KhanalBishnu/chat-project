@@ -12,7 +12,7 @@
                 <div class="col-lg-3 mt-3">
                     <ul class="list-group">
                         @foreach ($groups as $group)
-                        <li id="{{ $group->id }}-select_status" class="list-group-item list-group-item-dark cursor-pointer user_list " data-id="{{ $group->id }}">
+                        <li id="{{ $group->id }}-select_status" class="list-group-item list-group-item-dark cursor-pointer group_list " data-id="{{ $group->id }}" data-name="  {{ $group->name }}">
 
                         @if ($group->hasMedia('group_image'))
                             <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail" style="height:50px;width:80px">
@@ -26,7 +26,7 @@
 
                         @endforeach
                         @foreach ($other_groups as $group)
-                        <li id="{{ $group->id }}-select_status" class="list-group-item list-group-item-dark cursor-pointer user_list " data-id="{{ $group->id }}">
+                        <li id="{{ $group->id }}-select_status" class="list-group-item list-group-item-dark cursor-pointer group_list " data-id="{{ $group->id }}" data-name="  {{ $group->name }}">
 
                         @if ($group->hasMedia('group_image'))
                             <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail" style="height:50px;width:80px">
@@ -44,14 +44,15 @@
 
                 <div class="col-lg-9 mt-4">
                     <h1 class="start-head">Click For Start Chat</h1>
-                    <div class="chat-section " >
-                         <div id="chat-container">
+                    <div class="group-chat-section " >
+                         <div id="group-chat-container">
+                             <span id="group_name"></span>
 
 
                             {{-- chat here for sender and receiver  --}}
 
                             </div>
-                            <form action="" id="chat-form">
+                            <form  id="group-chat-form">
                                 <input type="text" name="message" id="message" required placeholder="Enter message" >
                                 <input type="submit" value="Send" class="btn btn-primary btn-lg float-end mx-5 ">
                             </form>

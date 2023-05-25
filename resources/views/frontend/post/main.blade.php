@@ -624,6 +624,7 @@
         var sender_id=@json(auth()->user()->id);
             // console.log(sender_id);
             var receiver_id;
+            var global_group_id
 
             // for notification read
             function message_read(noti_id){
