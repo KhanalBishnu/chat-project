@@ -6,9 +6,10 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupChat;
 use Illuminate\Http\Request;
+use App\Events\GroupChatEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Events\GroupChatEvent;
+use App\Events\GroupChatMessageDelete;
 
 class GroupChatController extends Controller
 {
@@ -37,6 +38,32 @@ class GroupChatController extends Controller
         return response()->json([
              'status'=>true,
              'data'=>$groupMessage,
+        ]);
+    }
+    public function loadGroupChatMessage(Request $request){
+        $group=Group::find($request->group_id);
+        $groupChats=GroupChat::where('group_id',$request->group_id)->get();
+        // $userId_arr=[];
+        // foreach ($groupChats as $key => $group) {
+        //         array_push($userId_arr,$group->sender_id);
+        // }
+        // $users=User::whereIn('id',$userId_arr)->get();
+     
+        $user=User::find($request->sender_id);
+        return response()->json([
+             'status'=>true,
+             'data'=>$groupChats,
+             'user'=>$user,
+             'group'=> $group,
+        ]);
+    }
+
+    public function deleteMessage($id){
+        GroupChat::find($id)->delete();
+        event(new GroupChatMessageDelete($id));
+        return response()->json([
+            'status'=>true,
+            'message'=>'Group message deleted successfully',
         ]);
     }
 }

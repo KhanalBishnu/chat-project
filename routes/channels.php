@@ -28,3 +28,6 @@ Broadcast::channel('message-delete',function($user){
 Broadcast::channel('group-chat-channel',function($user){
     return $user;
 });
+Broadcast::channel('delete-groupChat-message',function($user){
+    return $user;
+});

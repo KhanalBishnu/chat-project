@@ -117,12 +117,12 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::get('share-group/{id}','GroupShare')->name('GroupShare');
         Route::post('group/joinGroup','joinGroup')->name('joinGroup');
     });
-    Route::controller(GroupChatController::class)->group(function(){
-        Route::get('/groupchat','index')->name('groupChat');
-        Route::post('/groupchat/message','chatStore')->name('GroupchatStore');
-        // Route::post('/groups','store')->name('groupCreate');
-        // Route::get('/groups/members','getMember')->name('getmember');
-    });
-
-
+    
+    
 });
+        Route::controller(GroupChatController::class)->group(function(){
+            Route::get('/groupchat','index')->name('groupChat');
+            Route::post('/groupchat/message','chatStore')->name('GroupchatStore');
+            Route::get('/groups/chat','loadGroupChatMessage')->name('loadGroupChat');
+            Route::get('/groups/message/delete/{id}','deleteMessage')->name('deleteGroupMessage');
+        });

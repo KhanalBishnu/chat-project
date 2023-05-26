@@ -246,11 +246,22 @@ Echo.private("message-delete").listen("MessageDeletedEvent", data => {
 //         });
 //       })
 // });
+// scroll for group chat 
+function GroupScrollChat() {
+    $("#group-chat-container").animate(
+        {
+            scrollTop:
+                $("#group-chat-container").offset().top +
+                $("#group-chat-container")[0].scrollHeight
+        },
+        0
+    );
+}
 
 // group chat start
 $(document).ready(function(e) {
     // $('chat-container').html('');
-
+    GroupScrollChat()
     $(".group_list").click(function(e) {
         e.preventDefault();
 
@@ -265,13 +276,14 @@ $(document).ready(function(e) {
         $(".start-head").hide();
 
         $(".group-chat-section").show();
+        loadGroupChat()
 
 
     });
     $('#group-chat-form').submit(function(e){
         e.preventDefault();
         var message=$('#message').val();
-        let url= "/admin/groupchat/message";
+        let url= "/groupchat/message";
         // let url= "{{ route('GroupchatStore',':id') }}";
         $.ajax({
             type: "POST",
@@ -289,13 +301,89 @@ $(document).ready(function(e) {
                     $('#group-chat-container').append(html);
 
                 }
+                GroupScrollChat()
+            }
+        });
+    });
 
+    // load group chat 
+    function loadGroupChat(){
+       
+        // var url = "{{ route('loadGroupChat') }}";
+        var url = "/groups/chat";
+        $.ajax({
+            type: "get",
+            url: url,
+            data: {group_id:global_group_id},
+            success: function (res) {
+                if(res.status){
+                    $('.group-chat-header').html(res.group.name);
+                    let addClass="";
+                    let html='';
+                    let chats=res.data;
+                   for (let i = 0; i < chats.length; i++) {
+
+                      if(sender_id==chats[i].sender_id){
+                          addClass="group-chat-sender";
+                      }else{
+                          addClass="group-chat-receiver";
+                      }
+                      if(sender_id ==chats[i].sender_id){
+
+                          html +=`
+                                <div class="${addClass}" id="group_chat-${chats[i].id}">
+                                <h4> ${chats[i].message}  <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="${chats[i].id}" data-message="${chats[i].message}" data-bs-target="#groupChatDeleteModel"></i></span>
+                                </h4></div>
+                             `;
+                        }
+                      else{
+                                html +=`
+                                      <div class="${addClass}" id="group_chat-${chats[i].id}">
+                                      <h4> ${chats[i].message}  </h4>
+                                     </div>
+                                   `;
+
+                      }
+                   } 
+                   $("#group-chat-container").append(html);
+                   GroupScrollChat()
+                }
+            }
+        });
+    }
+    // delete group message 
+    $(document).on('click','.fa-trash',function(){
+        var id=$(this).attr('data-id');
+        var message=$(this).attr('data-message');
+        $('#groupChat_message_id').val(id);
+        $('#groupChat_message').val(message);
+    });
+
+    // deleting message 
+    $(document).on('click','#groupChat_delete_form',function(e){
+     
+        var id=$('#groupChat_message_id').val();
+        var message=$('#groupChat_message').val();
+        // let url="{{route('deleteGroupMessage',':id')}}";
+        // url=url.replace(':id',id);
+        let url="/groups/message/delete/"+id;
+        $.ajax({
+            type: "get",
+            url: url,
+            success: function (res) {
+                $('#group_chat-'+id).remove();
+                $('#groupChatDeleteModel').modal('hide');
+                location.reload();
             }
         });
     });
 
 });
-Echo.private("group-chat-channel").listen("groupChatData", data => {
+Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =>{
+    $('#group_chat-'+data.id).remove();
+});
+// for create message broadcast 
+Echo.private("group-chat-channel").listen(".groupChatData", data => {
     // alert(data);
     if (
         sender_id != data.chat.sender_id &&
@@ -304,12 +392,12 @@ Echo.private("group-chat-channel").listen("groupChatData", data => {
         let html =
             `
         <div class="chat-color group-chat-receiver" id="group_chat-${ data.chat.id }">
-         <h4>
-           ${ data.chat.message }
-            </h4>
+         <h4> ${ data.chat.message }</h4>
          </div>
         `;
         $("#group-chat-container").append(html);
     }
 });
+
+
 
