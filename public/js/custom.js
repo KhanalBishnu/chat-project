@@ -147,7 +147,7 @@ function loadOldChat() {
                             `;
                     }
 
-                    html += ` </h4> 
+                    html += ` </h4>
                                  </div> `;
                     $("#chat-container").append(html);
                     ScrollChat();
@@ -254,19 +254,19 @@ $(document).ready(function(e) {
     $(".group_list").click(function(e) {
         e.preventDefault();
 
-      
+
         $("#group-chat-container").html("");
         var groupId = $(this).attr("data-id");
         global_group_id=groupId;
         // alert(global_group_id)
         var groupName = $(this).attr("data-name");
-       
+
 
         $(".start-head").hide();
-    
+
         $(".group-chat-section").show();
 
-       
+
     });
     $('#group-chat-form').submit(function(e){
         e.preventDefault();
@@ -281,7 +281,7 @@ $(document).ready(function(e) {
                 let html=''
                 if(res.status){
                     $('#message').val('')
-                    let html=` 
+                    let html=`
                     <div class="group-chat-sender" id="group_chat-${res.data.id}">
                         <h4> ${res.data.message}  </h4>
                      </div>
@@ -309,7 +309,7 @@ Echo.private("group-chat-channel").listen("groupChatData", data => {
             </h4>
          </div>
         `;
-        $("#chat-container").append(html);
+        $("#group-chat-container").append(html);
     }
 });
 
