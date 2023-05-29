@@ -1,0 +1,85 @@
+php artisan make:migration add_best_selling_to_products --table=products
+
+
+public function up()
+{
+    Schema::table('products', function (Blueprint $table) {
+        $table->tinyInteger('best_selling')->default(0);
+    });
+}
+
+
+
+
+
+<div class="form-group">
+    <label for="best_selling">Best Selling:</label>
+    <input type="checkbox" name="best_selling" id="best_selling" value="1" {{ $product->best_selling ? 'checked' : '' }}>
+</div> 
+or
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" name="best_selling" id="best_selling">
+    <label class="form-check-label" for="best_selling">Best Selling</label>
+</div>
+
+
+public function update(Request $request, $id)
+{
+    $product = new Product();
+    $product->name = $request->input('name');
+    // Set the best selling status based on checkbox value
+    $product->best_selling = $request->has('best_selling') ? 1 : 0;
+    $product->save();
+    // Redirect or return response
+}
+
+
+$bestSellingProducts = Product::where('best_selling', true)->get();
+
+
+public function index()
+{
+    $products = Product::where('best_selling', true)->paginate(10);
+    return view('products.index', compact('products'));
+}
+
+public function load(Request $request)
+{
+    $products = Product::where('best_selling', true)->paginate(10);
+    return view('products.load', compact('products'))->render();
+}
+
+
+
+
+$(document).on('click', '.load-more-btn', function(e) {
+    e.preventDefault();
+    var nextPage = $(this).data('page');
+
+    $.ajax({
+        url: '/products/load?page=' + nextPage,
+        method: 'GET',
+        success: function(response) {
+            $('.product-list').append(response);
+        }
+    });
+});
+
+
+
+
+
+
+
+<h2>Best Selling Products</h2>
+<ul class="product-list">
+    @foreach ($products as $product)
+        <li>{{ $product->name }}</li>
+    @endforeach
+</ul>
+
+@if ($products->hasMorePages())
+    <a href="#" class="load-more-btn" data-page="{{ $products->currentPage() + 1 }}">Load More</a>
+@endif
+
+
