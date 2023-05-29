@@ -57,10 +57,13 @@
                             </div>
                             <div id="message-send-section">
 
-                                <form  id="group-chat-form">
-                                    <input type="text" name="message" id="message" required placeholder="Enter message" >
-                                    <input type="submit" value="Send" id="send_message" class="btn btn-primary btn-sm float-end mx-5 ">
-                                </form>
+                                <form id="group-chat-form">
+                                    <div class="input-group">
+                                      <input type="text" name="message" id="message" required placeholder="Enter message" class="form-control">
+                                      <button type="submit" id="send_message" class="btn btn-primary"> <i class="fas fa-paper-plane"></i></button>
+                                    </div>
+                                  </form>
+
                             </div>
 
                     </div>
