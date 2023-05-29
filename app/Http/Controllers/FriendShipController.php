@@ -165,7 +165,7 @@ class FriendShipController extends Controller
 
         // dd($yourFriends);
 
-        // $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();
+        $count = DB::table('notifications')->where('notifiable_id', Auth::id())->where('read_at', Null)->count();
 
         return view('frontend.friend.yourFriend', compact('yourFriends', 'count', 'user'));
     }
