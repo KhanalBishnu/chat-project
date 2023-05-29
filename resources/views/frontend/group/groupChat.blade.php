@@ -14,15 +14,13 @@
                         @foreach ($groups as $group)
                         <li id="{{ $group->id }}-select_status" class="list-group-item list-group-item-dark cursor-pointer group_list " data-id="{{ $group->id }}" data-name="  {{ $group->name }}">
 
-                        @if ($group->hasMedia('group_image'))
-                            <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail" style="height:50px;width:80px">
-                        @else
-                        <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail" style="height:50px;width:80px">
-                        @endif
-                                {{ $group->name }}
-                                <b><sup id="{{ $group->id }}-status" class="offline-status">Offline</sup></b>
-
-                            </li>
+                            @if ($group->hasMedia('group_image'))
+                                <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail" style="height:50px;width:80px">
+                            @else
+                            <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail" style="height:50px;width:80px">
+                            @endif
+                                    {{ $group->name }}
+                        </li>
 
                         @endforeach
                         @foreach ($other_groups as $group)
@@ -34,7 +32,7 @@
                         <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail" style="height:50px;width:80px">
                         @endif
                                 {{ $group->name }}
-                                <b><sup id="{{ $group->id }}-status" class="offline-status">Offline</sup></b>
+                                
 
                             </li>
 
@@ -60,7 +58,7 @@
                                 <form id="group-chat-form">
                                     <div class="input-group">
                                       <input type="text" name="message" id="message" required placeholder="Enter message" class="form-control">
-                                      <button type="submit" id="send_message" class="btn btn-primary"> <i class="fas fa-paper-plane"></i></button>
+                                      <button type="submit" id="send_message" class="btn btn-send"> <i class="fas fa-paper-plane"></i></button>
                                     </div>
                                   </form>
 

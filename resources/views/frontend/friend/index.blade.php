@@ -33,16 +33,12 @@
                             </div>
                         </div>
                     </div>
-                    @if(($loop->iteration % 3) == 0)
-                </div>
-                <div class="row">
-                    @endif
                     @endif
                     @endif
                     @endforeach
-
+                   
                 </div>
-
+                
 
             </div>
         </div>

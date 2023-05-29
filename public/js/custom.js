@@ -269,15 +269,14 @@ $(document).ready(function(e) {
             url:url,
             data: {message:message,group_id:global_group_id},
             success: function (res) {
-                let html=''
                 if(res.status){
                     $('#message').val('')
-                    let html=`
-                    <div class="group-chat-sender" id="group_chat-${res.data.id}">
-                        <h4> ${res.data.message}  </h4>
-                     </div>
-                    `;
-                    $('#group-chat-container').append(html);
+                    // let html=`
+                    // <div class="group-chat-sender" id="group_chat-${res.data.id}">
+                    //     <h4> ${res.data.message} <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="${res.data.id}" data-message="${res.data.message}" data-bs-target="#groupChatDeleteModel"></i></span> </h4>
+                    //  </div>
+                    // `;
+                    $('#group-chat-container').append(res.view);
 
                 }
                 GroupScrollChat()
@@ -297,34 +296,34 @@ $(document).ready(function(e) {
             success: function (res) {
                 if(res.status){
                     $('.group-chat-header').html(res.group.name);
-                    let addClass="";
-                    let html='';
-                    let chats=res.data;
-                   for (let i = 0; i < chats.length; i++) {
+                //     let addClass="";
+                //     let html='';
+                //     let chats=res.data;
+                //    for (let i = 0; i < chats.length; i++) {
 
-                      if(sender_id==chats[i].sender_id){
-                          addClass="group-chat-sender";
-                      }else{
-                          addClass="group-chat-receiver";
-                      }
-                      if(sender_id ==chats[i].sender_id){
+                //       if(sender_id==chats[i].sender_id){
+                //           addClass="group-chat-sender";
+                //       }else{
+                //           addClass="group-chat-receiver";
+                //       }
+                //       if(sender_id ==chats[i].sender_id){
 
-                          html +=`
-                                <div class="${addClass}" id="group_chat-${chats[i].id}">
-                                <h4> ${chats[i].message}  <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="${chats[i].id}" data-message="${chats[i].message}" data-bs-target="#groupChatDeleteModel"></i></span>
-                                </h4></div>
-                             `;
-                        }
-                      else{
-                                html +=`
-                                      <div class="${addClass}" id="group_chat-${chats[i].id}">
-                                      <h4> ${chats[i].message}  </h4>
-                                     </div>
-                                   `;
+                //           html +=`
+                //                 <div class="${addClass}" id="group_chat-${chats[i].id}">
+                //                 <h4> ${chats[i].message}  <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="${chats[i].id}" data-message="${chats[i].message}" data-bs-target="#groupChatDeleteModel"></i></span>
+                //                 </h4></div>
+                //              `;
+                //         }
+                //       else{
+                //                 html +=`
+                //                       <div class="${addClass}" id="group_chat-${chats[i].id}">
+                //                       <h4> ${chats[i].message}  </h4>
+                //                      </div>
+                //                    `;
 
-                      }
-                   } 
-                   $("#group-chat-container").append(html);
+                //       }
+                //    } 
+                   $("#group-chat-container").append(res.view);
                    GroupScrollChat()
                 }
             }
@@ -373,6 +372,11 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
             `
         <div class="chat-color group-chat-receiver" id="group_chat-${ data.chat.id }">
          <h4> ${ data.chat.message }</h4>
+         <div class="image-section">
+         <img src="${data.src}" alt="" width="25px" height="25px">
+         <span class="group-chat-user-name">  </span> <span class="date_chat-user">${data.time}</span>
+        
+        </div>
          </div>
         `;
         $("#group-chat-container").append(html);

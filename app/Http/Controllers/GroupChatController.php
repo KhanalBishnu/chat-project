@@ -28,33 +28,44 @@ class GroupChatController extends Controller
     public function chatStore(Request $request){
         $data=$request->all();
         $sender_id=Auth::id();
-        $groupMessage=GroupChat::create([
+        GroupChat::create([
            'group_id'=>$data['group_id'],
            'message'=>$data['message'],
            'sender_id'=>$sender_id,
         ]);
-        event(new GroupChatEvent($groupMessage));
+        $groupMessage=GroupChat::with('userInfo')->where(['group_id'=>$data['group_id'], 'message'=>$data['message'],'sender_id'=>$sender_id,])->first();
+        $src=$groupMessage->userInfo->hasMedia('user_image') ? $groupMessage->userInfo->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg');
+        $time=$groupMessage->created_at->diffForHumans();
+        // dd($time);
+        
+        event(new GroupChatEvent($groupMessage,$src,$time));
 
+        // return response()->json([
+        //      'status'=>true,
+        //      'data'=>$groupMessage,
+        // ]);
         return response()->json([
-             'status'=>true,
-             'data'=>$groupMessage,
+            'status'=>true,
+            'view'=>view('frontend.group.component.messageSend',compact('groupMessage'))->render()
         ]);
     }
     public function loadGroupChatMessage(Request $request){
         $group=Group::find($request->group_id);
-        $groupChats=GroupChat::where('group_id',$request->group_id)->get();
-        // $userId_arr=[];
-        // foreach ($groupChats as $key => $group) {
-        //         array_push($userId_arr,$group->sender_id);
-        // }
-        // $users=User::whereIn('id',$userId_arr)->get();
+        $groupChats=GroupChat::with('userInfo')->where('group_id',$request->group_id)->get();
+        // dd($groupChats);
      
         $user=User::find($request->sender_id);
+        // return response()->json([
+        //      'status'=>true,
+        //      'data'=>$groupChats,
+        //      'user'=>$user,
+        //      'group'=> $group,
+        // ]);
         return response()->json([
-             'status'=>true,
-             'data'=>$groupChats,
-             'user'=>$user,
-             'group'=> $group,
+            'status'=>true,
+            'group'=> $group,
+
+            'view'=>view('frontend.group.component.groupMessageLoad',compact('groupChats','user','group'))->render()
         ]);
     }
 
