@@ -43,24 +43,24 @@ $(document).ready(function(e) {
                 // alert(response);
                 // console.log(res.data);
                 $("#message").val("");
-                let chat = res.data.message;
-                let html =
-                    `
-                     <div class="chat-color chat-sender" id="` +
-                    res.data.id +
-                    `-chat">
-                        <h4>
-                            <span>` +
-                    chat +
-                    ` </span>
-                            <i class="fa fa-trash" aria-hidden="true" data-id="` +
-                    res.data.id +
-                    `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
+                // let chat = res.data.message;
+                // let html =
+                //     `
+                //      <div class="chat-color chat-sender" id="` +
+                //     res.data.id +
+                //     `-chat">
+                //         <h4>
+                //             <span>` +
+                //     chat +
+                //     ` </span>
+                //             <i class="fa fa-trash" aria-hidden="true" data-id="` +
+                //     res.data.id +
+                //     `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
 
-                        </h4>
-                     </div>
-                `;
-                $("#chat-container").append(html);
+                //         </h4>
+                //      </div>
+                // `;
+                $("#chat-container").append(res.view);
                 ScrollChat();
             }
         });
@@ -88,7 +88,7 @@ $(document).ready(function(e) {
             url: "/delete-chat",
             data: { id: id },
             success: function(res) {
-                alert(res.msg);
+
                 if (res.success) {
                     $("#" + id + "-chat").remove();
                     $("#DeleteMessageModal").modal("hide");
@@ -106,54 +106,58 @@ function loadOldChat() {
         data: { sender_id: sender_id, receiver_id: receiver_id },
         success: function(res) {
             if (res.success) {
-                // console.log(res.user);
+
+
+                // // console.log(res.user);
                 // let user_name= res.user.name
-                let user_name =
-                    `
-                <p>` +
-                    res.user.name +
-                    `</p>
-                `;
-                $("#chat-container").append(user_name);
+                // let user_name =
+                //     `
+                // <p>` +
+                //     res.user.name +
+                //     `</p>
+                // `;
+                // $("#chat-container").append(user_name);
 
-                let chats = res.data;
-                let html = "";
-                for (let i = 0; i < chats.length; i++) {
-                    let addClass = "";
-                    if (chats[i].sender_id == sender_id) {
-                        addClass = "chat-sender";
-                    } else {
-                        addClass = "chat-receiver";
-                    }
-                    html +=
-                        `
+                // let chats = res.data;
+                // let html = "";
+                // for (let i = 0; i < chats.length; i++) {
+                //     let addClass = "";
+                //     if (chats[i].sender_id == sender_id) {
+                //         addClass = "chat-sender";
+                //     } else {
+                //         addClass = "chat-receiver";
+                //     }
+                //     html +=
+                //         `
 
-                        <div class=" ` +
-                        addClass +
-                        `" id="` +
-                        chats[i].id +
-                        `-chat">
-                        <h4>
-                        <span>` +
-                        chats[i].message +
-                        ` </span>`;
+                //         <div class=" ` +
+                //         addClass +
+                //         `" id="` +
+                //         chats[i].id +
+                //         `-chat">
+                //         <h4>
+                //         <span>` +
+                //         chats[i].message +
+                //         ` </span>`;
 
-                    if (chats[i].sender_id == sender_id) {
-                        html +=
-                            `
-                             <i class="fa fa-trash" aria-hidden="true" data-id="` +
-                            chats[i].id +
-                            `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
-                            `;
-                    }
+                //     if (chats[i].sender_id == sender_id) {
+                //         html +=
+                //             `
+                //              <i class="fa fa-trash" aria-hidden="true" data-id="` +
+                //             chats[i].id +
+                //             `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
+                //             `;
+                //     }
 
-                    html += ` </h4>
-                                 </div> `;
-                    $("#chat-container").append(html);
-                    ScrollChat();
-                }
+                //     html += ` </h4>
+                //                  </div> `;
+                //     $("#chat-container").append(html);
+
+                // }
+             $("#chat-container").append(res.view);
+                ScrollChat();
             } else {
-                alert(res.message);
+                console.log(res);
             }
         }
     });
@@ -201,6 +205,7 @@ Echo.join("user-status")
 
 //    broadcast message data
 Echo.private("chat-data").listen(".getChatMessage", data => {
+
     // alert(data);
     if (
         sender_id == data.chat.receiver_id &&
@@ -214,9 +219,11 @@ Echo.private("chat-data").listen(".getChatMessage", data => {
          <h4>` +
             data.chat.message +
             `</h4>
+
          </div>
         `;
         $("#chat-container").append(html);
+        ScrollChat();
     }
 });
 
@@ -279,14 +286,13 @@ $(document).ready(function(e) {
                     $('#group-chat-container').append(res.view);
 
                 }
-                GroupScrollChat()
             }
         });
     });
 
-    // load group chat 
+    // load group chat
     function loadGroupChat(){
-       
+
         // var url = "{{ route('loadGroupChat') }}";
         var url = "/groups/chat";
         $.ajax({
@@ -322,14 +328,14 @@ $(document).ready(function(e) {
                 //                    `;
 
                 //       }
-                //    } 
+                //    }
                    $("#group-chat-container").append(res.view);
                    GroupScrollChat()
                 }
             }
         });
     }
-    // delete group message 
+    // delete group message
     $(document).on('click','.fa-trash',function(){
         var id=$(this).attr('data-id');
         var message=$(this).attr('data-message');
@@ -337,9 +343,9 @@ $(document).ready(function(e) {
         $('#groupChat_message').val(message);
     });
 
-    // deleting message 
+    // deleting message
     $(document).on('click','#groupChat_delete_form',function(e){
-     
+
         var id=$('#groupChat_message_id').val();
         var message=$('#groupChat_message').val();
         // let url="{{route('deleteGroupMessage',':id')}}";
@@ -358,10 +364,14 @@ $(document).ready(function(e) {
     });
 
 });
+// update group message
+Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>{
+    $('#group_chat-'+data.groupMessage.id).find('small').text(data.groupMessage.message);
+})
 Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =>{
     $('#group_chat-'+data.id).remove();
 });
-// for create message broadcast 
+// for create message broadcast
 Echo.private("group-chat-channel").listen(".groupChatData", data => {
     // alert(data);
     if (
@@ -375,11 +385,24 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
          <div class="image-section">
          <img src="${data.src}" alt="" width="25px" height="25px">
          <span class="group-chat-user-name">  </span> <span class="date_chat-user">${data.time}</span>
-        
+
         </div>
          </div>
         `;
         $("#group-chat-container").append(html);
+
+
+            $("#group-chat-container").animate(
+                {
+                    scrollTop:
+                        $("#group-chat-container").offset().top +
+                        $("#group-chat-container")[0].scrollHeight
+                },
+                0
+            );
+
+
+
     }
 });
 

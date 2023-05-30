@@ -54,6 +54,13 @@
 
                             </div>
                             <div id="message-send-section">
+                                <form action="" id="imageUpload" enctype="multipart/form-data">
+                                 
+                                     <input type="file" name="file" id="image">
+                                     <input type="submit" value="Send">
+                                     
+                                     
+                                </form>
 
                                 <form id="group-chat-form">
                                     <div class="input-group">
@@ -74,6 +81,30 @@
     </div>
 </div>
 
+<!-- edit groupchat Modal -->
+<div class="modal fade" id="groupChatEditModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Message</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('updateGroupMessage') }}" method="POST" >
+                @csrf
+                <div class="modal-body">
+                   
+                    <input type="hidden" id="groupChat_update_message_id" >
+                    <input id="groupChat_message"  class="form-control">
+                </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              {{-- <button type="submit" class="btn btn-primary" >Update</button> --}}
+              <a id="groupChat_message_update_form" class="btn btn-primary">Update</a>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
 <!-- delete groupchat Modal -->
 <div class="modal fade" id="groupChatDeleteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -95,6 +126,56 @@
         </form>
           </div>
         </div>
-      </div>
+</div>
+
+<script>
+    // function imageload(){
+    //     // alert(global_group_id);
+    //     $.ajax({
+    //         type: "post",
+    //         url: "{{ route('GroupImageSend') }}",
+    //         // data: {group_id:global_group_id,sender_id:sender_id},
+    //         data: new FormData(this),
+    //         contentType:false,
+    //         cache:false,
+    //          processData:false,
+    //         success: function (res) {
+                
+    //         }
+    //     });
+        $(document).ready(function(){
+
+            $('#imageUpload').submit(function(e){
+                e.preventDefault();
+                var file_data = $('#image').prop('files')[0];
+                var formData = new FormData();
+                formData.append('sender_id', sender_id);
+                formData.append('group_id', global_group_id);
+                formData.append('file', file_data);
+                // console.log(formData);
+                
+                 
+          
+                $.ajax({
+                type: "post",
+                url: "{{ route('GroupImageSend') }}",
+                // data: {group_id:global_group_id,sender_id:sender_id},
+                data:formData,
+                contentType:false,
+                cache:false,
+                processData:false,
+              
+                success: function (res) {
+                    if(res.status){
+                        $('#group-chat-container').append(res.view);
+                    }
+                }
+            });
+            });
+        });
+
+
+    // }
+</script>
 
 @endsection

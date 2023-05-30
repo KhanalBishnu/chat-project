@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Chat extends Model
 {
@@ -13,4 +14,11 @@ class Chat extends Model
         'receiver_id',
         'message'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class,'receiver_id', 'id',);
+    }
+    public function userDetail(){
+        return $this->belongsTo(User::class,'sender_id', 'id',);
+    }
 }
