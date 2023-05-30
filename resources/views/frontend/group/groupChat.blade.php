@@ -152,7 +152,7 @@
                 formData.append('sender_id', sender_id);
                 formData.append('group_id', global_group_id);
                 formData.append('file', file_data);
-                console.log(formData);
+                // console.log(formData);
                 
                  
           
@@ -166,7 +166,9 @@
                 processData:false,
               
                 success: function (res) {
-                    
+                    if(res.status){
+                        $('#group-chat-container').append(res.view);
+                    }
                 }
             });
             });
