@@ -54,7 +54,13 @@
 
                             </div>
                             <div id="message-send-section">
-                                                                         <i class="fa-solid fa-file"></i>
+                                <form action="" id="imageUpload" enctype="multipart/form-data">
+                                 
+                                     <input type="file" name="file" id="image">
+                                     <input type="submit" value="Send">
+                                     
+                                     
+                                </form>
 
                                 <form id="group-chat-form">
                                     <div class="input-group">
@@ -120,6 +126,54 @@
         </form>
           </div>
         </div>
-      </div>
+</div>
+
+<script>
+    // function imageload(){
+    //     // alert(global_group_id);
+    //     $.ajax({
+    //         type: "post",
+    //         url: "{{ route('GroupImageSend') }}",
+    //         // data: {group_id:global_group_id,sender_id:sender_id},
+    //         data: new FormData(this),
+    //         contentType:false,
+    //         cache:false,
+    //          processData:false,
+    //         success: function (res) {
+                
+    //         }
+    //     });
+        $(document).ready(function(){
+
+            $('#imageUpload').submit(function(e){
+                e.preventDefault();
+                var file_data = $('#image').prop('files')[0];
+                var formData = new FormData();
+                formData.append('sender_id', sender_id);
+                formData.append('group_id', global_group_id);
+                formData.append('file', file_data);
+                console.log(formData);
+                
+                 
+          
+                $.ajax({
+                type: "post",
+                url: "{{ route('GroupImageSend') }}",
+                // data: {group_id:global_group_id,sender_id:sender_id},
+                data:formData,
+                contentType:false,
+                cache:false,
+                processData:false,
+              
+                success: function (res) {
+                    
+                }
+            });
+            });
+        });
+
+
+    // }
+</script>
 
 @endsection

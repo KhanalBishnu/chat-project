@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Events\GroupChatEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Events\FileAddGroupChatEvent;
 use App\Events\GroupChatMessageDelete;
 use App\Events\GroupMessageUpdateEvent;
 
@@ -37,6 +38,7 @@ class GroupChatController extends Controller
         $groupMessage=GroupChat::with('userInfo')->where(['group_id'=>$data['group_id'], 'message'=>$data['message'],'sender_id'=>$sender_id,])->first();
         $src=$groupMessage->userInfo->hasMedia('user_image') ? $groupMessage->userInfo->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg');
         $time=$groupMessage->created_at->diffForHumans();
+        
         // dd($time);
         
         event(new GroupChatEvent($groupMessage,$src,$time));
@@ -93,5 +95,21 @@ class GroupChatController extends Controller
 
         ]);
 
+    }
+
+    public function GroupImageSend(Request $request){
+        $data=$request->all();
+        $groupChat=GroupChat::where('group_id',$data['group_id'])->first();
+        $groupChat->addMedia($data['file'])->toMediaCollection('group_chat_image');
+        $sender_id=$data['sender_id'];
+        $src=$groupChat->hasMedia('group_chat_image') ? $groupChat->getMedia('group_chat_image')[0]->getFullUrl():'';
+
+
+        event(new FileAddGroupChatEvent($groupChat,$sender_id,$src));
+        return response()->json([
+             'status'=>true,
+             'view'=>view('frontend.group.component.fileAdd',compact('groupChat','sender_id'))->render()
+         ]);
+      
     }
 }

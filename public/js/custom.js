@@ -43,24 +43,24 @@ $(document).ready(function(e) {
                 // alert(response);
                 // console.log(res.data);
                 $("#message").val("");
-                let chat = res.data.message;
-                let html =
-                    `
-                     <div class="chat-color chat-sender" id="` +
-                    res.data.id +
-                    `-chat">
-                        <h4>
-                            <span>` +
-                    chat +
-                    ` </span>
-                            <i class="fa fa-trash" aria-hidden="true" data-id="` +
-                    res.data.id +
-                    `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
+                // let chat = res.data.message;
+                // let html =
+                //     `
+                //      <div class="chat-color chat-sender" id="` +
+                //     res.data.id +
+                //     `-chat">
+                //         <h4>
+                //             <span>` +
+                //     chat +
+                //     ` </span>
+                //             <i class="fa fa-trash" aria-hidden="true" data-id="` +
+                //     res.data.id +
+                //     `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
 
-                        </h4>
-                     </div>
-                `;
-                $("#chat-container").append(html);
+                //         </h4>
+                //      </div>
+                // `;
+                $("#chat-container").append(res.view);
                 ScrollChat();
             }
         });
@@ -88,7 +88,7 @@ $(document).ready(function(e) {
             url: "/delete-chat",
             data: { id: id },
             success: function(res) {
-                alert(res.msg);
+              
                 if (res.success) {
                     $("#" + id + "-chat").remove();
                     $("#DeleteMessageModal").modal("hide");
@@ -106,54 +106,58 @@ function loadOldChat() {
         data: { sender_id: sender_id, receiver_id: receiver_id },
         success: function(res) {
             if (res.success) {
-                // console.log(res.user);
+               
+                
+                // // console.log(res.user);
                 // let user_name= res.user.name
-                let user_name =
-                    `
-                <p>` +
-                    res.user.name +
-                    `</p>
-                `;
-                $("#chat-container").append(user_name);
+                // let user_name =
+                //     `
+                // <p>` +
+                //     res.user.name +
+                //     `</p>
+                // `;
+                // $("#chat-container").append(user_name);
 
-                let chats = res.data;
-                let html = "";
-                for (let i = 0; i < chats.length; i++) {
-                    let addClass = "";
-                    if (chats[i].sender_id == sender_id) {
-                        addClass = "chat-sender";
-                    } else {
-                        addClass = "chat-receiver";
-                    }
-                    html +=
-                        `
+                // let chats = res.data;
+                // let html = "";
+                // for (let i = 0; i < chats.length; i++) {
+                //     let addClass = "";
+                //     if (chats[i].sender_id == sender_id) {
+                //         addClass = "chat-sender";
+                //     } else {
+                //         addClass = "chat-receiver";
+                //     }
+                //     html +=
+                //         `
 
-                        <div class=" ` +
-                        addClass +
-                        `" id="` +
-                        chats[i].id +
-                        `-chat">
-                        <h4>
-                        <span>` +
-                        chats[i].message +
-                        ` </span>`;
+                //         <div class=" ` +
+                //         addClass +
+                //         `" id="` +
+                //         chats[i].id +
+                //         `-chat">
+                //         <h4>
+                //         <span>` +
+                //         chats[i].message +
+                //         ` </span>`;
 
-                    if (chats[i].sender_id == sender_id) {
-                        html +=
-                            `
-                             <i class="fa fa-trash" aria-hidden="true" data-id="` +
-                            chats[i].id +
-                            `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
-                            `;
-                    }
+                //     if (chats[i].sender_id == sender_id) {
+                //         html +=
+                //             `
+                //              <i class="fa fa-trash" aria-hidden="true" data-id="` +
+                //             chats[i].id +
+                //             `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
+                //             `;
+                //     }
 
-                    html += ` </h4>
-                                 </div> `;
-                    $("#chat-container").append(html);
-                    ScrollChat();
-                }
+                //     html += ` </h4>
+                //                  </div> `;
+                //     $("#chat-container").append(html);
+                   
+                // }
+             $("#chat-container").append(res.view);
+                ScrollChat();
             } else {
-                alert(res.message);
+                console.log(res);
             }
         }
     });
@@ -201,6 +205,7 @@ Echo.join("user-status")
 
 //    broadcast message data
 Echo.private("chat-data").listen(".getChatMessage", data => {
+    
     // alert(data);
     if (
         sender_id == data.chat.receiver_id &&
@@ -214,9 +219,11 @@ Echo.private("chat-data").listen(".getChatMessage", data => {
          <h4>` +
             data.chat.message +
             `</h4>
+            
          </div>
         `;
         $("#chat-container").append(html);
+        ScrollChat();
     }
 });
 

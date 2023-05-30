@@ -42,11 +42,17 @@ class UserController extends Controller
             $data['message']=$request->message;
             $data['sender_id']=$user->name;
          
-
+          
             event(new MessageEvent($chat));
             Notification::send(User::where('id',$request->receiver_id)->first(),new messageSendNotify($data));
 
-            return response()->json(['success'=>true,'data'=>$chat]);
+            return response()->json([
+                'success'=>true,
+                'view'=>view('frontend.chat-container.sendMessage',compact('chat'))->render()
+             
+                ]);
+            // return response()->json(['success'=>true,'data'=>$chat]);
+            
         } catch (\Throwable $th) {
             return response()->json(['success'=>false,'msg'=>$th->getMessage()]);
         }
@@ -63,7 +69,13 @@ class UserController extends Controller
             })->get();
 
             $user=User::find($request->receiver_id);
-            return response()->json(['success'=>true,'data'=>$chats ,'user'=>$user]);
+            // dd($chats);
+            return response()->json([
+                'success'=>true,
+                'view'=>view('frontend.chat-container.chatsection',compact('chats','user'))->render()
+               
+            
+            ]);
         } catch (\Throwable $th) {
             return response()->json(['success'=>false,'msg'=>$th->getMessage()]);
 

@@ -59,7 +59,7 @@ Route::middleware('auth')->controller(UserController::class)->group(function () 
     Route::post('/notification/{id}','motification_read')->name('motification_read');
     Route::post('/notification','motification_readAll')->name('motification_readAll');
 
-});
+
 
 Route::middleware('auth')->prefix('admin')->group(function(){
     Route::controller(CategoryController::class)->group(function(){
@@ -118,12 +118,14 @@ Route::middleware('auth')->prefix('admin')->group(function(){
         Route::post('group/joinGroup','joinGroup')->name('joinGroup');
     });
     
-    
-});
+     
+   });
         Route::controller(GroupChatController::class)->group(function(){
             Route::get('/groupchat','index')->name('groupChat');
             Route::post('/groupchat/message','chatStore')->name('GroupchatStore');
             Route::get('/groups/chat','loadGroupChatMessage')->name('loadGroupChat');
             Route::get('/groups/message/delete/{id}','deleteMessage')->name('deleteGroupMessage');
             Route::post('/groups/message/update','updateMessage')->name('updateGroupMessage');
+            Route::post('/groups/message/image','GroupImageSend')->name('GroupImageSend');
         });
+});
