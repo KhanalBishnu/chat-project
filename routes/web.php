@@ -22,9 +22,9 @@ use App\Http\Controllers\FriendShipController;
 */
 
 
-Route::get('/javascript', function () {
-    return view('userView');
-});
+// Route::get('/javascript', function () {
+//     return view('userView');
+// });
 Route::get('/', function () {
     return view('front.index');
 });
@@ -125,4 +125,5 @@ Route::middleware('auth')->prefix('admin')->group(function(){
             Route::post('/groupchat/message','chatStore')->name('GroupchatStore');
             Route::get('/groups/chat','loadGroupChatMessage')->name('loadGroupChat');
             Route::get('/groups/message/delete/{id}','deleteMessage')->name('deleteGroupMessage');
+            Route::post('/groups/message/update','updateMessage')->name('updateGroupMessage');
         });

@@ -10,6 +10,7 @@ use App\Events\GroupChatEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Events\GroupChatMessageDelete;
+use App\Events\GroupMessageUpdateEvent;
 
 class GroupChatController extends Controller
 {
@@ -76,5 +77,21 @@ class GroupChatController extends Controller
             'status'=>true,
             'message'=>'Group message deleted successfully',
         ]);
+    }
+
+    public function updateMessage(Request $request){
+        // dd($request->all());
+        $data=$request->all();
+        $groupMessage=GroupChat::find($data['id']);
+        if($groupMessage){
+            $groupMessage->update(['message'=>$data['message']]);
+        }
+        event(new GroupMessageUpdateEvent($groupMessage));
+        return response()->json([
+            'status'=>true,
+            'groupMessage'=>$groupMessage,
+
+        ]);
+
     }
 }

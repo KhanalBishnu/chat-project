@@ -54,6 +54,7 @@
 
                             </div>
                             <div id="message-send-section">
+                                                                         <i class="fa-solid fa-file"></i>
 
                                 <form id="group-chat-form">
                                     <div class="input-group">
@@ -74,6 +75,30 @@
     </div>
 </div>
 
+<!-- edit groupchat Modal -->
+<div class="modal fade" id="groupChatEditModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Message</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('updateGroupMessage') }}" method="POST" >
+                @csrf
+                <div class="modal-body">
+                   
+                    <input type="hidden" id="groupChat_update_message_id" >
+                    <input id="groupChat_message"  class="form-control">
+                </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              {{-- <button type="submit" class="btn btn-primary" >Update</button> --}}
+              <a id="groupChat_message_update_form" class="btn btn-primary">Update</a>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
 <!-- delete groupchat Modal -->
 <div class="modal fade" id="groupChatDeleteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

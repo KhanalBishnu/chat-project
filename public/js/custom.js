@@ -278,8 +278,8 @@ $(document).ready(function(e) {
                     // `;
                     $('#group-chat-container').append(res.view);
 
+                    GroupScrollChat()
                 }
-                GroupScrollChat()
             }
         });
     });
@@ -357,7 +357,43 @@ $(document).ready(function(e) {
         });
     });
 
+    // edit group message 
+    $(document).on('click','.edit_group_chat',function(e){
+        e.preventDefault();
+        $('#groupChat_update_message_id').val($(this).attr('data-id'));
+        $('#groupChat_message').val($(this).attr('data-message'));
+    });
+
+    // edit group message modal 
+    $(document).on('click','#groupChat_message_update_form',function (e) {
+        var id= $('#groupChat_update_message_id').val();
+        var message=$('#groupChat_message').val();
+
+        // let url="{{route('updateGroupMessage')}}";
+        let url="/groups/message/update";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {id:id,message:message},
+            success: function (res) {
+                console.log(res.groupMessage);
+                
+               if(res.status){
+                   $('#groupChatEditModel').modal('hide');
+                   $(".modal-backdrop").hide();
+                //    $('#group-chat-message-'+res.groupMessage.id).html(res.groupMessage.message);
+                   $('#group_chat-'+id).find('small').text(res.groupMessage.message);
+                   $('.edit_group_chat').attr('data-message',res.groupMessage.message);
+               }
+            }
+        });
+    });
+
 });
+// update group message 
+Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>{
+    $('#group_chat-'+data.groupMessage.id).find('small').text(data.groupMessage.message);
+})
 Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =>{
     $('#group_chat-'+data.id).remove();
 });
@@ -380,6 +416,19 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
          </div>
         `;
         $("#group-chat-container").append(html);
+        
+      
+            $("#group-chat-container").animate(
+                {
+                    scrollTop:
+                        $("#group-chat-container").offset().top +
+                        $("#group-chat-container")[0].scrollHeight
+                },
+                0
+            );
+        
+
+
     }
 });
 
