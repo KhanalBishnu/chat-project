@@ -32,7 +32,7 @@
                         <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail" style="height:50px;width:80px">
                         @endif
                                 {{ $group->name }}
-                                
+
 
                             </li>
 
@@ -53,22 +53,36 @@
                             {{-- chat here for sender and receiver  --}}
 
                             </div>
-                            <div id="message-send-section">
-                                <form action="" id="imageUpload" enctype="multipart/form-data">
-                                 
-                                     <input type="file" name="file" id="image">
-                                     <input type="submit" value="Send">
-                                     
-                                     
+                            {{-- <div id="message-send-section">
+                                <form id="imageUpload" enctype="multipart/form-data">
+                                    <input type="file" name="file" id="image">
+                                    <input type="submit" value="Send Image">
                                 </form>
 
                                 <form id="group-chat-form">
                                     <div class="input-group">
-                                      <input type="text" name="message" id="message" required placeholder="Enter message" class="form-control">
-                                      <button type="submit" id="send_message" class="btn btn-send"> <i class="fas fa-paper-plane"></i></button>
+                                        <input type="text" name="message" id="message" required placeholder="Enter message" class="form-control">
+                                        <button type="submit" id="send_message" class="btn btn-send"><i class="fas fa-paper-plane"></i></button>
                                     </div>
-                                  </form>
+                                </form>
+                            </div> --}}
+                            <div id="message-send-section">
+                                <form id="imageUpload" enctype="multipart/form-data" class="upload-form">
+                                    <label for="image" class="upload-label">
+                                        <i class="fas fa-image"></i>
+                                    </label>
+                                    <input type="file" name="file" id="image" class="upload-input">
+                                    <button type="submit">Send Image</button>
+                                </form>
 
+                                <form id="group-chat-form" class="message-form">
+                                    <div class="input-group">
+                                        <input type="text" name="message" id="message" required placeholder="Enter message" class="form-control">
+                                        <button type="submit" id="send_message" class="btn btn-send">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
 
                     </div>
@@ -92,7 +106,7 @@
             <form action="{{ route('updateGroupMessage') }}" method="POST" >
                 @csrf
                 <div class="modal-body">
-                   
+
                     <input type="hidden" id="groupChat_update_message_id" >
                     <input id="groupChat_message"  class="form-control">
                 </div>
@@ -140,7 +154,7 @@
     //         cache:false,
     //          processData:false,
     //         success: function (res) {
-                
+
     //         }
     //     });
         $(document).ready(function(){
@@ -153,9 +167,9 @@
                 formData.append('group_id', global_group_id);
                 formData.append('file', file_data);
                 // console.log(formData);
-                
-                 
-          
+
+
+
                 $.ajax({
                 type: "post",
                 url: "{{ route('GroupImageSend') }}",
@@ -164,7 +178,7 @@
                 contentType:false,
                 cache:false,
                 processData:false,
-              
+
                 success: function (res) {
                     if(res.status){
                         $('#group-chat-container').append(res.view);
