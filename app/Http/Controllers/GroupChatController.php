@@ -99,13 +99,15 @@ class GroupChatController extends Controller
 
     public function GroupImageSend(Request $request){
         $data=$request->all();
+        $sender_id=$data['sender_id'];
+
         $groupChat=GroupChat::where('group_id',$data['group_id'])->first();
         $groupChat->addMedia($data['file'])->toMediaCollection('group_chat_image');
-        $sender_id=$data['sender_id'];
+        // $sender_id=$data['sender_id'];
         $src=$groupChat->hasMedia('group_chat_image') ? $groupChat->getMedia('group_chat_image')[0]->getFullUrl():'';
 
 
-        event(new FileAddGroupChatEvent($groupChat,$sender_id,$src));
+        event(new FileAddGroupChatEvent($sender_id,$groupChat,$src));
         return response()->json([
              'status'=>true,
              'view'=>view('frontend.group.component.fileAdd',compact('groupChat','sender_id'))->render()

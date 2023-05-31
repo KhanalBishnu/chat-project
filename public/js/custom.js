@@ -278,11 +278,7 @@ $(document).ready(function(e) {
             success: function (res) {
                 if(res.status){
                     $('#message').val('')
-                    // let html=`
-                    // <div class="group-chat-sender" id="group_chat-${res.data.id}">
-                    //     <h4> ${res.data.message} <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="${res.data.id}" data-message="${res.data.message}" data-bs-target="#groupChatDeleteModel"></i></span> </h4>
-                    //  </div>
-                    // `;
+                    
                     $('#group-chat-container').append(res.view);
 
                     GroupScrollChat()
@@ -303,33 +299,7 @@ $(document).ready(function(e) {
             success: function (res) {
                 if(res.status){
                     $('.group-chat-header').html(res.group.name);
-                //     let addClass="";
-                //     let html='';
-                //     let chats=res.data;
-                //    for (let i = 0; i < chats.length; i++) {
-
-                //       if(sender_id==chats[i].sender_id){
-                //           addClass="group-chat-sender";
-                //       }else{
-                //           addClass="group-chat-receiver";
-                //       }
-                //       if(sender_id ==chats[i].sender_id){
-
-                //           html +=`
-                //                 <div class="${addClass}" id="group_chat-${chats[i].id}">
-                //                 <h4> ${chats[i].message}  <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="${chats[i].id}" data-message="${chats[i].message}" data-bs-target="#groupChatDeleteModel"></i></span>
-                //                 </h4></div>
-                //              `;
-                //         }
-                //       else{
-                //                 html +=`
-                //                       <div class="${addClass}" id="group_chat-${chats[i].id}">
-                //                       <h4> ${chats[i].message}  </h4>
-                //                      </div>
-                //                    `;
-
-                //       }
-                //    } 
+               
                    $("#group-chat-container").append(res.view);
                    GroupScrollChat()
                 }
@@ -397,6 +367,28 @@ $(document).ready(function(e) {
     });
 
 });
+
+// for create file broadcast 
+Echo.private('fileAdd-group-chat').listen('.fileAddedGroupChat', data => {
+    // console.log(data.groupChat.group_id)
+     if (
+        sender_id != data.sender_id &&
+        global_group_id == data.groupChat.group_id
+    ) {
+        let html =
+            `
+        <div class="chat-color group-chat-receiver" id="group_chat-${ data.groupChat.id }">
+         <div class="image-section">
+         <img src="${data.src}" alt="" width="100px" height="100px">
+        </div>
+         </div>
+        `;
+        $("#group-chat-container").append(html);
+            
+            GroupScrollChat()
+    }
+});
+
 // update group message 
 Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>{
     $('#group_chat-'+data.groupMessage.id).find('small').text(data.groupMessage.message);
@@ -423,19 +415,8 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
          </div>
         `;
         $("#group-chat-container").append(html);
-        
-      
-            $("#group-chat-container").animate(
-                {
-                    scrollTop:
-                        $("#group-chat-container").offset().top +
-                        $("#group-chat-container")[0].scrollHeight
-                },
-                0
-            );
-        
-
-
+           
+            GroupScrollChat()
     }
 });
 

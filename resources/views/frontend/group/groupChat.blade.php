@@ -167,6 +167,7 @@
               
                 success: function (res) {
                     if(res.status){
+                        
                         $('#group-chat-container').append(res.view);
                     }
                 }
