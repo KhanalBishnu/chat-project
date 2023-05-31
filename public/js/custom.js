@@ -88,7 +88,7 @@ $(document).ready(function(e) {
             url: "/delete-chat",
             data: { id: id },
             success: function(res) {
-              
+
                 if (res.success) {
                     $("#" + id + "-chat").remove();
                     $("#DeleteMessageModal").modal("hide");
@@ -106,8 +106,8 @@ function loadOldChat() {
         data: { sender_id: sender_id, receiver_id: receiver_id },
         success: function(res) {
             if (res.success) {
-               
-                
+
+
                 // // console.log(res.user);
                 // let user_name= res.user.name
                 // let user_name =
@@ -152,7 +152,7 @@ function loadOldChat() {
                 //     html += ` </h4>
                 //                  </div> `;
                 //     $("#chat-container").append(html);
-                   
+
                 // }
              $("#chat-container").append(res.view);
                 ScrollChat();
@@ -205,7 +205,7 @@ Echo.join("user-status")
 
 //    broadcast message data
 Echo.private("chat-data").listen(".getChatMessage", data => {
-    
+
     // alert(data);
     if (
         sender_id == data.chat.receiver_id &&
@@ -219,7 +219,7 @@ Echo.private("chat-data").listen(".getChatMessage", data => {
          <h4>` +
             data.chat.message +
             `</h4>
-            
+
          </div>
         `;
         $("#chat-container").append(html);
@@ -281,15 +281,14 @@ $(document).ready(function(e) {
                     
                     $('#group-chat-container').append(res.view);
 
-                    GroupScrollChat()
                 }
             }
         });
     });
 
-    // load group chat 
+    // load group chat
     function loadGroupChat(){
-       
+
         // var url = "{{ route('loadGroupChat') }}";
         var url = "/groups/chat";
         $.ajax({
@@ -306,7 +305,7 @@ $(document).ready(function(e) {
             }
         });
     }
-    // delete group message 
+    // delete group message
     $(document).on('click','.fa-trash',function(){
         var id=$(this).attr('data-id');
         var message=$(this).attr('data-message');
@@ -314,9 +313,9 @@ $(document).ready(function(e) {
         $('#groupChat_message').val(message);
     });
 
-    // deleting message 
+    // deleting message
     $(document).on('click','#groupChat_delete_form',function(e){
-     
+
         var id=$('#groupChat_message_id').val();
         var message=$('#groupChat_message').val();
         // let url="{{route('deleteGroupMessage',':id')}}";
@@ -330,38 +329,6 @@ $(document).ready(function(e) {
                 $('#groupChatDeleteModel').modal('hide');
                 // location.reload();
                 $(".modal-backdrop").hide();
-            }
-        });
-    });
-
-    // edit group message 
-    $(document).on('click','.edit_group_chat',function(e){
-        e.preventDefault();
-        $('#groupChat_update_message_id').val($(this).attr('data-id'));
-        $('#groupChat_message').val($(this).attr('data-message'));
-    });
-
-    // edit group message modal 
-    $(document).on('click','#groupChat_message_update_form',function (e) {
-        var id= $('#groupChat_update_message_id').val();
-        var message=$('#groupChat_message').val();
-
-        // let url="{{route('updateGroupMessage')}}";
-        let url="/groups/message/update";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {id:id,message:message},
-            success: function (res) {
-                console.log(res.groupMessage);
-                
-               if(res.status){
-                   $('#groupChatEditModel').modal('hide');
-                   $(".modal-backdrop").hide();
-                //    $('#group-chat-message-'+res.groupMessage.id).html(res.groupMessage.message);
-                   $('#group_chat-'+id).find('small').text(res.groupMessage.message);
-                   $('.edit_group_chat').attr('data-message',res.groupMessage.message);
-               }
             }
         });
     });
@@ -396,7 +363,7 @@ Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>
 Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =>{
     $('#group_chat-'+data.id).remove();
 });
-// for create message broadcast 
+// for create message broadcast
 Echo.private("group-chat-channel").listen(".groupChatData", data => {
     // alert(data);
     if (
@@ -410,7 +377,7 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
          <div class="image-section">
          <img src="${data.src}" alt="" width="25px" height="25px">
          <span class="group-chat-user-name">  </span> <span class="date_chat-user">${data.time}</span>
-        
+
         </div>
          </div>
         `;

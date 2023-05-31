@@ -1,140 +1,190 @@
-        .cursor-pointer {
-            cursor: pointer;
-        }
+.cursor-pointer {
+    cursor: pointer;
+}
 
-        #chat-container {
-            height: 400px;
-            width: 100%;
-            overflow-y: auto
-        }
+#chat-container {
+    height: 400px;
+    width: 100%;
+    overflow-y: auto
+}
 
-        .chat-section {
-            display: none;
-            border: 1px solid #ccc;
-            padding: 2px;
-            margin-bottom: 100px;
-        }
-        .offline-status{
-            color:red
-        }
-        .online-status{
-            color:green
-        }
-        .group-chat-header{
-            background: #7070df;
-            padding: 5px 10px;
-            /* margin-bottom: 10px; */
-            color: white;
-            font-weight: bold;
-            text-shadow: 1px 2px 2px rgba(0,0,0,0.2);
-        }
-        .chat-sender{
-            /* text-align: right;
-            margin: 10px */
-            margin: 10px;
-            
-            display: flex;
-            justify-content: flex-end;
-            
-        }
-        .chat-receiver{
-            padding: 5px 10px;
-            text-align: left;
-            background:rgb(196, 200, 200);
-            margin: 10px;
-            width: fit-content;
-            border-radius: 10px;
-        }
-        .group-chat-sender{
-            /* text-align: right;
-            border-radius: 10px;
-            background: #5F9EA0; */
-            /* width: fit-content; */
-            margin: 10px;
-            
-            display: flex;
-            justify-content: flex-end;
+.chat-section {
+    display: none;
+    border: 1px solid #ccc;
+    padding: 2px;
+    margin-bottom: 100px;
+}
+.offline-status{
+    color:red
+}
+.online-status{
+    color:green
+}
+.group-chat-header{
+    background: #7070df;
+    padding: 5px 10px;
+    /* margin-bottom: 10px; */
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 2px 2px rgba(0,0,0,0.2);
+}
+.chat-sender{
+    /* text-align: right;
+    margin: 10px */
+    margin: 10px;
 
+    display: flex;
+    justify-content: flex-end;
 
-           
-        }
-        .group-chat-receiver{
-            padding: 5px 10px;
-            text-align: left;
-            background:rgb(196, 200, 200);
-            margin: 10px;
-            width: fit-content;
-            border-radius: 10px;
-        }
+}
+.chat-receiver{
+    padding: 5px 10px;
+    text-align: left;
+    background:rgb(196, 200, 200);
+    margin: 10px;
+    width: fit-content;
+    border-radius: 10px;
+}
+.group-chat-sender{
+    /* text-align: right;
+    border-radius: 10px;
+    background: #5F9EA0; */
+    /* width: fit-content; */
+    margin: 10px;
 
-        .user-select{
-            color: blue;
-            background-color: bisque
-        }
-        .chat-color{
-            color: blue;
-            font-size: 20px;
-            /* background-color: bisque */
-        }
-        .fa-trash{
-            color:red;
-        }
-
-        #group-chat-container {
-            /* background-color: aquamarine; */
-            height: 400px;
-            width: 100%;
-            overflow-y: auto
-        }
-
-        .group-chat-section {
-            display: none;
-            border: 1px solid #ccc;
-            padding: 2px;
-            margin-bottom: 100px;
-        }
-        .input-group {
-            display: flex;
-            align-items: center;
-          }
-
-          .form-control {
-            flex-grow: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-          }
-
-          .btn-send {
-            margin-left: 10px;
-            padding: 8px 16px;
-            background-color: #007bff;
-            color:black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-          }
-
-          /* chat date style of group  */
-          .date_chat-user{
-              font-size: 10px;
-              color: rgb(140, 140, 158);
-          }
-
-          
-        .div_second_sender{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            background:rgb(196, 200, 200);;
-            width: fit-content;
-            padding-left: 5px;
-            padding-right: 5px;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        /* for file in chat  */
-        
+    display: flex;
+    justify-content: flex-end;
 
 
-          
+
+}
+.group-chat-receiver{
+    padding: 5px 10px;
+    text-align: left;
+    background:rgb(196, 200, 200);
+    margin: 10px;
+    width: fit-content;
+    border-radius: 10px;
+}
+
+.user-select{
+    color: blue;
+    background-color: bisque
+}
+.chat-color{
+    color: blue;
+    font-size: 20px;
+    /* background-color: bisque */
+}
+.fa-trash{
+    color:red;
+}
+
+#group-chat-container {
+    /* background-color: aquamarine; */
+    height: 400px;
+    width: 100%;
+    overflow-y: auto
+}
+
+.group-chat-section {
+    display: none;
+    border: 1px solid #ccc;
+    padding: 2px;
+    margin-bottom: 100px;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-control {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .btn-send {
+    margin-left: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color:black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* chat date style of group  */
+  .date_chat-user{
+      font-size: 10px;
+      color: rgb(140, 140, 158);
+  }
+
+
+.div_second_sender{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background:rgb(196, 200, 200);;
+    width: fit-content;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+/* for file in chat  */
+
+/* for file or message  */
+#message-send-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.upload-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-label {
+    cursor: pointer;
+    background-color: #f0f2f5;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-label i {
+    font-size: 20px;
+}
+
+.upload-label span {
+    margin-left: 5px;
+}
+
+.upload-input {
+    display: none;
+}
+
+.message-form {
+    flex-grow: 1;
+}
+
+.btn-send {
+    background-color: #0084ff;
+    color: #fff;
+    border: none;
+}
+
+.btn-send i {
+    margin-right: 5px;
+}
+
+
+
+

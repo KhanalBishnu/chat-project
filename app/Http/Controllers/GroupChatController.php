@@ -38,9 +38,8 @@ class GroupChatController extends Controller
         $groupMessage=GroupChat::with('userInfo')->where(['group_id'=>$data['group_id'], 'message'=>$data['message'],'sender_id'=>$sender_id,])->first();
         $src=$groupMessage->userInfo->hasMedia('user_image') ? $groupMessage->userInfo->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg');
         $time=$groupMessage->created_at->diffForHumans();
-        
         // dd($time);
-        
+
         event(new GroupChatEvent($groupMessage,$src,$time));
 
         // return response()->json([
@@ -56,7 +55,7 @@ class GroupChatController extends Controller
         $group=Group::find($request->group_id);
         $groupChats=GroupChat::with('userInfo')->where('group_id',$request->group_id)->get();
         // dd($groupChats);
-     
+
         $user=User::find($request->sender_id);
         // return response()->json([
         //      'status'=>true,
@@ -112,6 +111,6 @@ class GroupChatController extends Controller
              'status'=>true,
              'view'=>view('frontend.group.component.fileAdd',compact('groupChat','sender_id'))->render()
          ]);
-      
+
     }
 }
