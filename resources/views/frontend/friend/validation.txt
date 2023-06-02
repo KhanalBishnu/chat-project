@@ -1,0 +1,10 @@
+ $validator = Validator::make($request->all(), [
+        'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'name.*' => 'required|string|max:255',
+    ]);
+
+    if ($validator->fails()) {
+        // Handle validation errors
+        Alert::error('Validation Error', $validator->errors()->first());
+        return redirect()->back();
+    }
