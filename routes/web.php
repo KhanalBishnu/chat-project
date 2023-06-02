@@ -122,10 +122,15 @@ Route::middleware('auth')->prefix('admin')->group(function(){
    });
         Route::controller(GroupChatController::class)->group(function(){
             Route::get('/groupchat','index')->name('groupChat');
-            Route::post('/groupchat/message','chatStore')->name('GroupchatStore');
+            Route::post('/group/message','chatStore')->name('GroupchatStore');
             Route::get('/groups/chat','loadGroupChatMessage')->name('loadGroupChat');
             Route::get('/groups/message/delete/{id}','deleteMessage')->name('deleteGroupMessage');
             Route::post('/groups/message/update','updateMessage')->name('updateGroupMessage');
             Route::post('/groups/message/image','GroupImageSend')->name('GroupImageSend');
+            // Route::get('message-group/image-delete','deleteGroupChatImage')->name('deleteGroupChatImage');
+        });
+        Route::group(['prefix' => 'groupchat', 'as' => 'groupchat.'], function () {
+           
+            Route::get('/group/chat-image/delete', [GroupChatController::class, 'deleteGroupChatImage'])->name('deleteImage');
         });
 });

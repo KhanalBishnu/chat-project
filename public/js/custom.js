@@ -333,6 +333,21 @@ $(document).ready(function(e) {
         });
     });
 
+    // delete image 
+    $(document).on('click','#fa-trash_image',function(e){
+        var id=$(this).attr('data-id');
+        $.ajax({
+            type: "get",
+            // url: "{{route('groupchat.deleteImage')}}",
+            url: "{{ route('groupchat.deleteImage') }}",
+            data: {id:id},
+            success: function (res) {
+                
+            }
+        });
+
+    });
+
 });
 
 // for create file broadcast 
@@ -386,6 +401,3 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
             GroupScrollChat()
     }
 });
-
-
-

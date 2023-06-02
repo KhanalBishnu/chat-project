@@ -158,6 +158,16 @@
     //         }
     //     });
         $(document).ready(function(){
+            function GroupScrollChat() {
+                $("#group-chat-container").animate(
+                    {
+                        scrollTop:
+                            $("#group-chat-container").offset().top +
+                            $("#group-chat-container")[0].scrollHeight
+                    },
+                    0
+                );
+            }
 
             $('#imageUpload').submit(function(e){
                 e.preventDefault();
@@ -181,15 +191,16 @@
 
                 success: function (res) {
                     if(res.status){
-                        
+                        $('#image').val('');
                         $('#group-chat-container').append(res.view);
+                        GroupScrollChat()
                     }
                 }
             });
             });
         });
 
-
+       
     // }
 </script>
 
