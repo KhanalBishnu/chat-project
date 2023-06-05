@@ -269,10 +269,10 @@ $(document).ready(function(e) {
     $('#group-chat-form').submit(function(e){
         e.preventDefault();
         var message=$('#message').val();
-        let url= "/groupchat/message";
-        // let url= "{{ route('GroupchatStore',':id') }}";
+        let url= "/group/message";
+        // let url= "{{ route('GroupchatStore') }}";
         $.ajax({
-            type: "POST",
+            type: "post",
             url:url,
             data: {message:message,group_id:global_group_id},
             success: function (res) {
@@ -280,7 +280,7 @@ $(document).ready(function(e) {
                     $('#message').val('')
                     
                     $('#group-chat-container').append(res.view);
-
+                    loadGroupChat()
                 }
             }
         });
@@ -336,13 +336,14 @@ $(document).ready(function(e) {
     // delete image 
     $(document).on('click','#fa-trash_image',function(e){
         var id=$(this).attr('data-id');
+        let  url= "{{ route('Group_deleteImage') }}";
         $.ajax({
-            type: "get",
-            // url: "{{route('groupchat.deleteImage')}}",
-            url: "{{ route('groupchat.deleteImage') }}",
+            type: "post",
+            // url:url,
+            // url: "/group/chat-image/delete",
+            url:url,
             data: {id:id},
             success: function (res) {
-                
             }
         });
 

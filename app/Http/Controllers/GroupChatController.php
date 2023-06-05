@@ -121,4 +121,17 @@ class GroupChatController extends Controller
         dd($request->all());
     }
 
+    public function showGroupPic(Request $request){
+        // dd($request->all());
+        $group=Group::find($request->group_id);
+        if($group){
+            return response()->json([
+                'status'=>true,
+                'view'=> view('frontend.group.component.showgallery',compact('group'))->render()
+            ]);
+        }
+
+
+    }
+
 }

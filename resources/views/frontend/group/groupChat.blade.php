@@ -9,51 +9,59 @@
         </div>
         @if(count($groups)>0 || count($other_groups)>0)
 
-                <div class="col-lg-3 mt-3">
-                    <ul class="list-group">
-                        @foreach ($groups as $group)
-                        <li id="{{ $group->id }}-select_status" class="list-group-item list-group-item-dark cursor-pointer group_list " data-id="{{ $group->id }}" data-name="  {{ $group->name }}">
+        <div class="col-lg-3 mt-3">
+            <ul class="list-group">
+                @foreach ($groups as $group)
+                <li id="{{ $group->id }}-select_status"
+                    class="list-group-item list-group-item-dark cursor-pointer group_list " data-id="{{ $group->id }}"
+                    data-name="  {{ $group->name }}">
 
-                            @if ($group->hasMedia('group_image'))
-                                <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail" style="height:50px;width:80px">
-                            @else
-                            <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail" style="height:50px;width:80px">
-                            @endif
-                                    {{ $group->name }}
-                        </li>
+                    @if ($group->hasMedia('group_image'))
+                    <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail"
+                        style="height:50px;width:80px">
+                    @else
+                    <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail"
+                        style="height:50px;width:80px">
+                    @endif
+                    {{ $group->name }}
+                </li>
 
-                        @endforeach
-                        @foreach ($other_groups as $group)
-                        <li id="{{ $group->id }}-select_status" class="list-group-item list-group-item-dark cursor-pointer group_list " data-id="{{ $group->id }}" data-name="  {{ $group->name }}">
+                @endforeach
+                @foreach ($other_groups as $group)
+                <li id="{{ $group->id }}-select_status"
+                    class="list-group-item list-group-item-dark cursor-pointer group_list " data-id="{{ $group->id }}"
+                    data-name="  {{ $group->name }}">
 
-                        @if ($group->hasMedia('group_image'))
-                            <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail" style="height:50px;width:80px">
-                        @else
-                        <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail" style="height:50px;width:80px">
-                        @endif
-                                {{ $group->name }}
+                    @if ($group->hasMedia('group_image'))
+                    <img src="{{ $group->getMedia('group_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail"
+                        style="height:50px;width:80px">
+                    @else
+                    <img src="{{ asset('image/images.jpg')  }}" alt="" srcset="" class="img-thumbnail"
+                        style="height:50px;width:80px">
+                    @endif
+                    {{ $group->name }}
 
 
-                            </li>
+                </li>
 
-                        @endforeach
-                    </ul>
+                @endforeach
+            </ul>
+        </div>
+
+        <div class="col-lg-9 mt-4">
+            <h1 class="start-head">Click For Start Chat</h1>
+            <div class="group-chat-section ">
+                <div class="group-chat-header">
+                    Header
                 </div>
-
-                <div class="col-lg-9 mt-4">
-                    <h1 class="start-head">Click For Start Chat</h1>
-                    <div class="group-chat-section " >
-                        <div class="group-chat-header">
-                            Header
-                        </div>
-                         <div id="group-chat-container">
-                             <span id="group_name"></span>
+                <div id="group-chat-container">
+                    <span id="group_name"></span>
 
 
-                            {{-- chat here for sender and receiver  --}}
+                    {{-- chat here for sender and receiver  --}}
 
-                            </div>
-                            {{-- <div id="message-send-section">
+                </div>
+                {{-- <div id="message-send-section">
                                 <form id="imageUpload" enctype="multipart/form-data">
                                     <input type="file" name="file" id="image">
                                     <input type="submit" value="Send Image">
@@ -66,80 +74,83 @@
                                     </div>
                                 </form>
                             </div> --}}
-                            <div id="message-send-section">
-                                <form id="imageUpload" enctype="multipart/form-data" class="upload-form">
-                                    <label for="image" class="upload-label">
-                                        <i class="fas fa-image"></i>
-                                    </label>
-                                    <input type="file" name="file" id="image" class="upload-input">
-                                    <button type="submit">Send Image</button>
-                                </form>
+                <div id="message-send-section">
+                    <i data-bs-toggle="modal" data-bs-target="#groupPhotosShow" class="fa-solid fa-photo-film group_photo"></i>
 
-                                <form id="group-chat-form" class="message-form">
-                                    <div class="input-group">
-                                        <input type="text" name="message" id="message" required placeholder="Enter message" class="form-control">
-                                        <button type="submit" id="send_message" class="btn btn-send">
-                                            <i class="fas fa-paper-plane"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                    <form id="imageUpload" enctype="multipart/form-data" class="upload-form">
+                        <label for="image" class="upload-label">
+                            <i class="fas fa-image"></i>
+                        </label>
+                        <input type="file" name="file" id="image" class="upload-input">
+                        <button type="submit">Send Image</button>
+                    </form>
 
-                    </div>
+                    <form id="group-chat-form" class="message-form">
+                        <div class="input-group">
+                            <input type="text" name="message" id="message" required placeholder="Enter message"
+                                class="form-control">
+                            <button type="submit" id="send_message" class="btn btn-send">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-        @else
-            <div class="container-fluid text-center col-lg-12">
-                <h4>User Not Found!</h4>
+
             </div>
+        </div>
+        @else
+        <div class="container-fluid text-center col-lg-12">
+            <h4>User Not Found!</h4>
+        </div>
         @endif
     </div>
 </div>
 
 <!-- edit groupchat Modal -->
 <div class="modal fade" id="groupChatEditModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Message</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('updateGroupMessage') }}" method="POST" >
+            <form action="{{ route('updateGroupMessage') }}" method="POST">
                 @csrf
                 <div class="modal-body">
 
-                    <input type="hidden" id="groupChat_update_message_id" >
-                    <input id="groupChat_message"  class="form-control">
+                    <input type="hidden" id="groupChat_update_message_id">
+                    <input id="groupChat_message" class="form-control">
                 </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              {{-- <button type="submit" class="btn btn-primary" >Update</button> --}}
-              <a id="groupChat_message_update_form" class="btn btn-primary">Update</a>
-            </div>
-        </form>
-          </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    {{-- <button type="submit" class="btn btn-primary" >Update</button> --}}
+                    <a id="groupChat_message_update_form" class="btn btn-primary">Update</a>
+                </div>
+            </form>
         </div>
-      </div>
+    </div>
+</div>
 <!-- delete groupchat Modal -->
 <div class="modal fade" id="groupChatDeleteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Delete Message</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form  >
+            <form>
                 <div class="modal-body">
                     <h5>Are you sure want to delete this message?</h5>
                     <input id="groupChat_message">
                     <input type="hidden" id="groupChat_message_id">
                 </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a id="groupChat_delete_form" class="btn btn-primary">Confirm</a>
-            </div>
-        </form>
-          </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="groupChat_delete_form" class="btn btn-primary">Confirm</a>
+                </div>
+            </form>
         </div>
+    </div>
 </div>
 
 <script>
@@ -181,23 +192,39 @@
 
 
                 $.ajax({
-                type: "post",
-                url: "{{ route('GroupImageSend') }}",
-                // data: {group_id:global_group_id,sender_id:sender_id},
-                data:formData,
-                contentType:false,
-                cache:false,
-                processData:false,
+                    type: "post",
+                    url: "{{ route('GroupImageSend') }}",
+                    // data: {group_id:global_group_id,sender_id:sender_id},
+                    data:formData,
+                    contentType:false,
+                    cache:false,
+                    processData:false,
 
-                success: function (res) {
-                    if(res.status){
-                        $('#image').val('');
-                        $('#group-chat-container').append(res.view);
-                        GroupScrollChat()
+                    success: function (res) {
+                        if(res.status){
+                            $('#image').val('');
+                            $('#group-chat-container').append(res.view);
+                            GroupScrollChat()
+                        }
                     }
-                }
+                });
             });
-            });
+
+
+            $(document).on('click','.group_photo',function(e) {
+                var group_id=global_group_id;
+                $.ajax({
+                    type: "get",
+                    url: "{{ route('showGroupPic') }}",
+                    data: {group_id:group_id},
+                    success: function (response) {
+                        
+                    }
+                });
+            })
+
+
+
         });
 
        
