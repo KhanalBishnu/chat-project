@@ -1,0 +1,65 @@
+$validator = Validator::make($request->all(), [
+    'title.*' => 'required',
+    'description.*' => 'required',
+    'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+]);
+
+if ($validator->fails()) {
+    return response()->json(['errors' => $validator->errors()], 422);
+}
+
+
+
+$validator = Validator::make($request->all(), [
+    'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    'name.*' => 'required|string|max:255',
+]);
+
+if ($validator->fails()) {
+    $errors = $validator->errors();
+    $errorMessage = '';
+
+    if ($errors->has('image.*')) {
+        $errorMessage .= 'Image field is required. ';
+        Alert::error('Validation Error', $errorMessage)->persistent(true);
+        return redirect()->back()->withInput();
+    }
+
+    if ($errors->has('name.*')) {
+        $errorMessage .= 'Name field is required. ';
+        Alert::error('Validation Error', $errorMessage)->persistent(true);
+        return redirect()->back()->withInput();
+    }
+}
+
+// Image and name validation passed, continue with your logic
+
+
+
+multiple show
+
+
+$validator = Validator::make($request->all(), [
+    'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    'name.*' => 'required|string|max:255',
+]);
+
+if ($validator->fails()) {
+    $errors = $validator->errors();
+
+    $imageErrorMessage = '';
+    $nameErrorMessage = '';
+
+    if ($errors->has('image.*')) {
+        $imageErrorMessage = 'Image field is required.';
+    }
+
+    if ($errors->has('name.*')) {
+        $nameErrorMessage = 'Name field is required.';
+    }
+
+    $errorMessage = $imageErrorMessage . ' ' . $nameErrorMessage;
+    Alert::error('Validation Error', $errorMessage);
+    return redirect()->back()->withInput()->withErrors($validator);
+}
+
