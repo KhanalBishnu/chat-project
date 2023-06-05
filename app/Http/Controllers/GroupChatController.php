@@ -123,7 +123,8 @@ class GroupChatController extends Controller
 
     public function showGroupPic(Request $request){
         // dd($request->all());
-        $group=Group::find($request->group_id);
+        $group=GroupChat::find($request->group_id);
+        // dd($group);
         if($group){
             return response()->json([
                 'status'=>true,
