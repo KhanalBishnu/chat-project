@@ -244,6 +244,8 @@ function GroupScrollChat() {
     );
 }
 
+
+
 // group chat start
 $(document).ready(function(e) {
     // $('chat-container').html('');
@@ -270,11 +272,20 @@ $(document).ready(function(e) {
         e.preventDefault();
         var message=$('#message').val();
         let url= "/group/message";
+        var file_data = $('#image').prop('files')[0];
+        var formData = new FormData();
+        formData.append('message', message);
+        formData.append('group_id', global_group_id);
+        formData.append('file', file_data);
         // let url= "{{ route('GroupchatStore') }}";
         $.ajax({
             type: "post",
             url:url,
-            data: {message:message,group_id:global_group_id},
+            // data: {message:message,group_id:global_group_id},
+            data:formData,
+            contentType:false,
+            cache:false,
+            processData:false,
             success: function (res) {
                 if(res.status){
                     $('#message').val('')

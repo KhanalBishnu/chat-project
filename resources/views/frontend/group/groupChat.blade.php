@@ -82,11 +82,12 @@
                             <i class="fas fa-image"></i>
                         </label>
                         <input type="file" name="file" id="image" class="upload-input">
-                        <button type="submit">Send Image</button>
+                        {{-- <button type="submit">Send Image</button> --}}
                     </form>
 
-                    <form id="group-chat-form" class="message-form">
+                    <form id="group-chat-form" class="message-form" enctype="multipart/form-data">
                         <div class="input-group">
+                                {{-- <input type="file" name="file" id="image" class="upload-input"> --}}
                             <input type="text" name="message" id="message" required placeholder="Enter message"
                                 class="form-control">
                             <button type="submit" id="send_message" class="btn btn-send">

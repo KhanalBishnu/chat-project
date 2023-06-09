@@ -12,7 +12,9 @@
     <div class="group-chat-receiver" id="group_chat-{{ $chat->id }}">
 
         <h4>{{ $chat->message }}   </h4>
-
+        @if($chat->hasMedia('group_chat_image'))
+            <img src="{{ $chat->getMedia('group_chat_image')[0]->getFullUrl() }}" alt="">
+        @endif
         <div class="image-section">
             <img src="{{ $chat->userInfo->hasMedia('user_image') ? $chat->userInfo->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg')  }}" alt="" width="25px" height="25px">
             <span class="group-chat-user-name">{{ $chat->userInfo->name }}</span> <span class="date_chat-user">{{$chat->created_at->diffForHumans()}}</span>
