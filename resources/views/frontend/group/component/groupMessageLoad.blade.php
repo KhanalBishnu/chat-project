@@ -4,6 +4,13 @@
             <div class="div_second_sender">
         <h4>{{ $chat->message }}  <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="{{ $chat->id }}" data-message="{{ $chat->message }} " data-bs-target="#groupChatDeleteModel"></i></span>
         </h4>
+        @if($chat->hasMedia('group_chat_image'))
+        <a  data-toggle="modal" data-target="#ImageViewModelOfGroup" chat="{{ $chat }}" class="imageView">
+       
+        <img class="img-fluid" src="{{ $chat->getMedia('group_chat_image')[0]->getFullUrl() }}" alt="">
+    </a>
+    
+    @endif
         <p><span class="date_chat-user">{{$chat->created_at->diffForHumans()}}</span></p>
 
         </div>
