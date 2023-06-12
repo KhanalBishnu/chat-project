@@ -1,4 +1,11 @@
 @extends('frontend.post.main')
+<style>
+.img-fluid{
+    height: 100px;
+    width: 100px;
+}
+
+</style>
 {{-- @extends('layouts.app') --}}
 @section('content')
 <div class="container-fluid mt-5">
@@ -61,6 +68,10 @@
                     {{-- chat here for sender and receiver  --}}
 
                 </div>
+
+         
+
+                <img id="pic" class="img-fluid" >
                 {{-- <div id="message-send-section">
                                 <form id="imageUpload" enctype="multipart/form-data">
                                     <input type="file" name="file" id="image">
@@ -74,23 +85,23 @@
                                     </div>
                                 </form>
                             </div> --}}
+                            
                 <div id="message-send-section">
-                    <i data-bs-toggle="modal" data-bs-target="#groupPhotosShow" class="fa-solid fa-photo-film group_photo"></i>
+                       
+                   
+                    <i data-bs-toggle="modal" data-bs-target="#groupPhotosShow"
+                        class="fa-solid fa-photo-film group_photo"></i>
 
-                    <form id="imageUpload" enctype="multipart/form-data" class="upload-form">
-                        <label for="image" class="upload-label">
-                            <i class="fas fa-image"></i>
-                        </label>
-                        <input type="file" name="file" id="image" class="upload-input">
-                        {{-- <button type="submit">Send Image</button> --}}
-                    </form>
-
-                    <form id="group-chat-form" class="message-form" enctype="multipart/form-data">
+                    <form id="group-chat-form" class="message-form upload-form" enctype="multipart/form-data">
                         <div class="input-group">
-                                {{-- <input type="file" name="file" id="image" class="upload-input"> --}}
-                            <input type="text" name="message" id="message" required placeholder="Enter message"
+                            <label for="image" class="upload-label">
+                                <i class="fas fa-image"></i>
+                            </label>
+                            <input type="file" name="file" id="image" class="upload-input" oninput="pic.src=window.URL.createObjectURL(this.files[0])">
+                            <input type="text" name="message" id="message" placeholder="Enter message"
                                 class="form-control">
-                            <button type="submit" id="send_message" class="btn btn-send">
+                                
+                            <button type="submit" id="send_message" class="btn btn-send" style="display:none;">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -154,62 +165,122 @@
     </div>
 </div>
 
-  <!--photos show  Modal -->
-  <div class="modal fade" id="groupPhotosShow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--photos show  Modal -->
+<div class="modal fade" id="groupPhotosShow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-                <div id="galleryShowImage"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-{{-- image shhow view 
-     --}}
-     <div class="modal fade" id="ImageViewModelOfGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </div>
+            <div class="modal-body">
+                <div id="galleryShowImage"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
-    // function imageload(){
-    //     // alert(global_group_id);
-    //     $.ajax({
-    //         type: "post",
-    //         url: "{{ route('GroupImageSend') }}",
-    //         // data: {group_id:global_group_id,sender_id:sender_id},
-    //         data: new FormData(this),
-    //         contentType:false,
-    //         cache:false,
-    //          processData:false,
-    //         success: function (res) {
+    $(document).ready(function(){
 
-    //         }
-    //     });
-        $(document).ready(function(){
+            // for send button
+            var message =$('#message');
+            var image =$('#image');
+            var image_file=image.prop('files');
+            
+            $('#message').on('input',function(){
+                $('#send_message').show();
+                if(message.val()=="" || message.val()==null ){
+                    $('#send_message').hide();
+                }else{
+                    $('#send_message').show();
+                }
+            });
+            $('#image').change(function(){
+               
+                var element = $(this);
+                // debugger
+                /* collect list of files choosen */
+                var size=element[0].files[0].size
+                var files = element[0].files;
+
+                var filename = files[0].name;
+               
+                var extension = filename.substr(filename.lastIndexOf("."));
+
+                var allowedExtensionsRegxIMG = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                var allowedExtensionsRegxPDF = /(\.pdf)$/i;
+                var allowedExtensionsRegxVid = /(\.mp4)$/i;
+                                                                                                                                                                                                      
+                /* testing extension with regular expression */
+                var isIMG = allowedExtensionsRegxIMG.test(extension);
+                var isPDF = allowedExtensionsRegxPDF.test(extension);
+                var isVID = allowedExtensionsRegxVid.test(extension);
+         
+              
+                    if(isPDF || isVID || isIMG){
+
+                    if(isPDF){
+                        if(size<4000000){
+                            
+                                $('#pic').show();
+                                $('#send_message').show();
+                        }else{
+                                $('#send_message').hide();
+                                $('#pic').hide();   
+                                $.notify("PDF must be less then 4MB.","warn");
+                        }
+                    }
+                    if(isVID){
+
+                        if(size<15000000){
+                                $('#pic').show();
+                                $('#send_message').show();
+                        }else{
+                                $('#send_message').hide();
+                                $('#pic').hide();   
+                                $.notify("Video must be less then 15MB.","warn");
+                        }
+                    }
+                    if(isIMG){
+                        if(size<4000000){
+    
+                            $('#pic').show();
+                            $('#send_message').show();
+                        }else{
+                            $('#send_message').hide();
+                            $('#pic').hide();   
+                            $.notify("Image must be less then 4MB.","warn");
+                        }
+                    }
+       
+                }else{
+                        $('#send_message').hide();
+                        $('#pic').hide();
+                        $.notify("Invalid File Type.","warn");
+                        $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
+                        setTimeout(()=>{
+                            let nextEl=$(element).next();
+                        
+                            if($(nextEl).prop("tagName")=="SPAN"){
+                                $(nextEl).remove();
+                            }
+                        },2000)
+
+                        return false;
+                }
+              
+            });
+
+
+
+
             function GroupScrollChat() {
                 $("#group-chat-container").animate(
                     {
@@ -235,7 +306,7 @@
                 $.ajax({
                     type: "post",
                     url: "{{ route('GroupImageSend') }}",
-                    // data: {group_id:global_group_id,sender_id:sender_id},
+                    
                     data:formData,
                     contentType:false,
                     cache:false,
@@ -243,6 +314,7 @@
 
                     success: function (res) {
                         if(res.status){
+                           
                             $('#image').val('');
                             $('#group-chat-container').append(res.view);
                             GroupScrollChat()

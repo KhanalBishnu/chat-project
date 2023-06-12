@@ -22,39 +22,61 @@ class GroupChatController extends Controller
 
         $groups=Group::where('creator_id',Auth::id())->get();
         $join_groups=DB::table('group_members')->where('user_id',Auth::id())->pluck('group_id')->toArray();
-        // dd($join_groups);
+       
         $other_groups=Group::whereIn('id',$join_groups)->get();
-        // dd($other_groups);
+      
         return view('frontend.group.groupChat',compact('groups','other_groups','user','count'));
     }
 
     public function chatStore(Request $request){
         $data=$request->all();
-        // dd($data);
+        
+    
         $sender_id=Auth::id();
        $chatGroup= GroupChat::create([
            'group_id'=>$data['group_id'],
            'message'=>$data['message'],
            'sender_id'=>$sender_id,
         ]);
-        if(array_key_exists('file',$data)){
-            $chatGroup->addMedia($data['file'])->toMediaCollection('group_chat_image');
+        if($data['file']!="undefined"){
+        
+            if(array_key_exists('file',$data)){
+                $file=$data['file'];
+                $size=$file->getSize()/1024/1024;
+                $fileName=$file->getClientoriginalName();
+                $exploaded=explode('.',$fileName);
+                $extension=$exploaded[count($exploaded)-1];
+                // dd($extension);
+                if($extension=="mp4"){
+                     $chatGroup->addMedia($data['file'])->toMediaCollection('group_chat_video');
+                }
+                if($extension=="pdf"){
+                     $chatGroup->addMedia($data['file'])->toMediaCollection('group_chat_pdf');
+                }
+                if($extension=="png" || $extension=="jpg" || $extension=="jpeg" || $extension=="gif"){
+
+                    $chatGroup->addMedia($data['file'])->toMediaCollection('group_chat_image');
+                }
+
+
+
+            }
         }
+      $image=$chatGroup->hasMedia('group_chat_image') ? $chatGroup->getMedia('group_chat_image')[0]->getFullUrl():'';
+      $video=$chatGroup->hasMedia('group_chat_video') ? $chatGroup->getMedia('group_chat_video')[0]->getFullUrl():'';
+      $pdf=$chatGroup->hasMedia('group_chat_pdf') ? $chatGroup->getMedia('group_chat_pdf')[0]->getFullUrl():'';
+        
 
         $groupMessage=GroupChat::with('userInfo','media')->where(['group_id'=>$data['group_id'], 'message'=>$data['message'],'sender_id'=>$sender_id,])->first();
+        
         $src=$groupMessage->userInfo->hasMedia('user_image') ? $groupMessage->userInfo->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg');
         $time=$groupMessage->created_at->diffForHumans();
-        // dd($groupMessage);
+  
 
-        $src=$chatGroup->hasMedia('group_chat_image') ? $chatGroup->getMedia('group_chat_image')[0]->getFullUrl():'';
+        // $src=$chatGroup->hasMedia('group_chat_image') ? $chatGroup->getMedia('group_chat_image')[0]->getFullUrl():'';
     
-        // $src =DB::table('media')->where('model_type','App\Models\GroupChat')->where('model_id',$groupMessage->id)->first();
-        // dd($src);
-
-        // $path= url('/').'/storage/'.$src->id.'/'.$src->file_name;
-    //   dd($path);
-
-        event(new GroupChatEvent($groupMessage,$src,$time));
+      
+        event(new GroupChatEvent($groupMessage,$src,$time,$image,$video,$pdf));
 
         return response()->json([
             'status'=>true,
@@ -64,15 +86,10 @@ class GroupChatController extends Controller
     public function loadGroupChatMessage(Request $request){
         $group=Group::find($request->group_id);
         $groupChats=GroupChat::with('userInfo','media')->where('group_id',$request->group_id)->get();
-        // dd($groupChats);
+      
 
         $user=User::find($request->sender_id);
-        // return response()->json([
-        //      'status'=>true,
-        //      'data'=>$groupChats,
-        //      'user'=>$user,
-        //      'group'=> $group,
-        // ]);
+       
         return response()->json([
             'status'=>true,
             'group'=> $group,
@@ -82,7 +99,21 @@ class GroupChatController extends Controller
     }
 
     public function deleteMessage($id){
-        GroupChat::find($id)->delete();
+        $chat=GroupChat::find($id);
+        if($chat){
+
+            if($chat->hasMedia('group_chat_image')){
+                $chat->clearMediaCollection('group_chat_image');
+            }
+            if($chat->hasMedia('group_chat_video')){
+                $chat->clearMediaCollection('group_chat_video');
+            }
+            if($chat->hasMedia('group_chat_pdf')){
+                $chat->clearMediaCollection('group_chat_pdf');
+            }
+            $chat->delete();
+        }
+
         event(new GroupChatMessageDelete($id));
         return response()->json([
             'status'=>true,
