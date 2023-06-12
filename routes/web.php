@@ -124,6 +124,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/groups/members/edit/{id}', 'groupEdit')->name('groupEdit');
         Route::get('share-group/{id}', 'GroupShare')->name('GroupShare');
         Route::post('group/joinGroup', 'joinGroup')->name('joinGroup');
+        Route::get('/group/member/show', 'showMemberGroup')->name('showMemberGroup');
     });
 });
 

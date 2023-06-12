@@ -201,5 +201,18 @@ class GroupController extends Controller
             ]);
         }
     }
+
+    public function showMemberGroup(Request $request){
+        $data=$request->all();
+        // dd($data);
+        $groupOwner=Group::find($data['group_id']);
+        $groupMembers=GroupMember::where('group_id',$data['group_id'])->get();
+        return response()->json([
+            'status'=>true,
+            'view'=>view('frontend.group.component.showMember',compact('groupMembers','groupOwner'))->render(),
+        ]);
+        // dd($groupMember);
+        
+    }
     
 }

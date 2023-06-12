@@ -268,6 +268,22 @@ $(document).ready(function(e) {
 
 
     });
+    $('.group_member_show').click(function(e){
+        var group_id=global_group_id;
+        var sender_id=sender_id;
+        // alert(sender_id);
+        $.ajax({
+            type: "get",
+            url: "/admin/group/member/show",
+            data: {group_id:group_id},
+           
+            success: function (res) {
+                if(res.status){
+                    $('#groupMember_show').html(res.view);
+                }
+            }
+        });
+    });
     $('#group-chat-form').submit(function(e){
         e.preventDefault();
         $('#send_message').prop('disabled',true);

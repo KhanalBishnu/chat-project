@@ -59,8 +59,9 @@
             <h1 class="start-head">Click For Start Chat</h1>
             <div class="group-chat-section ">
                 <div class="group-chat-header">
-                    Header
+                    Header 
                 </div>
+                <div id="memberName"><h5 class="float-right"><i class="fa-solid fa-bars group_member_show"  data-bs-toggle="modal" data-bs-target="#groupMemberShow" ></i></h5></div>
                 <div id="group-chat-container">
                     <span id="group_name"></span>
 
@@ -72,19 +73,7 @@
          
 
                 <img id="pic" class="img-fluid" >
-                {{-- <div id="message-send-section">
-                                <form id="imageUpload" enctype="multipart/form-data">
-                                    <input type="file" name="file" id="image">
-                                    <input type="submit" value="Send Image">
-                                </form>
-
-                                <form id="group-chat-form">
-                                    <div class="input-group">
-                                        <input type="text" name="message" id="message" required placeholder="Enter message" class="form-control">
-                                        <button type="submit" id="send_message" class="btn btn-send"><i class="fas fa-paper-plane"></i></button>
-                                    </div>
-                                </form>
-                            </div> --}}
+     
                             
                 <div id="message-send-section">
                        
@@ -175,6 +164,24 @@
             </div>
             <div class="modal-body">
                 <div id="galleryShowImage"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--photos show  Modal -->
+<div class="modal fade" id="groupMemberShow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Group Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div id="groupMember_show"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
