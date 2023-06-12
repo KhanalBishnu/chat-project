@@ -34,3 +34,6 @@ Broadcast::channel('delete-groupChat-message',function($user){
 Broadcast::channel('update-group-chatMessage',function($user){
     return $user;
 });
+Broadcast::channel('fileAdd-group-chat',function($user){
+    return $user;
+});

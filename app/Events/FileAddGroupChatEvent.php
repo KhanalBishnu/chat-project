@@ -34,6 +34,12 @@ class FileAddGroupChatEvent implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
+
+     
+    public function broadcastAs(){
+        return "fileAddedGroupChat";
+    }
+
     public function broadcastOn()
     {
         return new PrivateChannel('fileAdd-group-chat');

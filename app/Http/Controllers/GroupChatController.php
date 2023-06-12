@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\GroupChat;
 use Illuminate\Http\Request;
 use App\Events\GroupChatEvent;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Events\FileAddGroupChatEvent;
@@ -29,31 +30,40 @@ class GroupChatController extends Controller
 
     public function chatStore(Request $request){
         $data=$request->all();
+        // dd($data);
         $sender_id=Auth::id();
-        GroupChat::create([
+       $chatGroup= GroupChat::create([
            'group_id'=>$data['group_id'],
            'message'=>$data['message'],
            'sender_id'=>$sender_id,
         ]);
-        $groupMessage=GroupChat::with('userInfo')->where(['group_id'=>$data['group_id'], 'message'=>$data['message'],'sender_id'=>$sender_id,])->first();
+        if(array_key_exists('file',$data)){
+            $chatGroup->addMedia($data['file'])->toMediaCollection('group_chat_image');
+        }
+
+        $groupMessage=GroupChat::with('userInfo','media')->where(['group_id'=>$data['group_id'], 'message'=>$data['message'],'sender_id'=>$sender_id,])->first();
         $src=$groupMessage->userInfo->hasMedia('user_image') ? $groupMessage->userInfo->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg');
         $time=$groupMessage->created_at->diffForHumans();
-        // dd($time);
+        // dd($groupMessage);
+
+        $src=$chatGroup->hasMedia('group_chat_image') ? $chatGroup->getMedia('group_chat_image')[0]->getFullUrl():'';
+    
+        // $src =DB::table('media')->where('model_type','App\Models\GroupChat')->where('model_id',$groupMessage->id)->first();
+        // dd($src);
+
+        // $path= url('/').'/storage/'.$src->id.'/'.$src->file_name;
+    //   dd($path);
 
         event(new GroupChatEvent($groupMessage,$src,$time));
 
-        // return response()->json([
-        //      'status'=>true,
-        //      'data'=>$groupMessage,
-        // ]);
         return response()->json([
             'status'=>true,
-            'view'=>view('frontend.group.component.messageSend',compact('groupMessage'))->render()
+            'view'=>view('frontend.group.component.messageSend',compact('groupMessage','src'))->render()
         ]);
     }
     public function loadGroupChatMessage(Request $request){
         $group=Group::find($request->group_id);
-        $groupChats=GroupChat::with('userInfo')->where('group_id',$request->group_id)->get();
+        $groupChats=GroupChat::with('userInfo','media')->where('group_id',$request->group_id)->get();
         // dd($groupChats);
 
         $user=User::find($request->sender_id);
@@ -98,17 +108,44 @@ class GroupChatController extends Controller
 
     public function GroupImageSend(Request $request){
         $data=$request->all();
+        // dd($data);
+        $sender_id=$data['sender_id'];
         $groupChat=GroupChat::where('group_id',$data['group_id'])->first();
         $groupChat->addMedia($data['file'])->toMediaCollection('group_chat_image');
-        $sender_id=$data['sender_id'];
+        // $sender_id=$data['sender_id'];
         $src=$groupChat->hasMedia('group_chat_image') ? $groupChat->getMedia('group_chat_image')[0]->getFullUrl():'';
-
-
-        event(new FileAddGroupChatEvent($groupChat,$sender_id,$src));
+        // dd($src);
+    
+        $src =DB::table('media')->where('model_type','App\Models\GroupChat')->where('model_id',$groupChat->id)->orderByDesc('created_at')->first();
+      $path= url('/').'/storage/'.$src->id.'/'.$src->file_name;
+        // dd($path);
+        event(new FileAddGroupChatEvent($sender_id,$groupChat,$path));
         return response()->json([
              'status'=>true,
-             'view'=>view('frontend.group.component.fileAdd',compact('groupChat','sender_id'))->render()
+             'view'=>view('frontend.group.component.fileAdd',compact('groupChat','sender_id','path','src'))->render()
          ]);
 
     }
+    public function deleteGroupChatImage(Request $request){
+        dd($request->all());
+    }
+
+    public function showGroupPic(Request $request){
+        // dd($request->all());
+        $group=GroupChat::where('group_id',$request->group_id)->with('media')->first();
+        // dd(count($group->getMedia('group_chat_image'))>0);
+        // foreach ($group->getMedia('group_chat_image') as $key => $value) {
+        //     dd($value->getUrl());
+        // }
+        
+        if($group){
+            return response()->json([
+                'status'=>true,
+                'view'=> view('frontend.group.component.showgallery',compact('group'))->render()
+            ]);
+        }
+
+
+    }
+
 }
