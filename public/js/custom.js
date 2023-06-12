@@ -270,6 +270,8 @@ $(document).ready(function(e) {
     });
     $('#group-chat-form').submit(function(e){
         e.preventDefault();
+        $('#send_message').prop('disabled',true);
+        $('#send_message').text("Sending..");
         var message=$('#message').val();
         let url= "/group/message";
         var file_data = $('#image').prop('files')[0];
@@ -288,8 +290,11 @@ $(document).ready(function(e) {
             processData:false,
             success: function (res) {
                 if(res.status){
+
                     $('#message').val('')
-                    
+                    $('#send_message').text();
+                    $('#pic').remove();
+                    $('#send_message').hide();
                     $('#group-chat-container').append(res.view);
                     loadGroupChat()
                 }
@@ -373,7 +378,7 @@ Echo.private('fileAdd-group-chat').listen('.fileAddedGroupChat', data => {
             `
         <div class="chat-color group-chat-receiver" id="group_chat-${ data.groupChat.id }">
          <div class="image-section">
-         <img src="${data.src}" alt="" width="100px" height="100px">
+         <img src="${data.src}" alt="" width="150px" height="150px">
         </div>
          </div>
         `;
@@ -392,19 +397,49 @@ Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =
 });
 // for create message broadcast
 Echo.private("group-chat-channel").listen(".groupChatData", data => {
-    // alert(data);
+   console.log(data.chat);
+   
+    
     if (
         sender_id != data.chat.sender_id &&
         global_group_id == data.chat.group_id
     ) {
         let html =
             `
-        <div class="chat-color group-chat-receiver" id="group_chat-${ data.chat.id }">
-         <h4> ${ data.chat.message }</h4>
-         <div class="image-section">
-         <img src="${data.src}" alt="" width="25px" height="25px">
+        <div class="chat-color group-chat-receiver" id="group_chat-${ data.chat.id }">`
+        if(data.chat.message="null"){
+            html+=``
+        }else{
+            html+=`
+            <h4> ${ data.chat.message }</h4>
+            <div class="image-section">`
+        }
+         if(data.image!=""){
+             html+=`
+            <a href="${data.image}" target="_blank">
+                <img src="${data.image}" alt="" width="200px" height="200px">
+            </a>`
+         }
+         if(data.video!=""){
+            html+=  `
+            <a  href="${data.video}" class="img-f;" target="_black">
+                <video width="200" height="200" autoplay>
+                    <source src="${data.video} " type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </a>`
+         }
+         if(data.pdf!=""){
+             html+=
+             `
+             <a  href="${data.pdf}" class="img-f;" target="_black">
+                
+              <embed src= "${data.pdf}" width= "400" height= "300">
+             </a>`
+         }
+         html+=`
+         <img src="${data.src}" alt="" width="20px" height="20px">
          <span class="group-chat-user-name">  </span> <span class="date_chat-user">${data.time}</span>
-
         </div>
          </div>
         `;

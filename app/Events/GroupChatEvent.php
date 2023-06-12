@@ -22,12 +22,18 @@ class GroupChatEvent implements ShouldBroadcast
     public $chatData;
     public $src;
     public $time;
+    public $image;
+    public $video;
+    public $pdf;
    
-    public function __construct($chatData,$src,$time)
+    public function __construct($chatData,$src,$time,$image,$video,$pdf)
     {
         $this->chatData=$chatData;
         $this->src=$src;
         $this->time=$time;
+        $this->image=$image;
+        $this->video=$video;
+        $this->pdf=$pdf;
         // dd($time);
 
     }
@@ -43,7 +49,7 @@ class GroupChatEvent implements ShouldBroadcast
     }
 
     public function broadcastWith(){
-        return ['chat'=>$this->chatData,'src'=>$this->src,'time'=>$this->time];
+        return ['chat'=>$this->chatData,'src'=>$this->src,'time'=>$this->time,'image'=>$this->image,'video'=>$this->video,'pdf'=>$this->pdf];
     }
     public function broadcastOn()
     {
