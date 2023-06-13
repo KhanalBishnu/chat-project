@@ -17,7 +17,7 @@ class CreateGroupChatsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('group_id');
-            $table->text('message');
+            $table->text('message')->nullable();
             $table->foreign('sender_id')->references('id')->on('users');
             $table->foreign('group_id')->references('id')->on('groups');
             $table->timestamps();

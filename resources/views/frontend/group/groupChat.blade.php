@@ -70,8 +70,11 @@
                 </div>
 
          
+                <div id="fileDiv">
 
-                <img id="pic" class="img-fluid" >
+                    {{-- <img id="pic" class="img-fluid" > --}}
+                </div>
+             
                 {{-- <div id="message-send-section">
                                 <form id="imageUpload" enctype="multipart/form-data">
                                     <input type="file" name="file" id="image">
@@ -97,7 +100,7 @@
                             <label for="image" class="upload-label">
                                 <i class="fas fa-image"></i>
                             </label>
-                            <input type="file" name="file" id="image" class="upload-input" oninput="pic.src=window.URL.createObjectURL(this.files[0])">
+                            <input type="file" name="file" id="image" class="upload-input">
                             <input type="text" name="message" id="message" placeholder="Enter message"
                                 class="form-control">
                                 
@@ -117,6 +120,7 @@
         @endif
     </div>
 </div>
+
 
 <!-- edit groupchat Modal -->
 <div class="modal fade" id="groupChatEditModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -188,95 +192,115 @@
 
 <script>
     $(document).ready(function(){
-
             // for send button
             var message =$('#message');
             var image =$('#image');
-            var image_file=image.prop('files');
+        var image_file=image.prop('files');
+        
+        $('#message').on('input',function(){
             
-            $('#message').on('input',function(){
+            $('#send_message').show();
+            if(message.val()=="" || message.val()==null ){
+                $('#send_message').hide();
+            }else{
                 $('#send_message').show();
-                if(message.val()=="" || message.val()==null ){
-                    $('#send_message').hide();
-                }else{
-                    $('#send_message').show();
-                }
-            });
-            $('#image').change(function(){
-               
-                var element = $(this);
-                // debugger
-                /* collect list of files choosen */
-                var size=element[0].files[0].size
-                var files = element[0].files;
+            }
+        });
+        $('#image').change(function(){
+            $('#fileDiv').html('');
+            var element = $(this);
+            // debugger
+            /* collect list of files choosen */
+            var size=element[0].files[0].size
+            var files = element[0].files;
 
-                var filename = files[0].name;
-               
-                var extension = filename.substr(filename.lastIndexOf("."));
+            var filename = files[0].name;
+            
+            var extension = filename.substr(filename.lastIndexOf("."));
 
-                var allowedExtensionsRegxIMG = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-                var allowedExtensionsRegxPDF = /(\.pdf)$/i;
-                var allowedExtensionsRegxVid = /(\.mp4)$/i;
-                                                                                                                                                                                                      
-                /* testing extension with regular expression */
-                var isIMG = allowedExtensionsRegxIMG.test(extension);
-                var isPDF = allowedExtensionsRegxPDF.test(extension);
-                var isVID = allowedExtensionsRegxVid.test(extension);
-         
-              
-                    if(isPDF || isVID || isIMG){
+            var allowedExtensionsRegxIMG = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            var allowedExtensionsRegxPDF = /(\.pdf)$/i;
+            var allowedExtensionsRegxVid = /(\.mp4)$/i;
+                                                                                                                                                                                                    
+            /* testing extension with regular expression */
+            var isIMG = allowedExtensionsRegxIMG.test(extension);
+            var isPDF = allowedExtensionsRegxPDF.test(extension);
+            var isVID = allowedExtensionsRegxVid.test(extension);
+            var source=window.URL.createObjectURL(files[0]);
+            
+            
+                if(isPDF || isVID || isIMG){
 
-                    if(isPDF){
-                        if(size<4000000){
+                if(isPDF){
+                    if(size<4000000){
+                
+                            $('#fileDiv').html(` <span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                <embed  class="delete_select_file" src= "${source}" width= "80" height= "80">`);
                             
-                                $('#pic').show();
-                                $('#send_message').show();
-                        }else{
-                                $('#send_message').hide();
-                                $('#pic').hide();   
-                                $.notify("PDF must be less then 4MB.","warn");
-                        }
-                    }
-                    if(isVID){
-
-                        if(size<15000000){
-                                $('#pic').show();
-                                $('#send_message').show();
-                        }else{
-                                $('#send_message').hide();
-                                $('#pic').hide();   
-                                $.notify("Video must be less then 15MB.","warn");
-                        }
-                    }
-                    if(isIMG){
-                        if(size<4000000){
-    
-                            $('#pic').show();
                             $('#send_message').show();
-                        }else{
+                    }else{
                             $('#send_message').hide();
-                            $('#pic').hide();   
-                            $.notify("Image must be less then 4MB.","warn");
-                        }
+                            $('#fileDiv').html('');
+                            
+                            $.notify("PDF must be less then 4MB.","warn");
                     }
-       
-                }else{
-                        $('#send_message').hide();
-                        $('#pic').hide();
-                        $.notify("Invalid File Type.","warn");
-                        $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
-                        setTimeout(()=>{
-                            let nextEl=$(element).next();
-                        
-                            if($(nextEl).prop("tagName")=="SPAN"){
-                                $(nextEl).remove();
-                            }
-                        },2000)
-
-                        return false;
                 }
-              
+                if(isVID){
+
+                    if(size<15000000){
+                            // $('#pic').show();
+                            $('#fileDiv').html(`<span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                <video  class="delete_select_file" width="80" height="80" autoplay>
+                                <source src="${source} " type="video/mp4">
+                                Your browser does not support the video tag.
+                                    </video>`)
+                            $('#send_message').show();
+                    }else{
+                            $('#send_message').hide();
+                            $('#fileDiv').html('');
+                        
+                            $.notify("Video must be less then 15MB.","warn");
+                    }
+                }
+                if(isIMG){
+                    if(size<4000000){
+                        $('#fileDiv').html(`<span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                        <img  class="delete_select_file" id="pic" src='${source}' class="img-fluid" >`);
+                        
+                        $('#send_message').show();
+                    }else{
+                        $('#send_message').hide();
+                        
+                        $('#fileDiv').html('');
+
+                        $.notify("Image must be less then 4MB.","warn");
+                    }
+                }
+                
+    
+            }else{
+                    $('#send_message').hide();
+                    $('#pic').hide();
+                    $.notify("Invalid File Type.","warn");
+                    $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
+                    setTimeout(()=>{
+                        let nextEl=$(element).next();
+                    
+                        if($(nextEl).prop("tagName")=="SPAN"){
+                            $(nextEl).remove();
+                        }
+                    },2000)
+
+                    return false;
+            }
+            $('#removie_file').click(function(){
+                $('.delete_select_file').remove();
+                $('#send_message').show();
+                $('#removie_file').remove();
+                $('#image').val('');
             });
+            
+        });
 
 
 
@@ -314,7 +338,9 @@
 
                     success: function (res) {
                         if(res.status){
-                           
+                        
+                            // $('.delete_select_file').remove();
+                            $('#fileDiv').html('');
                             $('#image').val('');
                             $('#group-chat-container').append(res.view);
                             GroupScrollChat()

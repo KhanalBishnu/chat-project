@@ -4,7 +4,6 @@ $.ajaxSetup({
     }
 });
 $(document).ready(function(e) {
-    // $('chat-container').html('');
 
     $(".user_list").click(function(e) {
         e.preventDefault();
@@ -17,49 +16,128 @@ $(document).ready(function(e) {
         $(".start-head").hide();
         $(".user_profile").hide();
         $(".chat-section").show();
+        // name of user 
+        var userName=$(this).attr('data-name');
+        $('.group-chat-header').text(userName);
 
-        // for old message show
         loadOldChat();
         $("#" + receiver_id + "-select_status").addClass("user-select");
-        // scroll auto make
         $("#chat-container")
             .get(0)
             .scrollIntoView({ behavior: "smooth" });
     });
 
+    // for message button
+    $('#message').on('input',function(){
+        let val=$('#message').val();
+        if(val=="" || val==null){
+            $('#send_message').hide();
+        }else{
+            $('#send_message').show();
+        }
+       
+    });
+    // for file and send button 
+    $('#image').change(function(){
+        $('#fileDivShow').html();
+
+        let element=$(this);
+       
+        let fileName=element[0].files[0].name;
+        let size=element[0].files[0].size;
+        let file_extension=fileName.substr(fileName.lastIndexOf("."));
+        let validExtensionIMG=/(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        let validExtensionVID=/(\.mp4)$/i;
+        let validExtensionPDF=/(\.pdf)$/i;
+        let isIMG=validExtensionIMG.test(file_extension);
+        let isVID=validExtensionVID.test(file_extension);
+        let isPDF=validExtensionPDF.test(file_extension);
+
+        var source=window.URL.createObjectURL(this.files[0]);
+       
+
+        if(isIMG || isPDF || isVID){
+            if(isIMG){
+                if(size<4000000){
+                    $('#send_message').show();
+                    $('#fileDivShow').html(`<span class="text-danger" id="file_delete"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                    <img class="delete_select_file" src="${source}" height="80" width="80">`)
+
+                }else{
+                    $.notify("Image must be less ten 4 MB");
+                    $('#fileDivShow').html();
+                    $('#send_message').hide();
+                }
+            }
+            if(isVID){
+                if(size<15000000){
+                    $('#send_message').show();
+                    $('#fileDivShow').html(`<span class="text-danger" id="file_delete"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                    <  class="delete_select_file" video width="80" height="80" autoplay>
+                    <source src="${source} " type="video/mp4">
+                    Your browser does not support the video tag.
+                        </video>`);
+
+                }else{
+                    $.notify("Video must be less ten 15 MB");
+                    $('#fileDivShow').html();
+                    $('#send_message').hide();
+                }
+            }
+            if(isPDF){
+                if(size<4000000){
+                    $('#send_message').show();
+                    $('#fileDivShow').html(`<span class="text-danger" id="file_delete"><i class="fa fa-trash " aria-hidden="true"></i></span>
+                    <embed  class="delete_select_file" src="${source}" class="img-fluid" height="80" width="80">`);
+
+                }else{
+                    $.notify("PDF must be less ten 4 MB");
+                    $('#fileDivShow').html();
+                    $('#send_message').hide();
+                }
+            }
+        }
+        else{
+            $.notify("File Format Is Invalid!");
+        }
+        $('#file_delete').click(function(){
+            $('.delete_select_file').remove();
+            $('#file_delete').remove();
+            $('#image').val('');
+        });
+    })
+
     $("#chat-form").submit(function(e) {
         e.preventDefault();
         var message = $("#message").val();
-        // alert(message);
+        // var file=$('#image').prop('files')[0];
+        var file_data = $('#image').prop('files')[0];
+        var dataForm=new FormData();
+        dataForm.append('sender_id',sender_id);
+        dataForm.append('receiver_id',receiver_id);
+        dataForm.append('message',message);
+        dataForm.append('file',file_data);
+        
         $.ajax({
             type: "POST",
             url: "/home/chat",
-            data: {
-                sender_id: sender_id,
-                receiver_id: receiver_id,
-                message: message
-            },
-            success: function(res) {
-                // alert(response);
-                // console.log(res.data);
-                $("#message").val("");
-                // let chat = res.data.message;
-                // let html =
-                //     `
-                //      <div class="chat-color chat-sender" id="` +
-                //     res.data.id +
-                //     `-chat">
-                //         <h4>
-                //             <span>` +
-                //     chat +
-                //     ` </span>
-                //             <i class="fa fa-trash" aria-hidden="true" data-id="` +
-                //     res.data.id +
-                //     `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
+            contentType:false,
+            processData:false,
+            cache:false,
+            // data: {
+            //     sender_id: sender_id,
+            //     receiver_id: receiver_id,
+            //     message: message
+            // },
+            data:dataForm,
 
-                //         </h4>
-                //      </div>
-                // `;
+            success: function(res) {
+                $('.delete_select_file').remove();
+                $('#file_delete').remove();
+                $('#image').val('');
+                $("#message").val("");
+                $('#send_message').hide();
+              
                 $("#chat-container").append(res.view);
                 ScrollChat();
             }
@@ -75,14 +153,11 @@ $(document).ready(function(e) {
                 .find("span")
                 .text()
         );
-        // console.log(id);
     });
 
     // message deleting
     $(".delete_message").click(function() {
-        // e.preventDefault();
         var id = $("#delete_message_id").val();
-
         $.ajax({
             type: "post",
             url: "/delete-chat",
@@ -106,54 +181,6 @@ function loadOldChat() {
         data: { sender_id: sender_id, receiver_id: receiver_id },
         success: function(res) {
             if (res.success) {
-
-
-                // // console.log(res.user);
-                // let user_name= res.user.name
-                // let user_name =
-                //     `
-                // <p>` +
-                //     res.user.name +
-                //     `</p>
-                // `;
-                // $("#chat-container").append(user_name);
-
-                // let chats = res.data;
-                // let html = "";
-                // for (let i = 0; i < chats.length; i++) {
-                //     let addClass = "";
-                //     if (chats[i].sender_id == sender_id) {
-                //         addClass = "chat-sender";
-                //     } else {
-                //         addClass = "chat-receiver";
-                //     }
-                //     html +=
-                //         `
-
-                //         <div class=" ` +
-                //         addClass +
-                //         `" id="` +
-                //         chats[i].id +
-                //         `-chat">
-                //         <h4>
-                //         <span>` +
-                //         chats[i].message +
-                //         ` </span>`;
-
-                //     if (chats[i].sender_id == sender_id) {
-                //         html +=
-                //             `
-                //              <i class="fa fa-trash" aria-hidden="true" data-id="` +
-                //             chats[i].id +
-                //             `" data-bs-toggle="modal" data-bs-target="#DeleteMessageModal"></i>
-                //             `;
-                //     }
-
-                //     html += ` </h4>
-                //                  </div> `;
-                //     $("#chat-container").append(html);
-
-                // }
              $("#chat-container").append(res.view);
                 ScrollChat();
             } else {
@@ -161,7 +188,6 @@ function loadOldChat() {
             }
         }
     });
-    // <p>`+user.name+`</p>
 }
 
 function ScrollChat() {
@@ -176,7 +202,7 @@ function ScrollChat() {
 }
 Echo.join("user-status")
     .here(users => {
-        // console.log(users);
+       
         for (let x = 0; x < users.length; x++) {
             if (sender_id != users[x]["id"]) {
                 $("#" + users[x]["id"] + "-status").removeClass(
@@ -191,11 +217,10 @@ Echo.join("user-status")
         $("#" + user.id + "-status").removeClass("offline-status");
         $("#" + user.id + "-status").addClass("online-status");
         $("#" + user.id + "-status").text("Online");
-        console.log(user + "hyy");
+        
     })
 
     .leaving(user => {
-        //    console.log(user+'by');
         $("#" + user.id + "-status").removeClass("online-status");
         $("#" + user.id + "-status").addClass("offline-status");
         $("#" + user.id + "-status").text("Offline");
@@ -215,13 +240,42 @@ Echo.private("chat-data").listen(".getChatMessage", data => {
             `
         <div class="chat-color chat-receiver" id="` +
             data.chat.id +
-            `-chat">
-         <h4>` +
-            data.chat.message +
-            `</h4>
+            `-chat">`
+        if(data.image!=""){
+            html+= `
+            <a href="${data.image}" target="_blank">
+            <img src="${data.image}" alt="" width="150" height="150">
+        </a>`
+        }
+        if(data.pdf!=""){
+            html+=`
+            <a  href="${data.pdf}" class="img-f;" target="_black">
+                
+            <embed src= "${data.pdf}"  width="150" height="150">
+           </a>`
+        }
+        if(data.video!=""){
+            html+=`
+            <a  href="${data.video}" class="img-f;" target="_black">
+            <video width="150" height="150" autoplay>
+                <source src="${data.video} " type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+             </a>`
+        }
+        if(data.chat.message="null"){
+            html+=``
+        }else{
 
-         </div>
-        `;
+            html+=
+             `
+             <h4>` +
+                data.chat.message +
+                `</h4>`
+        }
+
+        html+=` </div>
+             `;
         $("#chat-container").append(html);
         ScrollChat();
     }
@@ -292,10 +346,14 @@ $(document).ready(function(e) {
                 if(res.status){
 
                     $('#message').val('')
-                    $('#send_message').text();
-                    $('#pic').remove();
+                    $('.delete_select_file').remove();
+                    
+                    $('#removie_file').remove();
+                    $('#image').val('');
+                   
                     $('#send_message').hide();
                     $('#group-chat-container').append(res.view);
+                    $('#send_message').hide();
                     loadGroupChat()
                 }
             }
@@ -397,7 +455,7 @@ Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =
 });
 // for create message broadcast
 Echo.private("group-chat-channel").listen(".groupChatData", data => {
-   console.log(data.chat);
+//    console.log(data.chat);
    
     
     if (

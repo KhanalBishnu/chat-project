@@ -33,17 +33,38 @@ class UserController extends Controller
 
     public function saveChat(Request $request){
         try {
+          
             $chat=Chat::create([
                 'sender_id'=>$request->sender_id,
                 'receiver_id'=>$request->receiver_id,
                 'message'=>$request->message
             ]);
+            if($request->file !="undefined"){
+                $file=$request->file;
+                $fileName=$file->getClientoriginalName();
+                $exploded=explode('.',$fileName);
+                $file_extension=$exploded[count($exploded)-1];
+                if($file_extension=="pdf"){
+
+                    $chat->addMedia($request->file)->toMediaCollection('chat_pdf');
+                }
+                if($file_extension=="mp4"){
+
+                    $chat->addMedia($request->file)->toMediaCollection('chat_video');
+                }
+                if($file_extension=="png" ||$file_extension=="jpg" || $file_extension=="jpeg" ||$file_extension=="gif"  ){
+                    $chat->addMedia($request->file)->toMediaCollection('chat_image');
+                }
+            }
             $user=User::find($request->sender_id);
             $data['message']=$request->message;
             $data['sender_id']=$user->name;
+            $image=$chat->hasMedia('chat_image')?$chat->getMedia('chat_image')[0]->getFullUrl():'';
+            $pdf=$chat->hasMedia('chat_pdf')?$chat->getMedia('chat_pdf')[0]->getFullUrl():'';
+            $video=$chat->hasMedia('chat_video')?$chat->getMedia('chat_video')[0]->getFullUrl():'';
          
           
-            event(new MessageEvent($chat));
+            event(new MessageEvent($chat,$image,$pdf,$video));
             Notification::send(User::where('id',$request->receiver_id)->first(),new messageSendNotify($data));
 
             return response()->json([
