@@ -53,6 +53,9 @@ Route::middleware('auth')->controller(UserController::class)->group(function () 
     Route::get('/userProfile', 'userProfile')->name('userProfile')->middleware('auth');
     Route::post('/ProfileChange/photo/{id}', 'ProfileChange')->name('ProfileChange');
     Route::PUT('/ProfileChange/{id}', 'user_password')->name('user_password');
+    // search
+    Route::get('/search/user', 'searchUserChat')->name('searchUserChat');
+
 
     // notification
 

@@ -232,6 +232,8 @@ Echo.join("user-status")
 Echo.private("chat-data").listen(".getChatMessage", data => {
 
     // alert(data);
+    let message=data.chat.message;
+    debugger
     if (
         sender_id == data.chat.receiver_id &&
         receiver_id == data.chat.sender_id
@@ -263,15 +265,19 @@ Echo.private("chat-data").listen(".getChatMessage", data => {
             </video>
              </a>`
         }
-        if(data.chat.message="null"){
-            html+=``
-        }else{
+        if(data.chat.message){
+           
 
             html+=
              `
              <h4>` +
                 data.chat.message +
                 `</h4>`
+        }
+        if(data.user){
+            html+=  `
+            <span><img src="${data.user}" height="20" width="20"></span>
+            `
         }
 
         html+=` </div>

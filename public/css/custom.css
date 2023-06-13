@@ -184,6 +184,41 @@
 .btn-send i {
     margin-right: 5px;
 }
+/* message view */
+.input-group{
+    background-color: #e7e8f3;
+    padding: 10px 2px;
+    border-radius: 2%;
+}
+.input-group:hover{
+    background-color: #606064;
+}
+#message{
+    background-color: #e7e8f3;
+}
+.upload-label{
+    background-color: #e7e8f3;
+    position: relative;
+    margin-top: 8px;
+}
+.fa-paper-plane{
+    background-color: #0084ff;
+}
+#send_message{
+    background-color: #0084ff;
+    padding: 10px;
+
+}
+
+/* search  */
+input{
+    background-color: rgb(158, 141, 141);
+    padding: 5px;
+    width: 400px;
+    height: 40px;
+    
+}
+
 
 
 

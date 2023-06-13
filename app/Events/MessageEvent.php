@@ -19,13 +19,14 @@ class MessageEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public $chatData,$image,$pdf,$video;
-    public function __construct($chatData,$image,$pdf,$video)
+    public $chatData,$image,$pdf,$video,$user_image;
+    public function __construct($chatData,$image,$pdf,$video,$user_image)
     {
         $this->chatData=$chatData;
         $this->image=$image;
         $this->pdf=$pdf;
         $this->video=$video;
+        $this->user_image=$user_image;
     }
 
     /**
@@ -38,7 +39,7 @@ class MessageEvent implements ShouldBroadcast
         return 'getChatMessage';
     }
     public function broadcastWith(){
-        return ['chat'=>$this->chatData,'image'=>$this->image,'pdf'=>$this->pdf,'video'=>$this->video];
+        return ['chat'=>$this->chatData,'image'=>$this->image,'pdf'=>$this->pdf,'video'=>$this->video,'user'=>$this->user_image];
     }
     public function broadcastOn()
     {

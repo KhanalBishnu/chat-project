@@ -62,9 +62,10 @@ class UserController extends Controller
             $image=$chat->hasMedia('chat_image')?$chat->getMedia('chat_image')[0]->getFullUrl():'';
             $pdf=$chat->hasMedia('chat_pdf')?$chat->getMedia('chat_pdf')[0]->getFullUrl():'';
             $video=$chat->hasMedia('chat_video')?$chat->getMedia('chat_video')[0]->getFullUrl():'';
+            $user_image=$user->hasMedia('user_image')?$user->getMedia('user_image')[0]->getFullUrl():asset('image/images.jpg');
          
           
-            event(new MessageEvent($chat,$image,$pdf,$video));
+            event(new MessageEvent($chat,$image,$pdf,$video,$user_image));
             Notification::send(User::where('id',$request->receiver_id)->first(),new messageSendNotify($data));
 
             return response()->json([
@@ -103,7 +104,9 @@ class UserController extends Controller
         }
     }
 
-    public function userProfile(){
+    public function userProfile(Request $request){
+        // if($request->)
+        dd($request->all());
         
         $id=Auth::id();
         if($id){
@@ -185,7 +188,19 @@ class UserController extends Controller
     // delete chat 
     public function messageDelete(Request $request){
         try {
-                Chat::where('id',$request->id)->delete();
+               $chat= Chat::where('id',$request->id)->first();
+               if($chat){
+                    if($chat->hasMedia('chat_image')){
+                        $chat->clearMediaCollection('chat_image');
+                    }
+                    if($chat->hasMedia('chat_video')){
+                        $chat->clearMediaCollection('chat_video');
+                    }
+                    if($chat->hasMedia('chat_pdf')){
+                        $chat->clearMediaCollection('chat_pdf');
+                    }
+                 $chat->delete();
+               }
                 event(new MessageDeletedEvent($request->id));
             
             return response()->json(['success'=>true,'msg'=>'Message deleted successfully']);
@@ -219,5 +234,24 @@ class UserController extends Controller
 
             ]);
       
+    }
+    public function searchUserChat(Request $request){
+        // dd($request->all());
+        $search=$request->search;
+        if($search){
+            $users=User::where('name','like','%'.$search.'%')->get();
+            return response()->json([
+                'status'=>true,
+                'view'=>view('frontend.chat-container.searchUser',compact('users'))->render()
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'message'=>'Not User Found'
+            ]);
+        }
+        
+
+        
     }
 }
