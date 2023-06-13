@@ -13,7 +13,7 @@
             <ul class="list-group">
                 @foreach ($users as $user)
                 <li id="{{ $user->id }}-select_status"
-                    class="list-group-item list-group-item-dark cursor-pointer user_list " data-id="{{ $user->id }}">
+                    class="list-group-item list-group-item-dark cursor-pointer user_list " data-id="{{ $user->id }}" data-name="{{ $user->name }}">
 
                     @if ($user->hasMedia('user_image'))
                     <img src="{{ $user->getMedia('user_image')[0]->getFullUrl() }}" alt="" class="img-thumbnail"
@@ -30,25 +30,34 @@
                 @endforeach
             </ul>
         </div>
+        
 
         <div class="col-lg-9 mt-4">
             <h1 class="start-head">Click For Start Chat</h1>
             <div class="chat-section ">
+                    <div class="group-chat-header">
+                            Header
+                        </div>
                 <div id="chat-container">
 
 
                     {{-- chat here for sender and receiver  --}}
 
                 </div>
+                <div id="fileDivShow"></div>
+               
                 <form action="" id="chat-form">
                     <div class="input-group">
-                        <input type="text" name="message" id="message" required placeholder="Enter message"
+                            <label for="image" class="upload-label">
+                                    <i class="fas fa-image"></i>
+                                </label>
+                                <input type="file" name="file" id="image" class="upload-input">
+                        <input type="text" name="message" id="message"  placeholder="Enter message"
                             class="form-control">
-                        <button type="submit" id="send_message" class="btn btn-primary"> <i
+                        <button style="display:none" type="submit" id="send_message" class="btn btn-primary"> <i
                                 class="fas fa-paper-plane"></i></button>
                 </form>
-
-
+                
 
             </div>
         </div>
