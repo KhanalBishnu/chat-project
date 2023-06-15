@@ -20,6 +20,7 @@
              
             </form>
         </div>
+       
         <div class="col-lg-1"></div>
         <div class="col-lg-3  ">
             <h3 class="text-white bg-warning text-center">{{ $user->name }} Profile </h3>
@@ -30,6 +31,9 @@
             </div>
         </div>
     </div>
+    <div class="message_send">
+           <a href="{{ route('chat') }}"> Lets Chat</a>
+        </div>
 </div>
 </div>
 

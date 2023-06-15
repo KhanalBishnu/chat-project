@@ -219,6 +219,20 @@ input{
     
 }
 
+/* message send user profile */
+.message_send{
+    background-color: #007bff;
+    width: 100px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    margin-top: 20px;
+    margin-left: 30px;
+
+
+}
+
 
 
 

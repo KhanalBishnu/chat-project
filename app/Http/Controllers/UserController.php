@@ -105,8 +105,6 @@ class UserController extends Controller
     }
 
     public function userProfile(Request $request){
-        // if($request->)
-        dd($request->all());
         
         $id=Auth::id();
         if($id){
