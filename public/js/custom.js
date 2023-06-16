@@ -347,15 +347,23 @@ $(document).ready(function(e) {
     $('#group-chat-form').submit(function(e){
         e.preventDefault();
         $('#send_message').prop('disabled',true);
-        $('#send_message').text("Sending..");
+        // $('#send_message').text("Sending..");
         var message=$('#message').val();
         let url= "/group/message";
-        var file_data = $('#image').prop('files')[0];
+        // var file_data = $('#image').prop('files')[0]; single file
+        var fileInput=$('#image');
+        var files = fileInput.get(0).files;
         var formData = new FormData();
         formData.append('message', message);
         formData.append('group_id', global_group_id);
-        formData.append('file', file_data);
+        // formData.append('file', file_data); single file
+        // for multiple file 
+        for (var i = 0; i < files.length; i++) {
+            formData.append('file[]', files[i]);
+          }
+      
         // let url= "{{ route('GroupchatStore') }}";
+
         $.ajax({
             type: "post",
             url:url,
@@ -365,14 +373,12 @@ $(document).ready(function(e) {
             cache:false,
             processData:false,
             success: function (res) {
+                
                 if(res.status){
-
+                    $('#send_message').prop('disabled',false);
                     $('#message').val('')
-                    $('.delete_select_file').remove();
-                    
-                    $('#removie_file').remove();
+                    $('#fileDiv').html('');
                     $('#image').val('');
-                   
                     $('#send_message').hide();
                     $('#group-chat-container').append(res.view);
                     $('#send_message').hide();

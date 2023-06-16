@@ -1,11 +1,12 @@
 @if($groupOwner->creator_id)
-
-    This Group Owner: <br>
+<div id="owner_profile">
+    <h5 id="text">This Group Owner: </h5><br>
+    <span id="owner_name">{{ $groupOwner->user->name }}</span>
     <a href="{{ route('friend_list.profile',$groupOwner->creator_id) }}">
-
-        <img src="{{ $groupOwner->user->hasMedia('user_image') ? $groupOwner->user->getMedia('user_image')[0]->getFullUrl():asset('image/images.jpg') }}" alt="" style="height:50px;width:40px"  >
+        <img id="img-view-member" src="{{ $groupOwner->user->hasMedia('user_image') ? $groupOwner->user->getMedia('user_image')[0]->getFullUrl():asset('image/images.jpg') }}" alt="">
     </a>
-    {{ $groupOwner->user->name }}
+</div>
+   
     @endif
 <br>
 <hr>
@@ -19,7 +20,7 @@
    
         <td>
             <a href="{{ route('friend_list.profile',$groupMember->user_id) }}">
-            <img src="{{ $groupMember->user->hasMedia('user_image') ? $groupMember->user->getMedia('user_image')[0]->getFullUrl():'' }}" alt="" style="height:50px;width:40px"  >
+            <img src="{{ $groupMember->user->hasMedia('user_image') ? $groupMember->user->getMedia('user_image')[0]->getFullUrl():'' }}" alt="">
         </a>
         </td>
         <td>

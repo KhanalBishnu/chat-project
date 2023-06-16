@@ -73,7 +73,8 @@ Route::middleware('auth')->controller(GroupChatController::class)->group(functio
     Route::post('/groups/message/image', 'GroupImageSend')->name('GroupImageSend');
     // Route::get('message-group/image-delete','deleteGroupChatImage')->name('deleteGroupChatImage');
     Route::post('/group/chat-image/delete', [GroupChatController::class, 'deleteGroupChatImage'])->name('Group_deleteImage');
-    Route::get('/group/chat-image/delete', [GroupChatController::class, 'showGroupPic'])->name('showGroupPic');
+    Route::get('/group/chat-image/show', [GroupChatController::class, 'showGroupPic'])->name('showGroupPic');
+    Route::get('/group/chat-imageFile/delete', [GroupChatController::class, 'DeleteGroupImageFile'])->name('DeleteGroupImageFile');
 
 });
 Route::middleware('auth')->prefix('admin')->group(function () {

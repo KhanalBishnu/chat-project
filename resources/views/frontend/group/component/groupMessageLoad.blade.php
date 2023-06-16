@@ -8,30 +8,41 @@
     @if (Auth::id()==$chat->sender_id)
     <div class="group-chat-sender" id="group_chat-{{ $chat->id }}">
             <div class="div_second_sender">
+                    @if ($chat->message!=null) 
         <h4>{{ $chat->message }}  <span class= "group_message_modal"><i class="fa fa-trash " aria-hidden="true"  data-bs-toggle="modal" data-id="{{ $chat->id }}" data-message="{{ $chat->message }} " data-bs-target="#groupChatDeleteModel"></i></span>
         </h4>
+        @endif
         @if($chat->hasMedia('group_chat_image'))
-             <a  href="{{  $chat->getMedia('group_chat_image')[0]->getFullUrl() }}" class="img-f;" target="_black">
+        <div class="file-store">
+            @foreach ($chat->getMedia('group_chat_image') as $groupFile)
+            <i class="fa fa-trash file_group_chat_delete"  data-id="{{ $groupFile->id }}"></i>   <a  href="{{  $groupFile->getFullUrl() }}" class="img-f;" target="_black">
        
-                  <img class="send_img" src="{{ $chat->getMedia('group_chat_image')[0]->getFullUrl() }}" alt="">
+                  <img class="send_img" src="{{ $groupFile->getFullUrl() }}" alt="">
              </a>
-    
+            @endforeach
+        </div>
         @endif
         @if($chat->hasMedia('group_chat_video'))
-            <a  href="{{  $chat->getMedia('group_chat_video')[0]->getFullUrl() }}" class="img-f;" target="_black">
-                <video width="200" height="200" autoplay>
-                    <source src="{{  $chat->getMedia('group_chat_video')[0]->getFullUrl() }} " type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </a>
-    
+        <div class="file-store">
+                @foreach ($chat->getMedia('group_chat_video') as $groupFile)
+                  <i class="fa fa-trash file_group_chat_delete"  data-id="{{ $groupFile->id }}"></i>  <a  href="{{  $groupFile->getFullUrl() }}" class="img-f;" target="_black">
+                        <video width="100" height="100" autoplay>
+                            <source src="{{   $groupFile->getFullUrl() }} " type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </a>
+            @endforeach
+        </div>
          @endif
         @if($chat->hasMedia('group_chat_pdf'))
-            <a  href="{{  $chat->getMedia('group_chat_pdf')[0]->getFullUrl() }}" class="img-f;" target="_black">
-                
-                    <embed src= "{{ $chat->getMedia('group_chat_pdf')[0]->getFullUrl()  }}" width= "400" height= "300">
-            </a>
-    
+        <div class="file-store">
+            @foreach ($chat->getMedia('group_chat_pdf') as $groupFile)
+            <i class="fa fa-trash file_group_chat_delete"  data-id="{{ $groupFile->id }}"></i>   <a  href="{{  $groupFile->getFullUrl() }}" class="img-f;" target="_black">
+                    
+                        <embed src= "{{ $groupFile->getFullUrl()  }}" width= "100" height= "100">
+                </a>
+            @endforeach
+        </div>
          @endif
         <p><span class="date_chat-user">{{$chat->created_at->diffForHumans()}}</span></p>
 
@@ -39,27 +50,41 @@
         </div>
     @else
     <div class="group-chat-receiver" id="group_chat-{{ $chat->id }}">
-
+            @if ($chat->message!=null) 
         <h4>{{ $chat->message }}   </h4>
+        @endif
         @if($chat->hasMedia('group_chat_image'))
-        <a href=" {{  $chat->getMedia('group_chat_image')[0]->getFullUrl() }}" target="_blank">
-                <img class="send_img" src="{{ $chat->getMedia('group_chat_image')[0]->getFullUrl() }}" alt="">
-        </a>
+        <div class="file-store">
+                @foreach ($chat->getMedia('group_chat_image') as $groupFile)
+                <i class="fa fa-trash file_group_chat_delete"  data-id="{{ $groupFile->id }}"></i>   <a  href="{{  $groupFile->getFullUrl() }}" class="img-f;" target="_black">
+           
+                      <img class="send_img" src="{{ $groupFile->getFullUrl() }}" alt="">
+                 </a>
+                @endforeach
+            </div>
         @endif
         @if($chat->hasMedia('group_chat_video'))
-        <a  href="{{  $chat->getMedia('group_chat_video')[0]->getFullUrl() }}" class="img-f;" target="_black">
-            <video width="200" height="200" autoplay>
-                <source src="{{  $chat->getMedia('group_chat_video')[0]->getFullUrl() }} " type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </a>
+        <div class="file-store">
+                @foreach ($chat->getMedia('group_chat_video') as $groupFile)
+                <i class="fa fa-trash file_group_chat_delete"  data-id="{{ $groupFile->id }}"></i>    <a  href="{{  $groupFile->getFullUrl() }}" class="img-f;" target="_black">
+                        <video width="200" height="200" autoplay>
+                            <source src="{{   $groupFile->getFullUrl() }} " type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </a>
+            @endforeach
+        </div>
 
      @endif
     @if($chat->hasMedia('group_chat_pdf'))
-        <a  href="{{ $chat->getMedia('group_chat_pdf')[0]->getFullUrl() }}"  class="img-f;">
-            
-                <embed src= "{{ $chat->getMedia('group_chat_pdf')[0]->getFullUrl()  }}" width= "400" height= "300">
-        </a>
+    <div class="file-store">
+            @foreach ($chat->getMedia('group_chat_pdf') as $groupFile)
+              <i class="fa fa-trash file_group_chat_delete"  data-id="{{ $groupFile->id }}"></i>   <a  href="{{  $groupFile->getFullUrl() }}" class="img-f;" target="_black">
+                    
+                        <embed src= "{{ $groupFile->getFullUrl()  }}" width= "100" height= "100">
+                </a>
+            @endforeach
+        </div>
 
      @endif
         <div class="image-section">

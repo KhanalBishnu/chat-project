@@ -54,6 +54,14 @@
 
     display: flex;
     justify-content: flex-end;
+}
+
+.group-chat-sender-file{
+    
+    margin: 10px;
+
+    display: flex;
+    justify-content: flex-end;
 
 
 
@@ -233,6 +241,69 @@ input{
 
 }
 
+/* view file before send \ */
+#fileDiv{
+    display: flex;
+    
+}
+/* .file-store{
+    display: flex;
+} */
+/* .div_second_sender{
+    display: flex;
+} */
+/* display send file group_chat */
+#file_send_group{
+    background-color: rgb(238, 178, 101);
+    margin-top: 10px;
+}
+.file_group_chat_delete:hover{
+    cursor: pointer;
+}
+.fa-trash:hover{
+    cursor: pointer;
+}
+
+
+/* group member show 
+ */
+ #owner_profile{
+     background-color: antiquewhite;
+     height: 150px;
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     font-family: sans-serif;
+     box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.4);
+     
+
+ }
+ #text{
+     
+     margin-top: 25px;
+     margin-left: 20px;
+   
+     
+ }
+ #owner_name{
+     margin-bottom: 80px;
+     font-family: cursive;
+     margin-left: 20px;
+    
+ }
+ #owner_profile img{
+     /* margin-bottom: 40px; */
+     position: absolute;
+     margin-top:-160px; 
+     margin-left: 200px;
+     margin-bottom: 25px;
+     font-size: 50px;
+     width: 150px;
+     height: 140px;
+     box-sizing: border-box;
+     
+ }
 
 
 
