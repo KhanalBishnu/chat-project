@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Upload</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div id="file-preview"></div>
+
+  <form id="file-upload-form" enctype="multipart/form-data">
+    <input type="file" name="file" id="image" multiple>
+    <input type="submit" value="Upload">
+  </form>
+
+  <script>
+    var selectedFiles = []; // Array to store selected files
+
+    $(document).ready(function() {
+      // Add event listener for file input change
+      $('#image').on('change', function() {
+        var files = $(this)[0].files;
+
+        // Clear the selectedFiles array
+        selectedFiles = [];
+
+        // Clear the file preview div
+        $('#file-preview').html('');
+
+        // Iterate through the selected files
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+
+          // Validate file size and extension here if needed
+
+          // Add the file to the selectedFiles array
+          selectedFiles.push(file);
+
+          // Create a file preview element
+          var previewElement = $('<div>');
+          previewElement.text(file.name);
+          $('#file-preview').append(previewElement);
+        }
+      });
+
+      // Add event listener for form submit
+      $('#file-upload-form').on('submit', function(e) {
+        e.preventDefault();
+
+        // Create a new FormData instance
+        var formData = new FormData();
+
+        // Append the selected files to the FormData
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('files[]', selectedFiles[i]);
+        }
+
+        // Perform your AJAX request here
+        // Replace "upload.php" with your server-side file upload endpoint
+        $.ajax({
+          type: 'POST',
+          url: 'upload.php',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            // Handle the response
+            console.log(response);
+          },
+          error: function(xhr, status, error) {
+            // Handle the error
+            console.log(error);
+          }
+        });
+
+        // Clear the selectedFiles array and file input field
+        selectedFiles = [];
+        $('#image').val('');
+        $('#file-preview').html('');
+      });
+    });
+  </script>
+</body>
+</html>

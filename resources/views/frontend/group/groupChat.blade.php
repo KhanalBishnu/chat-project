@@ -227,103 +227,6 @@
             }
         });
       
-        //  // single file upload
-                // $('#image').change(function(){
-                //     $('#fileDiv').html('');
-                //     var element = $(this);
-                //     // debugger
-                //     /* collect list of files choosen */
-
-                //     var size=element[0].files[0].size
-                //     var files = element[0].files;
-
-                //     var filename = files[0].name;
-                    
-                //     var extension = filename.substr(filename.lastIndexOf("."));
-
-                //     var allowedExtensionsRegxIMG = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-                //     var allowedExtensionsRegxPDF = /(\.pdf)$/i;
-                //     var allowedExtensionsRegxVid = /(\.mp4)$/i;
-                                                                                                                                                                                                            
-                //     /* testing extension with regular expression */
-                //     var isIMG = allowedExtensionsRegxIMG.test(extension);
-                //     var isPDF = allowedExtensionsRegxPDF.test(extension);
-                //     var isVID = allowedExtensionsRegxVid.test(extension);
-                //     var source=window.URL.createObjectURL(files[0]);
-                    
-                    
-                //         if(isPDF || isVID || isIMG){
-
-                //         if(isPDF){
-                //             if(size<4000000){
-                        
-                //                     $('#fileDiv').html(` <span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                //                         <embed  class="delete_select_file" src= "${source}" width= "80" height= "80">`);
-                                    
-                //                     $('#send_message').show();
-                //             }else{
-                //                     $('#send_message').hide();
-                //                     $('#fileDiv').html('');
-                                    
-                //                     $.notify("PDF must be less then 4MB.","warn");
-                //             }
-                //         }
-                //         if(isVID){
-
-                //             if(size<15000000){
-                //                     // $('#pic').show();
-                //                     $('#fileDiv').html(`<span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                //                         <video  class="delete_select_file" width="80" height="80" autoplay>
-                //                         <source src="${source} " type="video/mp4">
-                //                         Your browser does not support the video tag.
-                //                             </video>`)
-                //                     $('#send_message').show();
-                //             }else{
-                //                     $('#send_message').hide();
-                //                     $('#fileDiv').html('');
-                                
-                //                     $.notify("Video must be less then 15MB.","warn");
-                //             }
-                //         }
-                //         if(isIMG){
-                //             if(size<4000000){
-                //                 $('#fileDiv').html(`<span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                //                 <img  class="delete_select_file" id="pic" src='${source}' class="img-fluid" >`);
-                                
-                //                 $('#send_message').show();
-                //             }else{
-                //                 $('#send_message').hide();
-                                
-                //                 $('#fileDiv').html('');
-
-                //                 $.notify("Image must be less then 4MB.","warn");
-                //             }
-                //         }
-                        
-            
-                //     }else{
-                //             $('#send_message').hide();
-                //             $('#pic').hide();
-                //             $.notify("Invalid File Type.","warn");
-                //             $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
-                //             setTimeout(()=>{
-                //                 let nextEl=$(element).next();
-                            
-                //                 if($(nextEl).prop("tagName")=="SPAN"){
-                //                     $(nextEl).remove();
-                //                 }
-                //             },2000)
-
-                //             return false;
-                //     }
-                //     $('#removie_file').click(function(){
-                //         $('.delete_select_file').remove();
-                //         $('#send_message').show();
-                //         $('#removie_file').remove();
-                //         $('#image').val('');
-                //     });
-                    
-        // });
 
         // multiple file upload
 
@@ -381,7 +284,7 @@
                     if(isIMG){
                         if(size<4000000){
                             $('#fileDiv').append(`<div><a id="removie_file${i}" class=" btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></a>
-                             <img  id="delete_select_file${i}" id="pic" src='${source}' width="80" height="80" ></div>`);
+                             <img  id="delete_select_file${i}" src='${source}' width="80" height="80" ></div>`);
                             
                             $('#send_message').show();
                         }else{
@@ -394,21 +297,21 @@
                 }
 
                 }
-                // else{
-                    //             $('#send_message').hide();
-                    //             $('#pic').hide();
-                    //             $.notify("Invalid File Type.","warn");
-                    //             $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
-                    //             setTimeout(()=>{
-                    //                 let nextEl=$(element).next();
+                else{
+                                $('#send_message').hide();
+                                $('#pic').hide();
+                                $.notify("Invalid File Type.","warn");
+                                $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
+                                setTimeout(()=>{
+                                    let nextEl=$(element).next();
                                 
-                    //                 if($(nextEl).prop("tagName")=="SPAN"){
-                    //                     $(nextEl).remove();
-                    //                 }
-                    //             },2000)
+                                    if($(nextEl).prop("tagName")=="SPAN"){
+                                        $(nextEl).remove();
+                                    }
+                                },2000)
 
-                    //             return false;
-                //  }
+                                return false;
+                 }
                         
             
            
@@ -416,15 +319,15 @@
         });
         // delete uploaded file
         $(document).on('click',"a[id^='removie_file']",function(e) {
-            // const dt = new DataTransfer();
-            // debugger
-            event.target.parentElement.parentElement.remove(<i class="fa fa-cc-mastercard" aria-hidden="true"></i>
-            // debugger
-
-
+            var key=this.id.slice(-1);
+            var id=Number(key);
+            let input = document.getElementById('image');
+            const input = [...input.files];
+            input.splice(id, 1);
+            debugger;
+            $(this).parent().remove();
+            
         })
-
-
 
             function GroupScrollChat() {
                 $("#group-chat-container").animate(
