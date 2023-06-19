@@ -306,238 +306,228 @@ function GroupScrollChat() {
 
 
 
-// group chat start
-$(document).ready(function(e) {
-    // $('chat-container').html('');
-    GroupScrollChat()
-    $(".group_list").click(function(e) {
-        e.preventDefault();
+// // group chat start
+// $(document).ready(function(e) {
+//     // // $('chat-container').html('');
+//     // GroupScrollChat()
+//     // $(".group_list").click(function(e) {
+//     //     e.preventDefault();
 
 
-        $("#group-chat-container").html("");
-        var groupId = $(this).attr("data-id");
-        global_group_id=groupId;
-        // alert(global_group_id)
-        var groupName = $(this).attr("data-name");
+//     //     $("#group-chat-container").html("");
+//     //     var groupId = $(this).attr("data-id");
+//     //     global_group_id=groupId;
+//     //     // alert(global_group_id)
+//     //     var groupName = $(this).attr("data-name");
 
 
-        $(".start-head").hide();
+//     //     $(".start-head").hide();
 
-        $(".group-chat-section").show();
-        loadGroupChat()
-
-
-    });
-    $('.group_member_show').click(function(e){
-        var group_id=global_group_id;
-        var sender_id=sender_id;
-        // alert(sender_id);
-        $.ajax({
-            type: "get",
-            url: "/admin/group/member/show",
-            data: {group_id:group_id},
-
-            success: function (res) {
-                if(res.status){
-                    $('#groupMember_show').html(res.view);
-                }
-            }
-        });
-    });
-
-    // $('#group-chat-form').submit(function(e){
-    //     e.preventDefault();
-    //     $('#send_message').prop('disabled',true);
-    //     // $('#send_message').text("Sending..");
-    //     var message=$('#message').val();
-    //     let url= "/group/message";
-    //     // var file_data = $('#image').prop('files')[0]; single file
-    //     // var fileInput=$('#image');
-    //     // var files = fileInput.get(0).files;
-    //     let files = $('#image')[0].files;
-
-    //     var formData = new FormData();
-    //     formData.append('message', message);
-    //     formData.append('group_id', global_group_id);
-    //     // formData.append('file', file_data); single file
-    //     // for multiple file
-    //     // for (var i = 0; i < files.length; i++) {
-    //     //     formData.append('file[]', files[i]);
-    //     //   }
-
-    //     for (var i = 0; i < selectedFiles.length; i++) {
-    //         formData.append('file[]', selectedFiles[i]);
-    //       }
-
-    //     // let url= "{{ route('GroupchatStore') }}";
-
-    //     $.ajax({
-    //         type: "post",
-    //         url:url,
-    //         // data: {message:message,group_id:global_group_id},
-    //         data:formData,
-    //         contentType:false,
-    //         cache:false,
-    //         processData:false,
-    //         success: function (res) {
-
-    //             if(res.status){
-    //                 $('#send_message').prop('disabled',false);
-    //                 $('#message').val('')
-    //                 $('#fileDiv').html('');
-    //                 $('#image').val('');
-    //                 $('#send_message').hide();
-    //                 $('#group-chat-container').append(res.view);
-    //                 $('#send_message').hide();
-    //                 loadGroupChat()
-    //             }
-    //         }
-    //     });
-    // });
-
-    // load group chat
-    function loadGroupChat(){
-
-        // var url = "{{ route('loadGroupChat') }}";
-        var url = "/groups/chat";
-        $.ajax({
-            type: "get",
-            url: url,
-            data: {group_id:global_group_id},
-            success: function (res) {
-                if(res.status){
-                    $('.group-chat-header').html(res.group.name);
-
-                   $("#group-chat-container").append(res.view);
-                   GroupScrollChat()
-                }
-            }
-        });
-    }
-    // delete group message
-    $(document).on('click','.fa-trash',function(){
-        var id=$(this).attr('data-id');
-        var message=$(this).attr('data-message');
-        $('#groupChat_message_id').val(id);
-        $('#groupChat_message').val(message);
-    });
-
-    // deleting message
-    $(document).on('click','#groupChat_delete_form',function(e){
-
-        var id=$('#groupChat_message_id').val();
-        var message=$('#groupChat_message').val();
-        // let url="{{route('deleteGroupMessage',':id')}}";
-        // url=url.replace(':id',id);
-        let url="/groups/message/delete/"+id;
-        $.ajax({
-            type: "get",
-            url: url,
-            success: function (res) {
-                $('#group_chat-'+id).remove();
-                $('#groupChatDeleteModel').modal('hide');
-                // location.reload();
-                $(".modal-backdrop").hide();
-            }
-        });
-    });
-
-    // delete image
-    $(document).on('click','#fa-trash_image',function(e){
-        var id=$(this).attr('data-id');
-        let  url= "{{ route('Group_deleteImage') }}";
-        $.ajax({
-            type: "post",
-            // url:url,
-            // url: "/group/chat-image/delete",
-            url:url,
-            data: {id:id},
-            success: function (res) {
-            }
-        });
-
-    });
-
-});
-
-// for create file broadcast
-Echo.private('fileAdd-group-chat').listen('.fileAddedGroupChat', data => {
-    // console.log(data.groupChat.group_id)
-     if (
-        sender_id != data.sender_id &&
-        global_group_id == data.groupChat.group_id
-    ) {
-        let html =
-            `
-        <div class="chat-color group-chat-receiver" id="group_chat-${ data.groupChat.id }">
-         <div class="image-section">
-         <img src="${data.src}" alt="" width="150px" height="150px">
-        </div>
-         </div>
-        `;
-        $("#group-chat-container").append(html);
-
-            GroupScrollChat()
-    }
-});
-
-// update group message
-Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>{
-    $('#group_chat-'+data.groupMessage.id).find('small').text(data.groupMessage.message);
-})
-Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =>{
-    $('#group_chat-'+data.id).remove();
-});
-// for create message broadcast
-Echo.private("group-chat-channel").listen(".groupChatData", data => {
-//    console.log(data.chat);
+//     //     $(".group-chat-section").show();
+//     //     loadGroupChat()
 
 
-    if (
-        sender_id != data.chat.sender_id &&
-        global_group_id == data.chat.group_id
-    ) {
-        let html =
-            `
-        <div class="chat-color group-chat-receiver" id="group_chat-${ data.chat.id }">`
-        if(data.chat.message="null"){
-            html+=``
-        }else{
-            html+=`
-            <h4> ${ data.chat.message }</h4>
-            <div class="image-section">`
-        }
-         if(data.image!=""){
-             html+=`
-            <a href="${data.image}" target="_blank">
-                <img src="${data.image}" alt="" width="200px" height="200px">
-            </a>`
-         }
-         if(data.video!=""){
-            html+=  `
-            <a  href="${data.video}" class="img-f;" target="_black">
-                <video width="200" height="200" autoplay>
-                    <source src="${data.video} " type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </a>`
-         }
-         if(data.pdf!=""){
-             html+=
-             `
-             <a  href="${data.pdf}" class="img-f;" target="_black">
+//     // });
+//     // $('.group_member_show').click(function(e){
+//     //     var group_id=global_group_id;
+//     //     var sender_id=sender_id;
+//     //     // alert(sender_id);
+//     //     $.ajax({
+//     //         type: "get",
+//     //         url: "/admin/group/member/show",
+//     //         data: {group_id:group_id},
 
-              <embed src= "${data.pdf}" width= "400" height= "300">
-             </a>`
-         }
-         html+=`
-         <img src="${data.src}" alt="" width="20px" height="20px">
-         <span class="group-chat-user-name">  </span> <span class="date_chat-user">${data.time}</span>
-        </div>
-         </div>
-        `;
-        $("#group-chat-container").append(html);
+//     //         success: function (res) {
+//     //             if(res.status){
+//     //                 $('#groupMember_show').html(res.view);
+//     //             }
+//     //         }
+//     //     });
+//     // });
 
-            GroupScrollChat()
-    }
-});
+//     // $('#group-chat-form').submit(function(e){
+
+//     //     e.preventDefault();
+//     //     $('#send_message').prop('disabled',true);
+//     //     var message=$('#message').val();
+//     //     let url= "/group/message";
+//     //     let files = $('#image')[0].files;
+//     //     var formData = new FormData();
+//     //     formData.append('message', message);
+//     //     formData.append('group_id', global_group_id);
+//     //     for (var i = 0; i < files.length; i++) {
+//     //         formData.append('file[]', files[i]);
+//     //       }
+
+//     //     // let url= "{{ route('GroupchatStore') }}";
+
+//     //     $.ajax({
+//     //         type: "post",
+//     //         url:url,
+//     //         // data: {message:message,group_id:global_group_id},
+//     //         data:formData,
+//     //         contentType:false,
+//     //         cache:false,
+//     //         processData:false,
+//     //         success: function (res) {
+
+//     //             if(res.status){
+//     //                 $('#send_message').prop('disabled',false);
+//     //                 $('#message').val('')
+//     //                 $('#fileDiv').html('');
+//     //                 $('#image').val('');
+//     //                 $('#send_message').hide();
+//     //                 $('#group-chat-container').append(res.view);
+//     //                 $('#send_message').hide();
+//     //                 loadGroupChat()
+//     //             }
+//     //         }
+//     //     });
+//     // });
+
+//     // load group chat
+//     // function loadGroupChat(){
+
+//     //     // var url = "{{ route('loadGroupChat') }}";
+//     //     var url = "/groups/chat";
+//     //     $.ajax({
+//     //         type: "get",
+//     //         url: url,
+//     //         data: {group_id:global_group_id},
+//     //         success: function (res) {
+//     //             if(res.status){
+//     //                 $('.group-chat-header').html(res.group.name);
+
+//     //                $("#group-chat-container").append(res.view);
+//     //                GroupScrollChat()
+//     //             }
+//     //         }
+//     //     });
+//     // }
+//     // // delete group message
+//     //     $(document).on('click','.fa-trash',function(){
+//     //         var id=$(this).attr('data-id');
+//     //         var message=$(this).attr('data-message');
+//     //         $('#groupChat_message_id').val(id);
+//     //         $('#groupChat_message').val(message);
+//     //     });
+
+//     // // deleting message
+//     //     $(document).on('click','#groupChat_delete_form',function(e){
+
+//     //         var id=$('#groupChat_message_id').val();
+//     //         var message=$('#groupChat_message').val();
+//     //         // let url="{{route('deleteGroupMessage',':id')}}";
+//     //         // url=url.replace(':id',id);
+//     //         let url="/groups/message/delete/"+id;
+//     //         $.ajax({
+//     //             type: "get",
+//     //             url: url,
+//     //             success: function (res) {
+//     //                 $('#group_chat-'+id).remove();
+//     //                 $('#groupChatDeleteModel').modal('hide');
+//     //                 // location.reload();
+//     //                 $(".modal-backdrop").hide();
+//     //             }
+//     //         });
+//     //     });
+
+//     // // delete image
+//     // $(document).on('click','#fa-trash_image',function(e){
+//     //     var id=$(this).attr('data-id');
+//     //     let  url= "{{ route('Group_deleteImage') }}";
+//     //     $.ajax({
+//     //         type: "post",
+//     //         // url:url,
+//     //         // url: "/group/chat-image/delete",
+//     //         url:url,
+//     //         data: {id:id},
+//     //         success: function (res) {
+//     //         }
+//     //     });
+
+//     // });
+
+// });
+
+// // for create file broadcast
+// Echo.private('fileAdd-group-chat').listen('.fileAddedGroupChat', data => {
+//     // console.log(data.groupChat.group_id)
+//      if (
+//         sender_id != data.sender_id &&
+//         global_group_id == data.groupChat.group_id
+//     ) {
+//         let html =
+//             `
+//         <div class="chat-color group-chat-receiver" id="group_chat-${ data.groupChat.id }">
+//          <div class="image-section">
+//          <img src="${data.src}" alt="" width="150px" height="150px">
+//         </div>
+//          </div>
+//         `;
+//         $("#group-chat-container").append(html);
+
+//             GroupScrollChat()
+//     }
+// });
+
+// // update group message
+// Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>{
+//     $('#group_chat-'+data.groupMessage.id).find('small').text(data.groupMessage.message);
+// })
+// Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =>{
+//     $('#group_chat-'+data.id).remove();
+// });
+// // for create message broadcast
+// Echo.private("group-chat-channel").listen(".groupChatData", data => {
+// //    console.log(data.chat);
+
+
+//     if (
+//         sender_id != data.chat.sender_id &&
+//         global_group_id == data.chat.group_id
+//     ) {
+//         let html =
+//             `
+//         <div class="chat-color group-chat-receiver" id="group_chat-${ data.chat.id }">`
+//         if(data.chat.message="null"){
+//             html+=``
+//         }else{
+//             html+=`
+//             <h4> ${ data.chat.message }</h4>
+//             <div class="image-section">`
+//         }
+//          if(data.image!=""){
+//              html+=`
+//             <a href="${data.image}" target="_blank">
+//                 <img src="${data.image}" alt="" width="200px" height="200px">
+//             </a>`
+//          }
+//          if(data.video!=""){
+//             html+=  `
+//             <a  href="${data.video}" class="img-f;" target="_black">
+//                 <video width="200" height="200" autoplay>
+//                     <source src="${data.video} " type="video/mp4">
+//                     Your browser does not support the video tag.
+//                 </video>
+//             </a>`
+//          }
+//          if(data.pdf!=""){
+//              html+=
+//              `
+//              <a  href="${data.pdf}" class="img-f;" target="_black">
+
+//               <embed src= "${data.pdf}" width= "400" height= "300">
+//              </a>`
+//          }
+//          html+=`
+//          <img src="${data.src}" alt="" width="20px" height="20px">
+//          <span class="group-chat-user-name">  </span> <span class="date_chat-user">${data.time}</span>
+//         </div>
+//          </div>
+//         `;
+//         $("#group-chat-container").append(html);
+
+//             GroupScrollChat()
+//     }
+// });
