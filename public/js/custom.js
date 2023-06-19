@@ -16,7 +16,7 @@ $(document).ready(function(e) {
         $(".start-head").hide();
         $(".user_profile").hide();
         $(".chat-section").show();
-        // name of user 
+        // name of user
         var userName=$(this).attr('data-name');
         $('.group-chat-header').text(userName);
 
@@ -35,14 +35,14 @@ $(document).ready(function(e) {
         }else{
             $('#send_message').show();
         }
-       
+
     });
-    // for file and send button 
+    // for file and send button
     $('#image').change(function(){
         $('#fileDivShow').html();
 
         let element=$(this);
-       
+
         let fileName=element[0].files[0].name;
         let size=element[0].files[0].size;
         let file_extension=fileName.substr(fileName.lastIndexOf("."));
@@ -54,7 +54,7 @@ $(document).ready(function(e) {
         let isPDF=validExtensionPDF.test(file_extension);
 
         var source=window.URL.createObjectURL(this.files[0]);
-       
+
 
         if(isIMG || isPDF || isVID){
             if(isIMG){
@@ -117,7 +117,7 @@ $(document).ready(function(e) {
         dataForm.append('receiver_id',receiver_id);
         dataForm.append('message',message);
         dataForm.append('file',file_data);
-        
+
         $.ajax({
             type: "POST",
             url: "/home/chat",
@@ -137,7 +137,7 @@ $(document).ready(function(e) {
                 $('#image').val('');
                 $("#message").val("");
                 $('#send_message').hide();
-              
+
                 $("#chat-container").append(res.view);
                 ScrollChat();
             }
@@ -202,7 +202,7 @@ function ScrollChat() {
 }
 Echo.join("user-status")
     .here(users => {
-       
+
         for (let x = 0; x < users.length; x++) {
             if (sender_id != users[x]["id"]) {
                 $("#" + users[x]["id"] + "-status").removeClass(
@@ -217,7 +217,7 @@ Echo.join("user-status")
         $("#" + user.id + "-status").removeClass("offline-status");
         $("#" + user.id + "-status").addClass("online-status");
         $("#" + user.id + "-status").text("Online");
-        
+
     })
 
     .leaving(user => {
@@ -252,7 +252,7 @@ Echo.private("chat-data").listen(".getChatMessage", data => {
         if(data.pdf!=""){
             html+=`
             <a  href="${data.pdf}" class="img-f;" target="_black">
-                
+
             <embed src= "${data.pdf}"  width="150" height="150">
            </a>`
         }
@@ -266,7 +266,7 @@ Echo.private("chat-data").listen(".getChatMessage", data => {
              </a>`
         }
         if(data.chat.message){
-           
+
 
             html+=
              `
@@ -336,7 +336,7 @@ $(document).ready(function(e) {
             type: "get",
             url: "/admin/group/member/show",
             data: {group_id:group_id},
-           
+
             success: function (res) {
                 if(res.status){
                     $('#groupMember_show').html(res.view);
@@ -344,49 +344,56 @@ $(document).ready(function(e) {
             }
         });
     });
-    $('#group-chat-form').submit(function(e){
-        e.preventDefault();
-        $('#send_message').prop('disabled',true);
-        // $('#send_message').text("Sending..");
-        var message=$('#message').val();
-        let url= "/group/message";
-        // var file_data = $('#image').prop('files')[0]; single file
-        var fileInput=$('#image');
-        var files = fileInput.get(0).files;
-        var formData = new FormData();
-        formData.append('message', message);
-        formData.append('group_id', global_group_id);
-        // formData.append('file', file_data); single file
-        // for multiple file 
-        for (var i = 0; i < files.length; i++) {
-            formData.append('file[]', files[i]);
-          }
-      
-        // let url= "{{ route('GroupchatStore') }}";
 
-        $.ajax({
-            type: "post",
-            url:url,
-            // data: {message:message,group_id:global_group_id},
-            data:formData,
-            contentType:false,
-            cache:false,
-            processData:false,
-            success: function (res) {
-                
-                if(res.status){
-                    $('#send_message').prop('disabled',false);
-                    $('#message').val('')
-                    $('#fileDiv').html('');
-                    $('#image').val('');
-                    $('#send_message').hide();
-                    $('#group-chat-container').append(res.view);
-                    $('#send_message').hide();
-                    loadGroupChat()
-                }
-            }
-        });
-    });
+    // $('#group-chat-form').submit(function(e){
+    //     e.preventDefault();
+    //     $('#send_message').prop('disabled',true);
+    //     // $('#send_message').text("Sending..");
+    //     var message=$('#message').val();
+    //     let url= "/group/message";
+    //     // var file_data = $('#image').prop('files')[0]; single file
+    //     // var fileInput=$('#image');
+    //     // var files = fileInput.get(0).files;
+    //     let files = $('#image')[0].files;
+
+    //     var formData = new FormData();
+    //     formData.append('message', message);
+    //     formData.append('group_id', global_group_id);
+    //     // formData.append('file', file_data); single file
+    //     // for multiple file
+    //     // for (var i = 0; i < files.length; i++) {
+    //     //     formData.append('file[]', files[i]);
+    //     //   }
+
+    //     for (var i = 0; i < selectedFiles.length; i++) {
+    //         formData.append('file[]', selectedFiles[i]);
+    //       }
+
+    //     // let url= "{{ route('GroupchatStore') }}";
+
+    //     $.ajax({
+    //         type: "post",
+    //         url:url,
+    //         // data: {message:message,group_id:global_group_id},
+    //         data:formData,
+    //         contentType:false,
+    //         cache:false,
+    //         processData:false,
+    //         success: function (res) {
+
+    //             if(res.status){
+    //                 $('#send_message').prop('disabled',false);
+    //                 $('#message').val('')
+    //                 $('#fileDiv').html('');
+    //                 $('#image').val('');
+    //                 $('#send_message').hide();
+    //                 $('#group-chat-container').append(res.view);
+    //                 $('#send_message').hide();
+    //                 loadGroupChat()
+    //             }
+    //         }
+    //     });
+    // });
 
     // load group chat
     function loadGroupChat(){
@@ -400,7 +407,7 @@ $(document).ready(function(e) {
             success: function (res) {
                 if(res.status){
                     $('.group-chat-header').html(res.group.name);
-               
+
                    $("#group-chat-container").append(res.view);
                    GroupScrollChat()
                 }
@@ -435,7 +442,7 @@ $(document).ready(function(e) {
         });
     });
 
-    // delete image 
+    // delete image
     $(document).on('click','#fa-trash_image',function(e){
         var id=$(this).attr('data-id');
         let  url= "{{ route('Group_deleteImage') }}";
@@ -453,7 +460,7 @@ $(document).ready(function(e) {
 
 });
 
-// for create file broadcast 
+// for create file broadcast
 Echo.private('fileAdd-group-chat').listen('.fileAddedGroupChat', data => {
     // console.log(data.groupChat.group_id)
      if (
@@ -469,12 +476,12 @@ Echo.private('fileAdd-group-chat').listen('.fileAddedGroupChat', data => {
          </div>
         `;
         $("#group-chat-container").append(html);
-            
+
             GroupScrollChat()
     }
 });
 
-// update group message 
+// update group message
 Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>{
     $('#group_chat-'+data.groupMessage.id).find('small').text(data.groupMessage.message);
 })
@@ -484,8 +491,8 @@ Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =
 // for create message broadcast
 Echo.private("group-chat-channel").listen(".groupChatData", data => {
 //    console.log(data.chat);
-   
-    
+
+
     if (
         sender_id != data.chat.sender_id &&
         global_group_id == data.chat.group_id
@@ -519,7 +526,7 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
              html+=
              `
              <a  href="${data.pdf}" class="img-f;" target="_black">
-                
+
               <embed src= "${data.pdf}" width= "400" height= "300">
              </a>`
          }
@@ -530,7 +537,7 @@ Echo.private("group-chat-channel").listen(".groupChatData", data => {
          </div>
         `;
         $("#group-chat-container").append(html);
-           
+
             GroupScrollChat()
     }
 });
