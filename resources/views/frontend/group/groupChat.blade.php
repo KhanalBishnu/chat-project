@@ -59,7 +59,7 @@
             <h1 class="start-head">Click For Start Chat</h1>
             <div class="group-chat-section ">
                 <div class="group-chat-header">
-                    Header
+                    Header 
                 </div>
                 <div id="memberName"><h5 class="float-right"><i class="fa-solid fa-bars group_member_show"  data-bs-toggle="modal" data-bs-target="#groupMemberShow" ></i></h5></div>
                 <div id="group-chat-container">
@@ -70,13 +70,13 @@
 
                 </div>
 
-
+         
                 <div id="fileDiv">
-
+                     
 
                     {{-- <img id="pic" class="img-fluid" > --}}
                 </div>
-
+             
                 {{-- <div id="message-send-section">
                                 <form id="imageUpload" enctype="multipart/form-data">
                                     <input type="file" name="file" id="image">
@@ -90,10 +90,10 @@
                                     </div>
                                 </form>
                             </div> --}}
-
+                            
                 <div id="message-send-section">
-
-
+                       
+                   
                     <i data-bs-toggle="modal" data-bs-target="#groupPhotosShow"
                         class="fa-solid fa-photo-film group_photo"></i>
 
@@ -105,7 +105,7 @@
                             <input type="file" name="file[]" id="image" class="upload-input" multiple>
                             <input type="text" name="message" id="message" placeholder="Enter message"
                                 class="form-control">
-
+                                
                             <button type="submit" id="send_message" class="btn btn-send" style="display:none;">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
@@ -211,16 +211,14 @@
 
 
 <script>
-    var selectedFiles = []; // Array to store selected files
     $(document).ready(function(){
-
             // for send button
             var message =$('#message');
             var image =$('#image');
         var image_file=image.prop('files');
-
+        
         $('#message').on('input',function(){
-
+            
             $('#send_message').show();
             if(message.val()=="" || message.val()==null ){
                 $('#send_message').hide();
@@ -228,111 +226,14 @@
                 $('#send_message').show();
             }
         });
-
-        //  // single file upload
-                // $('#image').change(function(){
-                //     $('#fileDiv').html('');
-                //     var element = $(this);
-                //     // debugger
-                //     /* collect list of files choosen */
-
-                //     var size=element[0].files[0].size
-                //     var files = element[0].files;
-
-                //     var filename = files[0].name;
-
-                //     var extension = filename.substr(filename.lastIndexOf("."));
-
-                //     var allowedExtensionsRegxIMG = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-                //     var allowedExtensionsRegxPDF = /(\.pdf)$/i;
-                //     var allowedExtensionsRegxVid = /(\.mp4)$/i;
-
-                //     /* testing extension with regular expression */
-                //     var isIMG = allowedExtensionsRegxIMG.test(extension);
-                //     var isPDF = allowedExtensionsRegxPDF.test(extension);
-                //     var isVID = allowedExtensionsRegxVid.test(extension);
-                //     var source=window.URL.createObjectURL(files[0]);
-
-
-                //         if(isPDF || isVID || isIMG){
-
-                //         if(isPDF){
-                //             if(size<4000000){
-
-                //                     $('#fileDiv').html(` <span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                //                         <embed  class="delete_select_file" src= "${source}" width= "80" height= "80">`);
-
-                //                     $('#send_message').show();
-                //             }else{
-                //                     $('#send_message').hide();
-                //                     $('#fileDiv').html('');
-
-                //                     $.notify("PDF must be less then 4MB.","warn");
-                //             }
-                //         }
-                //         if(isVID){
-
-                //             if(size<15000000){
-                //                     // $('#pic').show();
-                //                     $('#fileDiv').html(`<span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                //                         <video  class="delete_select_file" width="80" height="80" autoplay>
-                //                         <source src="${source} " type="video/mp4">
-                //                         Your browser does not support the video tag.
-                //                             </video>`)
-                //                     $('#send_message').show();
-                //             }else{
-                //                     $('#send_message').hide();
-                //                     $('#fileDiv').html('');
-
-                //                     $.notify("Video must be less then 15MB.","warn");
-                //             }
-                //         }
-                //         if(isIMG){
-                //             if(size<4000000){
-                //                 $('#fileDiv').html(`<span id="removie_file" class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                //                 <img  class="delete_select_file" id="pic" src='${source}' class="img-fluid" >`);
-
-                //                 $('#send_message').show();
-                //             }else{
-                //                 $('#send_message').hide();
-
-                //                 $('#fileDiv').html('');
-
-                //                 $.notify("Image must be less then 4MB.","warn");
-                //             }
-                //         }
-
-
-                //     }else{
-                //             $('#send_message').hide();
-                //             $('#pic').hide();
-                //             $.notify("Invalid File Type.","warn");
-                //             $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
-                //             setTimeout(()=>{
-                //                 let nextEl=$(element).next();
-
-                //                 if($(nextEl).prop("tagName")=="SPAN"){
-                //                     $(nextEl).remove();
-                //                 }
-                //             },2000)
-
-                //             return false;
-                //     }
-                //     $('#removie_file').click(function(){
-                //         $('.delete_select_file').remove();
-                //         $('#send_message').show();
-                //         $('#removie_file').remove();
-                //         $('#image').val('');
-                //     });
-
-        // });
+      
 
         // multiple file upload
 
         let imageField= $('#image');
         imageField.on('change',function(){
-
-
+            
+             
             for (var i = 0; i < this.files.length; i++) {
                 var file = this.files[i];
                 var size=file.size
@@ -351,22 +252,22 @@
 
                     if(isPDF){
                         if(size<4000000){
-
+                    
                                 $('#fileDiv').append(` <div><a id="removie_file${i}" class="btn btn-danger "><i class="fa fa-trash text-light" aria-hidden="true"></i></a>
                                 <embed  id="delete_select_file${i}" src= "${source}" width= "80" height= "80"></div>`);
-
+                                
                                 $('#send_message').show();
                         }else{
                                 $('#send_message').hide();
                                 $('#fileDiv').html('');
-
+                                
                                 $.notify("PDF must be less then 4MB.","warn");
                         }
                     }
                     if(isVID){
 
                         if(size<15000000){
-
+                            
                                 $('#fileDiv').append(`<div><a id="removie_file${i}" class=" btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></a>
                                   <video  id="delete_select_file${i}" width="80" height="80" autoplay>
                                     <source src="${source} " type="video/mp4">
@@ -376,19 +277,19 @@
                         }else{
                                 $('#send_message').hide();
                                 $('#fileDiv').html('');
-
+                            
                                 $.notify("Video must be less then 15MB.","warn");
                         }
                     }
                     if(isIMG){
                         if(size<4000000){
                             $('#fileDiv').append(`<div><a id="removie_file${i}" class=" btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></a>
-                             <img  id="delete_select_file${i}" id="pic" src='${source}' width="80" height="80" ></div>`);
-
+                             <img  id="delete_select_file${i}" src='${source}' width="80" height="80" ></div>`);
+                            
                             $('#send_message').show();
                         }else{
                             $('#send_message').hide();
-
+                            
                             $('#fileDiv').html('');
 
                             $.notify("Image must be less then 4MB.","warn");
@@ -396,133 +297,36 @@
                 }
 
                 }
-                // else{
-                    //             $('#send_message').hide();
-                    //             $('#pic').hide();
-                    //             $.notify("Invalid File Type.","warn");
-                    //             $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
-                    //             setTimeout(()=>{
-                    //                 let nextEl=$(element).next();
+                else{
+                                $('#send_message').hide();
+                                $('#pic').hide();
+                                $.notify("Invalid File Type.","warn");
+                                $('<span class="text-danger">Invalid File Type.</span>').insertAfter($(element));
+                                setTimeout(()=>{
+                                    let nextEl=$(element).next();
+                                
+                                    if($(nextEl).prop("tagName")=="SPAN"){
+                                        $(nextEl).remove();
+                                    }
+                                },2000)
 
-                    //                 if($(nextEl).prop("tagName")=="SPAN"){
-                    //                     $(nextEl).remove();
-                    //                 }
-                    //             },2000)
-
-                    //             return false;
-                //  }
-
-
-
+                                return false;
+                 }
+                        
+            
+           
         }
         });
         // delete uploaded file
         $(document).on('click',"a[id^='removie_file']",function(e) {
-            // const dt = new DataTransfer();
-            // debugger
-            // event.target.parentElement.parentElement.remove()
-            // debugger
-            // let fileIndex = $(this).parent().index();
-            //  $(this).parent().remove();
-
-            // let newFiles = Array.from(fileInput.files).filter(function(_, index) {
-            //         return index !== fileIndex;
-            //  });
-
-            //  fileInput.files = newFiles;
-
-
-
-
-//             let parentDiv = $(this).closest('div');
-//   let fileIndex = parentDiv.index();
-//   let fileInput = $('#image')[0];
-//   let files = fileInput.files;
-
-//   if (fileIndex >= 0 && fileIndex < files.length) {
-//     let removedFile = files[fileIndex];
-//     removedFiles.push(removedFile);
-//   }
-
-//   parentDiv.remove();
-
-var fileItem = $(this).parent();
-    var fileIndex = fileItem.index();
-
-    fileItem.remove();
-    selectedFiles.splice(fileIndex, 1); // Remove file from selected files array
-
+            var key=this.id.slice(-1);
+            var id=Number(key);
+            let input = document.getElementById('image');
+            const fileListArr = [...input.files];
+            fileListArr.splice(id, 1);
+            $(this).parent().remove();
+            
         })
-
-        $('#group-chat-form').submit(function(e){
-        e.preventDefault();
-        $('#send_message').prop('disabled',true);
-        // $('#send_message').text("Sending..");
-        var message=$('#message').val();
-        let url= "/group/message";
-        // var file_data = $('#image').prop('files')[0]; single file
-        // var fileInput=$('#image');
-        // var files = fileInput.get(0).files;
-        let files = $('#image')[0].files;
-
-        var formData = new FormData();
-        formData.append('message', message);
-        formData.append('group_id', global_group_id);
-        // formData.append('file', file_data); single file
-        // for multiple file
-        // for (var i = 0; i < files.length; i++) {
-        //     formData.append('file[]', files[i]);
-        //   }
-
-        for (var i = 0; i < selectedFiles.length; i++) {
-            formData.append('file[]', selectedFiles[i]);
-          }
-
-        // let url= "{{ route('GroupchatStore') }}";
-
-        $.ajax({
-            type: "post",
-            url:url,
-            // data: {message:message,group_id:global_group_id},
-            data:formData,
-            contentType:false,
-            cache:false,
-            processData:false,
-            success: function (res) {
-
-                if(res.status){
-                    $('#send_message').prop('disabled',false);
-                    $('#message').val('')
-                    $('#fileDiv').html('');
-                    $('#image').val('');
-                    $('#send_message').hide();
-                    $('#group-chat-container').append(res.view);
-                    $('#send_message').hide();
-                    loadGroupChat()
-                }
-            }
-        });
-    });
-    function loadGroupChat(){
-
-// var url = "{{ route('loadGroupChat') }}";
-var url = "/groups/chat";
-$.ajax({
-    type: "get",
-    url: url,
-    data: {group_id:global_group_id},
-    success: function (res) {
-        if(res.status){
-            $('.group-chat-header').html(res.group.name);
-
-           $("#group-chat-container").append(res.view);
-           GroupScrollChat()
-        }
-    }
-});
-}
-
-
 
             function GroupScrollChat() {
                 $("#group-chat-container").animate(
@@ -549,7 +353,7 @@ $.ajax({
                 $.ajax({
                     type: "post",
                     url: "{{ route('GroupImageSend') }}",
-
+                    
                     data:formData,
                     contentType:false,
                     cache:false,
@@ -557,7 +361,7 @@ $.ajax({
 
                     success: function (res) {
                         if(res.status){
-
+                        
                             // $('.delete_select_file').remove();
                             $('#fileDiv').html('');
                             $('#image').val('');
@@ -582,9 +386,9 @@ $.ajax({
                     }
                 });
             })
+           
 
-
-// delete file
+// delete file 
             $(document).on('click','.file_group_chat_delete',function(){
               var id=$(this).attr('data-id');
              var parent= event.target.parentElement;
@@ -601,12 +405,12 @@ $.ajax({
                       }
                   }
               });
-
+              
             });
-
+           
         });
 
-
+       
     // }
 </script>
 
