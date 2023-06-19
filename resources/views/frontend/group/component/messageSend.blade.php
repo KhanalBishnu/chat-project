@@ -2,9 +2,10 @@
         <div class="div_second_sender">
                 @if($groupMessage->hasMedia('group_chat_image'))
                 @foreach ($groupMessage->getMedia('group_chat_image') as $groupFile)
+
                        <div id="file_send_group"><i class="fa fa-trash file_group_chat_delete" data-id="{{ $groupFile->id }}"></i> <a
                                 href="{{  $groupFile->getFullUrl() }}" class="img-f;" target="_black"><img class="img-fluid"
-                                src="{{ $groupFile->getFullUrl() }}" width="100" height="100"></a></div> 
+                                src="{{ $groupFile->getFullUrl() }}" width="100" height="100"></a></div>
                         @endforeach
                         @endif
                         @if($groupMessage->hasMedia('group_chat_video'))
@@ -27,7 +28,7 @@
                                         @endforeach
                                         @endif
 
-                                        
+
         </div>
         <div class="group-chat-sender-file">
                 @if ( $groupMessage->message!=NULL )
@@ -37,7 +38,7 @@
                                 data-bs-toggle="modal" data-id="{{ $groupMessage->id }}"
                                 data-message="{{ $groupMessage->message }}"
                                 data-bs-target="#groupChatDeleteModel"></i></span>
-                       
+
                         </h4>
         @endif
 
