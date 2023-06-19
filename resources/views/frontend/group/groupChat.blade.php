@@ -416,9 +416,9 @@
         });
         // delete uploaded file
         $(document).on('click',"a[id^='removie_file']",function(e) {
-            const dt = new DataTransfer();
-            debugger
-            event.target.parentElement.parentElement.remove()
+            // const dt = new DataTransfer();
+            // debugger
+            event.target.parentElement.parentElement.remove(<i class="fa fa-cc-mastercard" aria-hidden="true"></i>
             // debugger
 
 
