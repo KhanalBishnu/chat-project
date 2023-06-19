@@ -211,12 +211,54 @@
 
 
 <script>
-    $(document).ready(function(){
-            // for send button
-            var message =$('#message');
-            var image =$('#image');
-        var image_file=image.prop('files');
-        
+$(document).ready(function(){
+     // $('chat-container').html('');
+    //click container show chat
+        GroupScrollChat()
+        $(".group_list").click(function(e) {
+            e.preventDefault();
+
+
+            $("#group-chat-container").html("");
+            var groupId = $(this).attr("data-id");
+            global_group_id=groupId;
+            // alert(global_group_id)
+            var groupName = $(this).attr("data-name");
+
+
+            $(".start-head").hide();
+
+            $(".group-chat-section").show();
+            loadGroupChat()
+
+
+        });
+    //
+
+    // group member show 
+        $('.group_member_show').click(function(e){
+            var group_id=global_group_id;
+            var sender_id=sender_id;
+            // alert(sender_id);
+            $.ajax({
+                type: "get",
+                url: "/admin/group/member/show",
+                data: {group_id:group_id},
+
+                success: function (res) {
+                    if(res.status){
+                        $('#groupMember_show').html(res.view);
+                    }
+                }
+            });
+        });
+    //
+
+    // for send button
+    var message =$('#message');
+    var image =$('#image');
+    var image_file=image.prop('files');
+    // message check foe send
         $('#message').on('input',function(){
             
             $('#send_message').show();
@@ -226,9 +268,9 @@
                 $('#send_message').show();
             }
         });
+    // 
       
-
-        // multiple file upload
+    // multiple file upload and preview and validation
 
         let imageField= $('#image');
         imageField.on('change',function(){
@@ -315,20 +357,34 @@
                         
             
            
-        }
+             }
         });
-        // delete uploaded file
+    // 
+
+    // delete preview uploaded file
+
         $(document).on('click',"a[id^='removie_file']",function(e) {
-            var key=this.id.slice(-1);
-            var id=Number(key);
-            var input = document.getElementById('image');
-            const fileListArr = [...input.files];
-            fileListArr.splice(id, 1);
-            for (let index = 0; index < fileListArr.length; index++) {
-                input.files[index] = fileListArr[0];                
-            }
+            let idVal = e.target.parentElement.id.slice(-1);
+            var id=Number(idVal);
+            let imageFiles = document.getElementById('image');
             $(this).parent().remove();
+            document.getElementById('image').files = removeFileFromFileList(id,imageFiles);
+            debugger;
         })
+
+       function removeFileFromFileList(id,input) {
+            const dt = new DataTransfer()
+            const { files } = input
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i]
+                if (id !== i)
+                dt.items.add(file) // here you exclude the file. thus removing it.
+            }
+            return dt.files;
+        }
+    // 
+    // group chat scroll
 
             function GroupScrollChat() {
                 $("#group-chat-container").animate(
@@ -340,41 +396,138 @@
                     0
                 );
             }
+    // 
+    // group chat sending or submit
 
-            $('#imageUpload').submit(function(e){
-                e.preventDefault();
-                var file_data = $('#image').prop('files')[0];
-                var formData = new FormData();
-                formData.append('sender_id', sender_id);
-                formData.append('group_id', global_group_id);
-                formData.append('file', file_data);
-                // console.log(formData);
+            $('#group-chat-form').submit(function(e){
+
+                    e.preventDefault();
+                    $('#send_message').prop('disabled',true);
+                    var message=$('#message').val();
+                    // let url= "/group/message";
+                    let files = $('#image')[0].files;
+                    var formData = new FormData();
+                    formData.append('message', message);
+                    formData.append('group_id', global_group_id);
+                    for (var i = 0; i < files.length; i++) {
+                        formData.append('file[]', files[i]);
+                    }
+
+                    let url= "{{ route('GroupchatStore') }}";
+                    $.ajax({
+                        type: "post",
+                        url:url,
+                        data:formData,
+                        contentType:false,
+                        cache:false,
+                        processData:false,
+                        success: function (res) {
+
+                            if(res.status){
+                                $('#send_message').prop('disabled',false);
+                                $('#message').val('')
+                                $('#fileDiv').html('');
+                                $('#image').val('');
+                                $('#send_message').hide();
+                                $('#group-chat-container').append(res.view);
+                                $('#send_message').hide();
+                                loadGroupChat()
+                            }
+                        }
+                    });
+            });
+    // 
+    // single file send
+
+            // $('#imageUpload').submit(function(e){
+                //     e.preventDefault();
+                //     var file_data = $('#image').prop('files')[0];
+                //     var formData = new FormData();
+                //     formData.append('sender_id', sender_id);
+                //     formData.append('group_id', global_group_id);
+                //     formData.append('file', file_data);
+                //     // console.log(formData);
 
 
 
+                //     $.ajax({
+                //         type: "post",
+                //         url: "{{ route('GroupImageSend') }}",
+                        
+                //         data:formData,
+                //         contentType:false,
+                //         cache:false,
+                //         processData:false,
+
+                //         success: function (res) {
+                //             if(res.status){
+                            
+                //                 // $('.delete_select_file').remove();
+                //                 $('#fileDiv').html('');
+                //                 $('#image').val('');
+                //                 $('#group-chat-container').append(res.view);
+                //                 GroupScrollChat()
+                //             }
+                //         }
+                //     });
+            // });
+    // 
+
+    // load group chat 
+
+        function loadGroupChat(){
+
+                // var url = "{{ route('loadGroupChat') }}";
+                var url = "/groups/chat";
                 $.ajax({
-                    type: "post",
-                    url: "{{ route('GroupImageSend') }}",
-                    
-                    data:formData,
-                    contentType:false,
-                    cache:false,
-                    processData:false,
-
+                    type: "get",
+                    url: url,
+                    data: {group_id:global_group_id},
                     success: function (res) {
                         if(res.status){
-                        
-                            // $('.delete_select_file').remove();
-                            $('#fileDiv').html('');
-                            $('#image').val('');
-                            $('#group-chat-container').append(res.view);
-                            GroupScrollChat()
+                            $('.group-chat-header').html(res.group.name);
+
+                        $("#group-chat-container").append(res.view);
+                        GroupScrollChat()
                         }
                     }
                 });
+        }
+    // 
+
+     // delete setup group message
+        $(document).on('click','.fa-trash',function(){
+            var id=$(this).attr('data-id');
+            var message=$(this).attr('data-message');
+            $('#groupChat_message_id').val(id);
+            $('#groupChat_message').val(message);
+        });
+    // 
+
+    // deleting group message message
+        $(document).on('click','#groupChat_delete_form',function(e){
+
+            var id=$('#groupChat_message_id').val();
+            var message=$('#groupChat_message').val();
+            let url="{{route('deleteGroupMessage')}}";
+            // let url="{{route('deleteGroupMessage',':id')}}";
+            // url=url.replace(':id',id);
+            // let url="/groups/message/delete/"+id;
+            
+            $.ajax({
+                type: "get",
+                url: url,
+                success: function (res) {
+                    $('#group_chat-'+id).remove();
+                    $('#groupChatDeleteModel').modal('hide');
+                    // location.reload();
+                    $(".modal-backdrop").hide();
+                }
             });
+        });
+    // 
 
-
+    // Group image show
             $(document).on('click','.group_photo',function(e) {
                 var group_id=global_group_id;
                 $.ajax({
@@ -388,32 +541,135 @@
                     }
                 });
             })
-           
+    // 
 
-// delete file 
-            $(document).on('click','.file_group_chat_delete',function(){
-              var id=$(this).attr('data-id');
-             var parent= event.target.parentElement;
-              $.ajax({
-                  type: "get",
-                  url: "{{ route('DeleteGroupImageFile') }}",
-                  data: {
-                      id:id
-                  },
-                  success: function (res) {
-                      if(res.status){
-                        parent.remove();
-                        $.notify('Deleted File','success');
-                      }
-                  }
-              });
-              
-            });
-           
+    // delete single file 
+        $(document).on('click','.file_group_chat_delete',function(){
+                var id=$(this).attr('data-id');
+                var parent= event.target.parentElement;
+                $.ajax({
+                    type: "get",
+                    url: "{{ route('DeleteGroupImageFile') }}",
+                    data: {
+                        id:id
+                    },
+                    success: function (res) {
+                        if(res.status){
+                            parent.remove();
+                            $.notify('Deleted File','success');
+                        }
+                    }
+                });
         });
+    // 
+
+    // delete image
+        $(document).on('click','#fa-trash_image',function(e){
+            var id=$(this).attr('data-id');
+            let  url= "{{ route('Group_deleteImage') }}";
+            $.ajax({
+                type: "post",
+                // url:url,
+                // url: "/group/chat-image/delete",
+                url:url,
+                data: {id:id},
+                success: function (res) {
+                }
+            });
+
+        });
+    // 
+
+    // echo or websockets 
+        // for create group  message broadcast
+            Echo.private("group-chat-channel").listen(".groupChatData", data => {
+                if ( sender_id != data.chat.sender_id &&
+                    global_group_id == data.chat.group_id ) {
+                    let html =
+                        `
+                    <div class="chat-color group-chat-receiver" id="group_chat-${ data.chat.id }">`
+                    if(data.chat.message){
+                        html+=`
+                        <h4> ${ data.chat.message }</h4>
+                        <div class="image-section">`
+                    }else{
+                        html+=``
+
+                    }
+                    if(data.image!=""){
+                        html+=`
+                        <a href="${data.image}" target="_blank">
+                            <img src="${data.image}" alt="" width="100" height="100">
+                        </a>`
+                    }
+                    if(data.video!=""){
+                        html+=  `
+                        <a  href="${data.video}" class="img-f;" target="_black">
+                            <video width="100" height="100" autoplay>
+                                <source src="${data.video} " type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </a>`
+                    }
+                    if(data.pdf!=""){
+                        html+=
+                        `
+                        <a  href="${data.pdf}" class="img-f;" target="_black">
+
+                        <embed src= "${data.pdf}" width= "100" height= "100">
+                        </a>`
+                    }
+                    html+=`
+                    <img src="${data.src}" alt="" width="20px" height="20px">
+                    <span class="group-chat-user-name">  </span> <span class="date_chat-user">${data.time}</span>
+                    </div>
+                    </div>
+                    `;
+                    $("#group-chat-container").append(html);
+
+                        GroupScrollChat()
+                }
+            });
+        // 
+
+        // delete group chat message websockets
+            Echo.private("delete-groupChat-message").listen("GroupChatMessageDelete", data =>{
+                $('#group_chat-'+data.id).remove();
+            });
+        //
+
+        // update group chat broadcast
+            Echo.private('update-group-chatMessage').listen('GroupMessageUpdateEvent',data=>{
+                $('#group_chat-'+data.groupMessage.id).find('small').text(data.groupMessage.message);
+            })
+        //
+
+        // for create file broadcast
+            Echo.private('fileAdd-group-chat').listen('.fileAddedGroupChat', data => {
+                // console.log(data.groupChat.group_id)
+                if (
+                    sender_id != data.sender_id &&
+                    global_group_id == data.groupChat.group_id
+                ) {
+                    let html =
+                        `
+                    <div class="chat-color group-chat-receiver" id="group_chat-${ data.groupChat.id }">
+                    <div class="image-section">
+                    <img src="${data.src}" alt="" width="150px" height="150px">
+                    </div>
+                    </div>
+                    `;
+                    $("#group-chat-container").append(html);
+
+                        GroupScrollChat()
+                }
+            });
+        //
+    //
+           
+});
 
        
-    // }
 </script>
 
 @endsection

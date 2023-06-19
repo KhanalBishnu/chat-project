@@ -127,46 +127,54 @@
 </div>
 
 <script>
-    function searchUser() {
-        var name=$('#search_users').val();
-        $.ajax({
-            type: "get",
-            url: "{{ route('searchUserChat') }}",
-            data: {search:name},
-           
-            success: function (res) {
-                if(res.status){
-                    $('.user_show').html(res.view);
-                    $(".user_list").click(function(e) {
-                        e.preventDefault();
-                        $('#exampleModal').modal('hide');
-                        $(".modal-backdrop").hide();
-                        $('#search_users').val('');
-                        $('.user_show').html('');
-
-                        $("#" + receiver_id + "-select_status").removeClass("user-select");
-                        $("#chat-container").html("");
-                        var getUserId = $(this).attr("data-id");
-                        receiver_id = getUserId;
-
-                        $(".start-head").hide();
-                        $(".user_profile").hide();
-                        $(".chat-section").show();
-                        // name of user 
-                        var userName=$(this).attr('data-name');
-                        $('.group-chat-header').text(userName);
-
-                        loadOldChat();
-                        $("#" + receiver_id + "-select_status").addClass("user-select");
-                        $("#chat-container")
-                            .get(0)
-                            .scrollIntoView({ behavior: "smooth" });
-                    });
-                }
+    // token setup
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             }
         });
-      }
-     
+    //
+        
+    // search user
+        function searchUser() {
+            var name=$('#search_users').val();
+            $.ajax({
+                type: "get",
+                url: "{{ route('searchUserChat') }}",
+                data: {search:name},
+            
+                success: function (res) {
+                    if(res.status){
+                        $('.user_show').html(res.view);
+                        $(".user_list").click(function(e) {
+                            e.preventDefault();
+                            $('#exampleModal').modal('hide');
+                            $(".modal-backdrop").hide();
+                            $('#search_users').val('');
+                            $('.user_show').html('');
 
+                            $("#" + receiver_id + "-select_status").removeClass("user-select");
+                            $("#chat-container").html("");
+                            var getUserId = $(this).attr("data-id");
+                            receiver_id = getUserId;
+
+                            $(".start-head").hide();
+                            $(".user_profile").hide();
+                            $(".chat-section").show();
+                            // name of user 
+                            var userName=$(this).attr('data-name');
+                            $('.group-chat-header').text(userName);
+
+                            loadOldChat();
+                            $("#" + receiver_id + "-select_status").addClass("user-select");
+                            $("#chat-container")
+                                .get(0)
+                                .scrollIntoView({ behavior: "smooth" });
+                        });
+                    }
+                }
+            });
+        }
+    //
 </script>
 @endsection
