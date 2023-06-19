@@ -321,11 +321,13 @@
         $(document).on('click',"a[id^='removie_file']",function(e) {
             var key=this.id.slice(-1);
             var id=Number(key);
-            let input = document.getElementById('image');
+            var input = document.getElementById('image');
             const fileListArr = [...input.files];
             fileListArr.splice(id, 1);
+            for (let index = 0; index < fileListArr.length; index++) {
+                input.files[index] = fileListArr[0];                
+            }
             $(this).parent().remove();
-            
         })
 
             function GroupScrollChat() {
