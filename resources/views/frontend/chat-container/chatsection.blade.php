@@ -1,5 +1,5 @@
 @foreach ($chats as $chat)
-@if (Auth::id()!=$chat->sender_id)
+@if (Auth::id()==$chat->sender_id)
 <div class="group-chat-sender" id="{{ $chat->id }}-chat">
     <div class="div_second_sender">
         <h4><small>{{ $chat->message }}</small> <span class="group_message_modal"><i class="fa fa-trash "

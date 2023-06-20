@@ -57,7 +57,7 @@
 
         <div class="col-lg-9 mt-4">
             <h1 class="start-head">Click For Start Chat</h1>
-            <div class="group-chat-section ">
+            <div class="group-chat-section  chat-main-view ">
                 <div class="group-chat-header">
                     Header 
                 </div>
@@ -73,8 +73,6 @@
          
                 <div id="fileDiv">
                      
-
-                    {{-- <img id="pic" class="img-fluid" > --}}
                 </div>
              
                 {{-- <div id="message-send-section">
