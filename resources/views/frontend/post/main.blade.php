@@ -427,6 +427,12 @@
         }
     </style>
 
+    {{-- swal --}}
+    {{-- swal cdn link --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/custom.js') }}" defer></script>
@@ -443,6 +449,8 @@
     {{-- for chat  --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/friendList.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
 
 
 
@@ -659,7 +667,7 @@
                 });
               }
     </script>
-
+    
     <script src="{{asset('admin/vendors/base/vendor.bundle.base.js')}}"></script>
     <!-- Plugin js for this page-->
     <script src="{{asset('admin/vendors/datatables.net/jquery.dataTables.js')}}"></script>

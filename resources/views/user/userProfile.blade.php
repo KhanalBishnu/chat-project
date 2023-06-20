@@ -2,50 +2,16 @@
 @section('content')
 <div class="container-fluid mt-5  pt-4">
     
-        <div class=" pt-5 text-center bg-info text-white text-center pb-4">My Profile</div>
-   
-    <div id="success_message"></div>
-    <div class="row justify-content-evenly pt-5 mt-2">
-
-        <div class="col-lg-6 border border-warning">
-            <div class="text-white bg-primary  text-center mt-2" > <b>Information</b> </div>
-            <hr>
-            <form action="" class="mt-3">
-                <label class="form-label" for="name">Name</label> 
-                <input type="text" name="" id="" class="form-control" value="{{ $user->name }}">
-                <label class="form-label" for="name">Roll No</label> 
-                <input type="text" name="" id="" class="form-control" value="{{ $user->id }}">
-                <label class="form-label" for="name">Email</label> 
-                <input type="text" name="" id="" class="form-control" value="{{ $user->email }}">
-                <label class="form-label" for="name">Password</label> 
-
-                <button type="button" class="btn btn-info btn-sm mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#myModal">Password
-                    Change</button>
-                {{-- <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Open Small Modal</button> --}}
+    <div class="profileColor">My Profile</div>
     
-    
-            </form>
-        </div>
-        <div class="col-lg-1"></div>
-        <div class="col-lg-3  ">
-            <h3 class="text-white bg-warning text-center">User Profile </h3>
-            <div id="profile_image_display">
-                    <img class="img-fluid" src="{{ $user->hasMedia('user_image') ?  $user->getMedia('user_image')[0]->getFullUrl() : '' }}" alt=""
-                    style="height:200px;weight:150px">
-            </div>
-          
-{{--     
-            <form action="{{ route('ProfileChange',$user->id)}}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input class="form-control mt-2" type="file" name="image" required>
-                <button class="btn btn-info mt-2"> Image Change Or Upload</button>
-            </form>  --}}
-      
+    <div class="detailsContainer">
+        <div class="imageSection">
+        <img  src="{{ $user->getMedia('user_image')[0]->getFullUrl() }}" alt="">
             <form id="myForm" >
                 <div id="user_image">
-                <input type="hidden" id="user_id" value="{{ $user->id }}">
-                <label for="image" class="form-label"></label>
-                <input  type="file" name="img" id="img" class="form-control" onchange="submitImage()">
+                    <input type="hidden" id="user_id" value="{{ $user->id }}">
+                    <label for="image" class="form-label"></label>
+                    <input  type="file" name="img" id="img" class="form-control" onchange="submitImage()">
                </div>
                 <div class="">
                   <p class="text-secondary">Just choose image </p>
@@ -53,7 +19,21 @@
     
             </form>
         </div>
+        <div class="detailSection">
+            <p class="form-p" for="name">Name
+            <span class="info_user_profile">{{ $user->name }}</span></p> 
+            <p class="form-p" for="name">Roll No <span class="info_user_profile">{{ $user->id }}</span></p> 
+            <p class="form-p" for="name">Email<span class="info_user_profile">{{ $user->email }}</span></p> 
+            
+            <label class="form-label" for="name">Password</label> 
+
+            <button type="button" class="btn btn-info btn-sm mt-2 mb-3 mx-4 px-4" data-bs-toggle="modal" data-bs-target="#myModal">Password
+                Change</button>
+                        {{-- <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Open Small Modal</button> --}}
+        </div>
     </div>
+  
+    
 </div>
 {{-- modal  --}}
 <div id="myModal" class="modal fade" role="dialog">
@@ -62,7 +42,6 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Password Change</h4>
             </div>
             <div class="modal-body">
@@ -86,12 +65,12 @@
 
                     <br>
                     {{-- <input type="submit" value="Confirm" class="form-control"> --}}
-                    <button type="button" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary float-end">Update</button>
 
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
 
@@ -143,6 +122,7 @@
             if(data.src!=''){
                     $('#profile_image_display').empty();
                     $('#profile_image_display').append(' <img  src="'+data.src+'" alt="" style="height:200px;weight:150px">');
+                    window.location.reload();
 
                 }
          }).catch(function (err) { 

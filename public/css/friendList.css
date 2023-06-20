@@ -1,0 +1,24 @@
+.card_friend_list{
+    height: 260px;
+    width:270px;
+    background-color: rgb(214, 204, 191);
+    border-radius: 5px;
+    margin: 3px 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+}
+.img-fluid_file{
+    height: 150px;
+    width: 260px;
+    opacity: inherit;
+}
+.card-title_name{
+    font-family: cursive;
+    display: block;
+}
+.card_action_user{
+    display: flex;
+    width: 100%;
+    padding: 20px 0 0 0;
+    justify-content: space-evenly;
+}
