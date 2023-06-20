@@ -27,6 +27,7 @@
     color: white;
     font-weight: bold;
     text-shadow: 1px 2px 2px rgba(0,0,0,0.2);
+
 }
 .chat-sender{
     /* text-align: right;
@@ -66,7 +67,7 @@
 }
 
 .group-chat-sender-file{
-    
+
     margin: 10px;
 
     display: flex;
@@ -107,12 +108,11 @@
 .group-chat-section {
     display: none;
     border: 1px solid #ccc;
-    padding: 2px;
-    margin-bottom: 100px;
+    padding: 10px 0px 2px 5px;
+width: 100%;
+    /* margin-bottom: 100px; */
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     border-radius: 5px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    font-family: cursive;
-    overflow: auto;
 }
 .input-group {
     display: flex;
@@ -161,7 +161,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .upload-form {
@@ -237,7 +237,7 @@ input{
     padding: 5px;
     width: 400px;
     height: 40px;
-    
+
 }
 
 /* message send user profile */
@@ -257,7 +257,7 @@ input{
 /* view file before send \ */
 #fileDiv{
     display: flex;
-    
+
 }
 
 /* display send file group_chat */
@@ -273,7 +273,7 @@ input{
 }
 
 
-/* group member show 
+/* group owner show
  */
  #owner_profile{
      background-color: antiquewhite;
@@ -284,79 +284,96 @@ input{
      justify-content: center;
      font-family: sans-serif;
      box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.4);
-     
+
 
  }
  #text{
-     
+
      margin-top: 25px;
      margin-left: 20px;
-   
-     
+
+
  }
  #owner_name{
      margin-bottom: 80px;
      font-family: cursive;
      margin-left: 20px;
-    
+
  }
  #owner_profile img{
      /* margin-bottom: 40px; */
      position: absolute;
-     margin-top:-160px; 
+     margin-top:-160px;
      margin-left: 200px;
      margin-bottom: 25px;
      font-size: 50px;
      width: 150px;
      height: 140px;
      box-sizing: border-box;
-     
- }
 
-            /* friend profile display chat and info */
-
- #profile_image_display{
-     height: 250px;
-     width: 90%;
  }
- .profile_info{
-     height: 500px;
-     width: 400px;
-     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-     border-radius: 5px;
+/* group member show */
+#img-view-memberOnly{
+height: 50px;
+width: 100px;
+border-radius: 10px;
+box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+margin: 3px 0px;
+}
+#group_member{
+text-decoration: none;
+color: black;
+}
+.memberShow{
+    height: auto;
+width: 100%;
+display: flex;
+}
+
+  /* friend profile display chat and info */
+
+  #profile_image_display{
+    height: 250px;
+    width: 90%;
+}
+.profile_info{
+    height: 500px;
+    width: 400px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
 
 
 }
 .user_profile_key{
-    font-size: 20px;
-    font-family: cursive;
+   font-size: 20px;
+   font-family: cursive;
 }
 .value_user_profile{
-    color: black;
-    font-family: sans-serif;
-    font-size: 22px;
+   color: black;
+   font-family: sans-serif;
+   font-size: 22px;
 }
 .info_user{
-    background-color: antiquewhite;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    padding: 5px;
+   background-color: antiquewhite;
+   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+   padding: 5px;
 }
 .message_send_user{
-    text-align: center;
-    padding: 4px;
-    color:white;
-    background-color: rgb(52, 64, 241);
-    margin-top: 5px;
-    cursor: pointer;
-    transition-delay: 2500ms;
+   text-align: center;
+   padding: 4px;
+   color:white;
+   background-color: rgb(52, 64, 241);
+   margin-top: 5px;
+   cursor: pointer;
+   transition-delay: 2500ms;
 }
 .chat-section_user_message{
-    padding: 4px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    display: none;
-    margin-left: 80px;
-    font-family: cursive;
+   padding: 4px;
+   border-radius: 5px;
+   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+   display: none;
+   margin-left: 80px;
+   font-family: cursive;
 }
 
 
