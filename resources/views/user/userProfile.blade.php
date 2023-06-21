@@ -43,6 +43,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Password Change</h4>
+                <button type="button" class="btn btn-default float-end" data-bs-dismiss="modal">X</button>
             </div>
             <div class="modal-body">
                 <form  id="password_change" action="{{ route('user_password',$user->id) }}" method="POST">
@@ -53,52 +54,128 @@
                     <label for="current_password">Current Password </label>
                     <input type="text" name="current_password" id="current_password" class="form-control">
                     @error('current_password') <small class="text-danger">{{ $message }}</small> @enderror
+                    <small class="text-danger" id="current_password_error"></small>
                     <br>
                     <label for="new_password">New Password </label>
                     <input type="text" name="new_password" id="new_password" class="form-control">
                     @error('new_password') <small class="text-danger">{{ $message }}</small> @enderror
+                    <small class="text-danger" id="new_password_error"></small>
+
 
                     <br>
                     <label for="confirm_password">Confirm Password </label>
                     <input type="text" name="confirm_password" id="confirm_password" class="form-control">
                     @error('confirm_password') <small class="text-danger">{{ $message }}</small> @enderror
+                    <small class="text-danger" id="confirn_password_error"></small>
 
                     <br>
                     {{-- <input type="submit" value="Confirm" class="form-control"> --}}
-                    <button type="submit" class="btn btn-primary float-end">Update</button>
+                    <a onclick="passwordFormValidation()" class="btn btn-primary float-end">Update</a>
 
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+               
             </div>
         </div>
 
     </div>
 </div>
 
-<!-- The Modal -->
-<div class="modal" id="imageEdit">
-        <div class="modal-dialog">
-          <div class="modal-content">
-      
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Modal Heading</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-      
-            <!-- Modal body -->
-            <div class="modal-body">
-              Are you sure Want To Chage??
-            </div>
-      
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary btn_image" onclick="ajaxView()" value="{{ $user->id }}">Confirm</button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            </div>
+
 <script>
+    // password change form  validation
+    function passwordFormValidation(){
+        let id=$('#user_id').val();
+        let allField=$('#password_change').find('input');
+        let error=0;
+        $.each(allField, function (indexInArray, element) { 
+            let NextEl=$(element).next();
+            if($(NextEl).prop("tagName")=="SPAN"){
+                $(NextEl).remove();
+            }
+             let name=element.name;
+             let type=element.type;
+             let val=element.value;
+
+             if(type=="text"){
+                 if(val=="" || val==null || val==undefined){
+                    $(`<span class="text-danger">The ${name} field is required</span>`).insertAfter($(element));
+                    $(element).addClass('border border-danger');
+                    setTimeout(()=>{
+                        $(element).removeClass('border border-danger');
+                    },2000);
+                    setTimeout(()=>{
+                        let NextEl=$(element).next();
+                        if($(NextEl).prop("tagName")=="SPAN"){
+                            $(NextEl).remove();
+                        }
+                    },6000);
+                    error++;
+                 }
+                 
+             }
+        });
+        if(error<=0){
+
+            let pass1=$('#new_password').val();
+            let pass2=$('#confirm_password').val();
+
+            if(pass1==pass2){
+                let current_password=$('#current_password').val();
+                let new_password=$('#new_password').val();
+                let confirm_password=$('#confirm_password').val();
+                let url=  "{{ route('user_password',':id') }}";
+                url=url.replace(':id',id);
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: {current_password:current_password,new_password:new_password,confirm_password:confirm_password} ,
+                    success: function (res) {
+                        $('#myModal').hide();
+                        $(".modal-backdrop").remove();
+                        if(res.status){
+                            $('#password_change')[0].reset();
+                            $.notify(res.message,'success');
+                        }
+                        if(res.status==false){
+                            $('#password_change')[0].reset();
+
+                           $.notify(res.message,'error');
+                        }
+                        // else{
+                        //     // backend validation error through
+                        //     if(res.data.current_password){
+                        //         $("#current_password_error").text(res.data.current_password[0]);
+                        //     }
+                        //     if(res.data.new_password){
+                        //         $("#new_password_error").text(res.data.new_password[0]);
+                        //     }
+                        //     if(res.data.confirm_password){
+                        //         $("#confirn_password_error").text(res.data.confirm_password[0]);
+                        //     }
+                        // }
+
+                    },
+                    error: function (res) {
+                        console.log(res);
+                    }
+                });
+            }
+            else{
+                $('#confirn_password_error').text('The Confirm Password Does not Match');
+            }
+        }
+       
+    }
+       
+
+          
+           
+       
+    
+
+
     function submitImage() {
         let myForm = document.getElementById('myForm');
         let url="{{ route('ProfileChange',':id') }}";
@@ -132,20 +209,5 @@
 
     }
 
-    function ajaxView(){
-     let url="{{ route('ajaxViewImage',':id') }}";
-        var user_id=$('.btn_image').val();
-        url=url.replace(':id',user_id);
-            $.ajax({
-                url:url,
-                type:"GET",
-                success:function(res){
-                    $('#testing_div').html(res.view);
-
-                },error:function(err){
-                    
-                }
-            })
-        }
 </script>
 @endsection

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Notifications\messageSendNotify;
 use Illuminate\Support\Facades\Notification;
 use App\Models\FriendShip;
+use Validator;
 
 class UserController extends Controller
 {
@@ -135,30 +136,43 @@ class UserController extends Controller
 
     public function user_password(Request $request,$id){
         $user=User::find($id);
-        $request->validate([
+        // $request->validate([
+        //     'current_password'=>'string|required',
+        //     'new_password'=>'required|string',
+        //     'confirm_password'=>['same:new_password'],
+        // ]);
+      $validated=  Validator::make($request->all(),[
             'current_password'=>'string|required',
             'new_password'=>'required|string',
             'confirm_password'=>['same:new_password'],
         ]);
+        $errorMs='';
+        if($validated->fails()){
+        $errorMs='';
+            // return response()->json(['data'=>$validated->errors()]);
+        }
 
         $currentPassword=Hash::checK($request->current_password,auth()->user()->password);
         if($currentPassword){
            $user->update([
                 'password'=>Hash::make($request->new_password)
             ]);
-             Alert::success('success', 'updated Password');
-             return back();
+            //  Alert::success('success', 'updated Password');
+            return response()->json([
+                'status'=>true,
+                'message'=>"Password Change Successfully",
+            ]);
          
         }else{
-            Alert::error('Error', 'Something Went Wrong!');
-            return back();
+            return response()->json([
+                'status'=>false,
+                'message'=>'Current Password Does Not Match!',
+            ]);
         }
     }
 
     public function post(){
-        // get friend post 
         $friendPost=FriendShip::where('status','accepted')->where('user_id',Auth::id())->orwhere('friend_id',auth::id())->where('status','accepted')->get();
-        // dd($friendPost);
         $post_arr=[];
         foreach ($friendPost as $key => $friend) {
             if(Auth::id()!=$friend->friend_id){

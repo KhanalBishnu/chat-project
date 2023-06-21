@@ -115,25 +115,40 @@ class FriendShipController extends Controller
 
         if ($cancle_request) {
             $cancle_request->delete();
-            Alert::success('Success ', 'Friend Request Rejected ');
-            return back();
+            
+            return response()->json([
+                'status'=>true,
+                'message'=>"Cancle Request Successfully"
+            ]);
         } else {
-            Alert::error('error', 'Something went Wrong');
-            return back();
+            // Alert::error('error', 'Something went Wrong');
+            return response()->json([
+                'status'=>false,
+                'message'=>"Something went Wrong! Please try Again"
+            ]);
         }
     }
 
     public function FriendRequestAccept($id)
     {
-        // dd($id);
 
         $accept_request = FriendShip::where('friend_id', Auth::id())->where('user_id', $id)->first();
         if ($accept_request) {
             $accept_request->update([
                 'status' => 'accepted'
             ]);
-            Alert::success('Success ', 'Friend Request accepted ');
-            return back();
+            // Alert::success('Success ', 'Friend Request accepted ');
+            return response()->json([
+                'status'=>true,
+                'message'=>'Friend Request Accepted'
+            ]);
+        
+        }
+        else{
+            return response()->json([
+                'status'=>false,
+                'message'=>'Something went wrong! Please try again'
+            ]);
         }
     }
 

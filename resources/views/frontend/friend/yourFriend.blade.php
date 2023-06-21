@@ -4,27 +4,7 @@
     <div class="row">
         @forelse ($yourFriends as $user)
             <div id="user_info{{ $user->id }}" class="col-md-3 card_friend_list">
-                {{-- <div class="card">
-                    <img class="card-img-top"
-                        src="{{  $user->hasMedia('user_image')?$user->getMedia('user_image')[0]->getFullUrl():url('image/images.jpg')  }}"
-                        alt="Card image">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ $user->name }}</h4>
-                        <p class="card-text">Some example text some example text. John Doe is an architect and engineer
-                        </p>
-                        <div class="row">
-                            <div>
-                                <a href="{{ route('friend_list.profile',$user->id) }}"
-                                    class="btn btn-primary btn-sm">See
-                                    Profile</a>
-                                 <a  class="btn btn-danger btn-sm float-end" href="{{ route('friend_list.delete',$user->id) }}">Delete
-                                Friend</a>
-                                <a id="delete_friend" class="btn btn-danger btn-sm float-end"
-                                    onclick="deletebtn('{{ $user->id }}')">Delete Friend</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
+               
                         <img class=" img-fluid_file" src="{{  $user->hasMedia('user_image')?$user->getMedia('user_image')[0]->getFullUrl():url('image/images.jpg')  }}" alt="Card image" height="100" width="100">
                         <div class="card-body">
                           <h4 class="card-title_name">{{ $user->name }}</h4>
