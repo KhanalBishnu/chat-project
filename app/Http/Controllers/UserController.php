@@ -141,15 +141,32 @@ class UserController extends Controller
         //     'new_password'=>'required|string',
         //     'confirm_password'=>['same:new_password'],
         // ]);
-      $validated=  Validator::make($request->all(),[
+        $validated=  Validator::make($request->all(),[
             'current_password'=>'string|required',
             'new_password'=>'required|string',
             'confirm_password'=>['same:new_password'],
         ]);
-        $errorMs='';
+        $status=false;
+        $message='';
+        // if($validated->fails()){
+        //     foreach($validated->errors()->toArray() as $error){
+        //        foreach($error as $e){
+        //            $message=$message.' '.$e;
+        //        }
+        //     }
+        //     $status=null;
+        //     return response()->json([
+        //         'status'=>$status,
+        //         'message'=>$message,
+        //     ]);
+        // }
+        
         if($validated->fails()){
-        $errorMs='';
-            // return response()->json(['data'=>$validated->errors()]);
+            // dd(gettype($validated->errors()));
+            return response()->json([
+                'status'=>null,
+                'data'=>$validated->errors()
+            ]);
         }
 
         $currentPassword=Hash::checK($request->current_password,auth()->user()->password);
@@ -157,18 +174,23 @@ class UserController extends Controller
            $user->update([
                 'password'=>Hash::make($request->new_password)
             ]);
-            //  Alert::success('success', 'updated Password');
-            return response()->json([
-                'status'=>true,
-                'message'=>"Password Change Successfully",
-            ]);
+           
+           $status=true;;
+           $message="Password Change Successfully";
+           return response()->json([
+            'status'=>$status,
+            'message'=>$message,
+        ]);
          
         }else{
+            $status=false;;
+            $message="Current Password Does Not Match!";
             return response()->json([
-                'status'=>false,
-                'message'=>'Current Password Does Not Match!',
+                'status'=>$status,
+                'message'=>$message,
             ]);
         }
+      
     }
 
     public function post(){

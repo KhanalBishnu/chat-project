@@ -116,12 +116,12 @@
                  
              }
         });
-        if(error<=0){
+        // if(error<=0){
 
             let pass1=$('#new_password').val();
             let pass2=$('#confirm_password').val();
 
-            if(pass1==pass2){
+            // if(pass1==pass2){
                 let current_password=$('#current_password').val();
                 let new_password=$('#new_password').val();
                 let confirm_password=$('#confirm_password').val();
@@ -132,49 +132,48 @@
                     url: url,
                     data: {current_password:current_password,new_password:new_password,confirm_password:confirm_password} ,
                     success: function (res) {
-                        $('#myModal').hide();
+                      
                         $(".modal-backdrop").remove();
                         if(res.status){
                             $('#password_change')[0].reset();
                             $.notify(res.message,'success');
+                            $('#myModal').hide();
                         }
+                     
                         if(res.status==false){
                             $('#password_change')[0].reset();
 
                            $.notify(res.message,'error');
                         }
-                        // else{
-                        //     // backend validation error through
-                        //     if(res.data.current_password){
-                        //         $("#current_password_error").text(res.data.current_password[0]);
-                        //     }
-                        //     if(res.data.new_password){
-                        //         $("#new_password_error").text(res.data.new_password[0]);
-                        //     }
-                        //     if(res.data.confirm_password){
-                        //         $("#confirn_password_error").text(res.data.confirm_password[0]);
-                        //     }
-                        // }
+                        if(res.status==null){
+                            // backend validation error through
+                            if(res.data.current_password){
+                                $("#current_password_error").text(res.data.current_password[0]);
+                            }
+                            if(res.data.new_password){
+                                $("#new_password_error").text(res.data.new_password[0]);
+                            }
+                            if(res.data.confirm_password){
+                                $("#confirn_password_error").text(res.data.confirm_password[0]);
+                            }
+                        }
 
                     },
                     error: function (res) {
                         console.log(res);
                     }
                 });
-            }
-            else{
-                $('#confirn_password_error').text('The Confirm Password Does not Match');
-            }
-        }
+        //     }
+        //     else{
+        //         $('#confirn_password_error').text('The Confirm Password Does not Match');
+        //         setTimeout(()=>{
+        //             $('#confirn_password_error').text('');
+        //         },5000);
+        //     }
+        // }
        
     }
        
-
-          
-           
-       
-    
-
 
     function submitImage() {
         let myForm = document.getElementById('myForm');
