@@ -67,9 +67,9 @@
 
     <div class="image-section">
 
-        <img src="{{ $chat->user->hasMedia('user_image') ? $chat->user->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg')  }}"
+        <img src="{{ $user->hasMedia('user_image') ? $user->getMedia('user_image')[0]->getFullUrl(): asset('image/images.jpg')  }}"
             alt="" width="25px" height="25px">
-        <span class="group-chat-user-name">{{ $chat->user->name }}</span> <span
+        <span class="group-chat-user-name">{{ $user->name }}</span> <span
             class="date_chat-user">{{$chat->created_at->diffForHumans()}}</span>
     </div>
 </div>

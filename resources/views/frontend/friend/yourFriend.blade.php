@@ -2,10 +2,11 @@
 @section('content')
 <div class="container-fluid mt-5 pt-5">
     <div class="row">
+        
         @forelse ($yourFriends as $user)
             <div id="user_info{{ $user->id }}" class="col-md-3 card_friend_list">
                
-                        <img class=" img-fluid_file" src="{{  $user->hasMedia('user_image')?$user->getMedia('user_image')[0]->getFullUrl():url('image/images.jpg')  }}" alt="Card image" height="100" width="100">
+                        <img class=" " src="{{  $user->hasMedia('user_image')?$user->getMedia('user_image')[0]->getFullUrl():url('image/images.jpg')  }}" alt="Card image" height="100" width="100">
                         <div class="card-body">
                           <h4 class="card-title_name">{{ $user->name }}</h4>
                           {{-- <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p> --}}

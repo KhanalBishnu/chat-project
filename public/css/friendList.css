@@ -113,3 +113,9 @@
     object-fit:fill;
     border-radius: 50%;
 }
+.card_friend_list img{
+    width:90%;
+    height:70%;
+    object-fit:fill;
+    border-radius: 50%;
+}

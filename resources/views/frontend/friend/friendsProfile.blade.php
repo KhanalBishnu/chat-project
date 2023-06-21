@@ -8,8 +8,6 @@
     <div class="row p-1 ">
 
         <div class="col-lg-6 border border-warning profile_info">
-                
-            
                 <img id="profile_image_display"
                     src="{{ $user->hasMedia('user_image') ?  $user->getMedia('user_image')[0]->getFullUrl() : '' }}"
                     alt="">
@@ -23,11 +21,7 @@
                     <p class="user_profile_key">Email:  <span class="value_user_profile">{{ $user->email }}</span></p>
                   
                 </div>
-                <div class="message_send_user">Lets Chat
-        
-                        {{-- <a id="" href="{{ route('chat') }}"> Lets Chat</a> --}}
-             
-                     </div>
+                <div class="message_send_user">Lets Chat</div>
              
             </form>
         </div>

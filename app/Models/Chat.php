@@ -18,7 +18,7 @@ class Chat extends Model implements HasMedia
     ];
 
     public function user(){
-        return $this->belongsTo(User::class,'receiver_id', 'id',);
+        return $this->belongsTo(User::class,'receiver_id');
     }
     public function userDetail(){
         return $this->belongsTo(User::class,'sender_id', 'id',);
