@@ -378,49 +378,45 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data" id="postForm">
                     @csrf
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-12">
-                                
+                                   
+                                <div class="row">
+                                    <div class="image_div_post">
+                                            {{-- <label for="image">Image Upload</label> --}}
+                                            <input type="file" name="image" id="image_post"
+                                                class="form-control @error('image') is-invalid @enderror">
+                                    </div>
+                                <div class="col-lg-6 " id="post_create_design">
                                 <label for="title">Post Title</label>
-                                <input type="text" name="name" id="name"
-                                    class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
-                                    required>
-                                @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-
+                                <input type="text" name="name" id="name_post"
+                                    class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
+                                
+                                    </div>
+                                    <div class="col-lg-6">
                                 <label for="description">Description</label>
-                                <textarea name="description" id="description"
-                                    class="form-control @error('description') is-invalid @enderror"
-                                    required>{{ old('description') }}</textarea>
-                                @error('description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                <textarea name="description" id="description_post" style="resize:none"
+                                    class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
+                                
+                                    </div>
+                                </div>
 
-                                <label for="image">Image Upload</label>
-                                <input type="file" name="image" id="image"
-                                    class="form-control @error('image') is-invalid @enderror" required>
-                                @error('image')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                
 
-                                <button type="submit" class="btn btn-primary btn-sm mt-3 float-right">Create Post</button>
+                                <a onclick="PostFormData()" class="btn btn-primary btn-sm mt-3 float-right">Create Post</a>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            </div>
-
+          
         </div>
     </div>
 </div>
+
 {{-- post modal end  --}}
 <script>
             $('#friendpost').hide();
@@ -578,6 +574,26 @@
             //     $('.allpost-pages').toggleClass('dark-mode');
             //     $('.allpost-des').toggleClass('dark-mode');
             //     $('.allpost-dess').toggleClass('dark-mode');
+        }
+
+
+        // post form validation 
+        function PostFormData(){
+            let allField=$('#postForm').find('input,textarea');
+            let error =0;
+            $.each(allField, function (indexInArray, element) { 
+                let name=element.name;
+                let type=element.type;
+                let val=element.value;
+                if(type=="text"){
+                        if(val==""||val==null || val==undefined){
+                            error++;
+                            $(element).addClass('border border-danger');
+                        }
+                    
+                }
+                 
+            });
         }
 </script>
 @endsection

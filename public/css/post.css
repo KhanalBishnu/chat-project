@@ -1,0 +1,28 @@
+#post_create_design{
+    display: flex;
+    flex-direction: row;
+}
+.image_div_post{
+    padding: 10px 5px;
+    height:250px;
+    border-radius: 15px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin: 40px 0px;
+    background-color: rgb(162, 202, 189);
+
+}
+.image_div_post input{
+    width: 250px;
+  height: 190px;
+  border: none;
+  background-color: rgb(138, 197, 176);
+  object-fit: cover;
+  margin-left: 180px;
+  margin-bottom: 300px;
+  /* box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4); */
+}
+#post_create_design{
+    margin-top: 50px;
+}

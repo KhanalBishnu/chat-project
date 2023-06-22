@@ -382,6 +382,14 @@ display: flex;
      object-fit:fill;
 }
 
+/* member show icon  group chat */
+.group_member_show{
+    font-size: 15px;
+    cursor: pointer;
+    color:black;
+    font-weight: 500px;
+}
+
 
 
 

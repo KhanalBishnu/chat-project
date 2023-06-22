@@ -84,3 +84,17 @@
   
     
 }
+
+
+/* design share friend link */
+.share_friend_link{
+    color:black;
+    background:rgb(46, 133, 214);
+    justify-content: center;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 700px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    padding: 4px 
+}
