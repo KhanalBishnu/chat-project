@@ -22,6 +22,7 @@
                   
                 </div>
                 <div class="message_send_user">Lets Chat</div>
+                <div class="message_send_user_share share_friend_link"  data-id={{ $user->id }} data-name={{ $user->name }}>Share <i class="fa-solid fa-copy "></i></div>
              
             </form>
         </div>
@@ -56,6 +57,7 @@
        
         
     </div>
+    
     
 </div>
 </div>
@@ -93,6 +95,19 @@
     });
      var receiver_id=$('#user_id').val();
 
+    // share friend profile
+    $('.share_friend_link').click(function(){
+        let id=$(this).attr('data-id');
+        let name=$(this).attr('data-name');
+        // $(`<sup class="text-dark float-end ">Copied</sup>`).insertBefore($(this));
+        $.notify(`Copied link of ${name}` ,'success');
+        let url=window.location.host+`/admin/friends/request-profile/${id}`;
+        let temp=$('<input>');
+        $('body').append(temp);
+        temp.val(url).select();
+        document.execCommand('copy');
+        temp.remove();
+    });
                        
 </script>
 

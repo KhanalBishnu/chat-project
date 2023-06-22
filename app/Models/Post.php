@@ -18,7 +18,7 @@ class Post extends Model implements HasMedia
         'name',
         'description',
         'user_id',
-        'category_id'
+        // 'category_id'
     ];
 
     public function category(){

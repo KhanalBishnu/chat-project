@@ -60,19 +60,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('post') }}">Post</a>
-                                </li>
-                            <li class="nav-item">
-                                    <a class="nav-link user_list" onclick="ajaxViewUser()">User Profile</a>
-                                </li>
-                    </ul>
-                    <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                    <a class="nav-link test" onclick="ajaxView()">Test</a>
-                                </li>
-                    </ul>
+                  
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -122,36 +110,6 @@
         </main>
     </div>
 
-    <script>
-        $('.test').click();
-        $('.user_list').click();
-
-        function ajaxView(){
-            $.ajax({
-                url:"{{ route('ajaxView') }}",
-                type:"GET",
-                success:function(res){
-                    $('#testing_div').html(res.view);
-
-                },error:function(err){
-                    
-                }
-            })
-        }
-
-        // for user view by ajax 
-        function ajaxViewUser(){
-            $.ajax({
-                url:"{{ route('ajaxViewUser') }}",
-                type:"GET",
-                success:function(res){
-                    $('#user_view').html(res.view);
-                },error:function(err){
-                    
-                }
-            })
-        }
-       
-    </script>
+    
 </body>
 </html>

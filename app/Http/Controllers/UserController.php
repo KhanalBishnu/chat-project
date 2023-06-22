@@ -205,13 +205,13 @@ class UserController extends Controller
             }
         }
         $friendpoSt=Post::whereIn('user_id',$post_arr)->get();
-        $categories=Category::all();
+        
         $user=User::find(Auth::id());
         $post=Post::with('comments')->latest()->get();
         $count=DB::table('notifications')->where('notifiable_id',Auth::id())->where('read_at',Null)->count();
        
 
-        return view('frontend.post.post',compact('categories','post','user','count' ,'friendpoSt'));
+        return view('frontend.post.post',compact('post','user','count' ,'friendpoSt'));
     }
     public function home(){
         $user=User::find(Auth::id());

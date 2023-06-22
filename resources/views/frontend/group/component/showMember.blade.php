@@ -8,6 +8,15 @@
 </div>
 
     @endif
+    @if (Auth::id()!=$groupOwner->creator_id)
+        <div class="leave_button">
+            <a  id="leave_group_user" class="float-right leave_member" data-id={{ $groupOwner->id }}>Leave Group</a>
+        </div>
+        @else
+        <div class="delete_button">
+            <a  id="delete_group_user" class="float-right leave_member" data-id={{ $groupOwner->id}}>Delete Group</a>
+        </div>
+    @endif
 <br>
 <hr>
     Members:

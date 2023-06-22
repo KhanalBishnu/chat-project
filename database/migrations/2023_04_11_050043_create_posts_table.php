@@ -17,10 +17,10 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('category_id');
+            // $table->unsignedBigInteger('category_id');
             $table->text('description');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('categories');
+            // $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }

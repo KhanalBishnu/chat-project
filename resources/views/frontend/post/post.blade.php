@@ -382,7 +382,8 @@
                     @csrf
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-10">
+                            <div class="col-lg-12">
+                                
                                 <label for="title">Post Title</label>
                                 <input type="text" name="name" id="name"
                                     class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
@@ -399,20 +400,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
 
-                                <label for="category_id">Choose Category</label>
-                                <select name="category_id" id="category_id"
-                                    class="form-control @error('category_id') is-invalid @enderror" required>
-                                    <option value="">Choose Your Option</option>
-                                    @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('category_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-
                                 <label for="image">Image Upload</label>
                                 <input type="file" name="image" id="image"
                                     class="form-control @error('image') is-invalid @enderror" required>
@@ -420,7 +407,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
 
-                                <button type="submit" class="btn btn-primary btn-sm mt-3">Create Post</button>
+                                <button type="submit" class="btn btn-primary btn-sm mt-3 float-right">Create Post</button>
                             </div>
                         </div>
                     </div>
@@ -445,10 +432,7 @@
                 $('#allpost').hide();
                 $('#friendpost').show();
             });
-            $(document).ready(function(){
-            
-
-        });
+          
        function likeunlike(postId,countDivId,buttonText,statusDiv){
           let status=$('#'+statusDiv).val();
           var url="{{ route('likeStore',':id') }}";

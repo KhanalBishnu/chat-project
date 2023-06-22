@@ -117,7 +117,7 @@
         </div>
         @else
         <div class="container-fluid text-center col-lg-12">
-            <h4>User Not Found!</h4>
+            <h4>Group Not Found!</h4>
         </div>
         @endif
     </div>
@@ -194,7 +194,8 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Group Member</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Group Member Of <span id="group_name_show"></span> </h5>
+                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -238,26 +239,90 @@ $(document).ready(function(){
     // group member show
         $('.group_member_show').click(function(e){
             var group_id=global_group_id;
-            var sender_id=sender_id;
-            // alert(sender_id);
+            
+            let url="{{ route('showMemberGroup') }}";
             $.ajax({
                 type: "get",
-                url: "/admin/group/member/show",
+                url: url,
                 data: {group_id:group_id},
 
                 success: function (res) {
                     if(res.status){
+                        $('#group_name_show').text(res.group.name);
                         $('#groupMember_show').html(res.view);
                     }
                 }
             });
         });
     //
+    //group member leave group 
+      $(document).on('click','#leave_group_user',function(){
+        let id=global_group_id;
+        Swal.fire({
+            title:"Are You Sure, Leave this Group?",
+            showCancelButton:true,
+            confirmButtonText:"Yes",
+            cancleButtionText:"No",
+            showLoaderOnConfirm:true,
+            allowOutsideClick:()=>! Swal.isLoading()
+        }).then((result)=>{
+            if(result.value){
+                $.ajax({
+                    type: "get",
+                    url: "{{ route('leaveGroup') }}",
+                    data: {id:id},
+                    success: function (res) {
+                        if(res.status){
+                            $.notify(res.message,'success');
+                            location.reload();
+                        }
+                        else{
+                            $.notify(res.message,'error'); 
+                        }
+                    }
+                });
+            }
+        });
+       
+      });
+    //
+
+    //group  delete 
+    $(document).on('click','#delete_group_user',function(){
+        let id=global_group_id;
+        Swal.fire({
+            title:"Are You Sure, Delete this Group?",
+            showCancelButton:true,
+            confirmButtonText:"Yes",
+            cancleButtionText:"No",
+            showLoaderOnConfirm:true,
+            allowOutsideClick:()=>! Swal.isLoading()
+        }).then((result)=>{
+            if(result.value){
+                $.ajax({
+                    type: "get",
+                    url: "{{ route('DeleteGroupByAdmin') }}",
+                    data: {id:id},
+                    success: function (res) {
+                        if(res.status){
+                            $.notify(res.message,'success');
+                            location.reload();
+                        }
+                        else{
+                            $.notify(res.message,'error'); 
+                        }
+                    }
+                });
+            }
+        });
+       
+      });
+    //
 
     // for send button
-    var message =$('#message');
-    var image =$('#image');
-    var image_file=image.prop('files');
+        var message =$('#message');
+        var image =$('#image');
+        var image_file=image.prop('files');
     // message check foe send
         $('#message').on('input',function(){
 

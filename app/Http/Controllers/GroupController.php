@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Group;
+use App\Models\GroupChat;
+use App\Models\GroupMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Models\GroupMember;
 
 class GroupController extends Controller
 {
@@ -209,10 +210,59 @@ class GroupController extends Controller
         $groupMembers=GroupMember::where('group_id',$data['group_id'])->get();
         return response()->json([
             'status'=>true,
+            'group'=>$groupOwner,
             'view'=>view('frontend.group.component.showMember',compact('groupMembers','groupOwner'))->render(),
         ]);
         // dd($groupMember);
         
+    }
+
+    // leave gorup 
+    public function leaveGroup(Request $request){
+        $groupId=$request->id;
+        try {
+            $groupMember=GroupMember::where('group_id',$groupId)->where('user_id',Auth::id())->delete();
+            return response()->json([
+                'status'=>true,
+                'message'=>"Group Leaved Successfully",
+            ]);
+            
+        } catch (\Throwable $th) {
+           return response()->json([
+               'status'=>false,
+               'message'=>$th,
+           ]);
+        }
+        
+       
+    }
+
+    public function DeleteGroup(Request $request){
+        $groupId=$request->id;
+        try {
+            $groupMembers=GroupMember::where('group_id',$groupId)->get();
+            $groupChats=GroupChat::where('group_id',$groupId)->get();
+            if(count($groupMembers)>0){
+                foreach ($groupMembers as $key => $value) {
+                    GroupMember::find($value->id)->delete();
+                }
+            }
+            if(count($groupChats)>0){
+                foreach ($groupChats as $key => $value) {
+                    GroupChat::find($value->id)->delete();
+                }
+            }
+            $group=Group::find($groupId)->delete();
+                return response()->json([
+                    'status'=>true,
+                    'message'=>'Deleted Group Successfully',
+                ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status'=>false,
+                'message'=>$th,
+            ]);
+        }
     }
     
 }

@@ -26,7 +26,7 @@ use App\Http\Controllers\FriendShipController;
 //     return view('userView');
 // });
 Route::get('/', function () {
-    return view('front.index');
+    return view('layouts.app');
 });
 
 Route::get('/user', [App\Http\Controllers\HomeController::class, 'userHome']);
@@ -129,6 +129,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('share-group/{id}', 'GroupShare')->name('GroupShare');
         Route::post('group/joinGroup', 'joinGroup')->name('joinGroup');
         Route::get('/group/member/show', 'showMemberGroup')->name('showMemberGroup');
+        Route::get('/group/member/leave', 'leaveGroup')->name('leaveGroup');
+        Route::get('/group/member/delete', 'DeleteGroup')->name('DeleteGroupByAdmin');
     });
 });
 

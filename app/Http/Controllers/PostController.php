@@ -22,14 +22,13 @@ class PostController extends Controller
        return view('admin.post.index',compact('post'));
     }
     public function create(){
-        $category=Category::all();
-        return view('admin.post.create',compact('category'));
+       
+        return view('admin.post.create');
     }
     public function store(Request $request){
         $data=$request->validate([
             'name'=>'required|string',
             'description'=>'string',
-            'category_id'=>'required',
             'image'=>'mimes:png,jpg',
             'user_id'=>'nullable'
             
@@ -40,8 +39,7 @@ class PostController extends Controller
     }
     public function edit($id){
      $post= $this->post->edit($id);
-     $category=Category::all();
-     return view('admin.post.edit',compact('post','category'));
+     return view('admin.post.edit',compact('post'));
     }
     public function update(Request $request,$id){
 
