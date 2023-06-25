@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Events\FileAddGroupChatEvent;
 use App\Events\GroupChatMessageDelete;
 use App\Events\GroupMessageUpdateEvent;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GroupChatController extends Controller
 {
@@ -61,33 +62,53 @@ class GroupChatController extends Controller
 
 
         }
-        //   $image=$chatGroup->hasMedia('group_chat_image') ? $chatGroup->getMedia('group_chat_image')[0]->getFullUrl():'';
-        //   $video=$chatGroup->hasMedia('group_chat_video') ? $chatGroup->getMedia('group_chat_video')[0]->getFullUrl():'';
-        //   $pdf=$chatGroup->hasMedia('group_chat_pdf') ? $chatGroup->getMedia('group_chat_pdf')[0]->getFullUrl():'';
-      $image=$chatGroup->hasMedia('group_chat_image') ? $chatGroup->getMedia('group_chat_image'):'';
-      $video=$chatGroup->hasMedia('group_chat_video') ? $chatGroup->getMedia('group_chat_video'):'';
-      $pdf=$chatGroup->hasMedia('group_chat_pdf') ? $chatGroup->getMedia('group_chat_pdf'):'';
+//
+    //   $image=$chatGroup->hasMedia('group_chat_image') ? $chatGroup->getMedia('group_chat_image'):'';
+    //   $video=$chatGroup->hasMedia('group_chat_video') ? $chatGroup->getMedia('group_chat_video'):'';
+    //   $pdf=$chatGroup->hasMedia('group_chat_pdf') ? $chatGroup->getMedia('group_chat_pdf'):'';
 
-      $img_arr=[];
-        if($image){
-            foreach($chatGroup->getMedia('group_chat_image') as $img){
-            array_push($img_arr,$img->getUrl());
-            }
-        }
-        $video_arr=[];
-        if($video){
-            foreach($chatGroup->getMedia('group_chat_video') as $video){
-            array_push($video_arr,$video->getUrl());
-            }
-        }
-        $pdf_arr=[];
-        if($pdf){
-            foreach($chatGroup->getMedia('group_chat_pdf') as $pdf){
-            array_push($pdf_arr,$pdf->getUrl());
+    //   $img_arr=[];
+    //     if($image){
+    //         foreach($chatGroup->getMedia('group_chat_image') as $img){
+    //         array_push($img_arr,$img->getUrl());
+    //         }
+    //     }
+    //     $video_arr=[];
+    //     if($video){
+    //         foreach($chatGroup->getMedia('group_chat_video') as $video){
+    //         array_push($video_arr,$video->getUrl());
+    //         }
+    //     }
+    //     $pdf_arr=[];
+    //     if($pdf){
+    //         foreach($chatGroup->getMedia('group_chat_pdf') as $pdf){
+    //         array_push($pdf_arr,$pdf->getUrl());
+    //         }
+
+    //     }
+
+//new method
+            $img_arr = [];
+            $video_arr = [];
+            $pdf_arr = [];
+
+            if ($chatGroup->hasMedia('group_chat_image')) {
+                $imageMedia = $chatGroup->getMedia('group_chat_image');
+                $img_arr = $imageMedia->map(fn($media) => $media->getUrl())->toArray();
             }
 
-        }
+            if ($chatGroup->hasMedia('group_chat_video')) {
+                $videoMedia = $chatGroup->getMedia('group_chat_video');
+                $video_arr = $videoMedia->map(fn($media) => $media->getUrl())->toArray();
+            }
 
+            if ($chatGroup->hasMedia('group_chat_pdf')) {
+                $pdfMedia = $chatGroup->getMedia('group_chat_pdf');
+                $pdf_arr = $pdfMedia->map(fn($media) => $media->getUrl())->toArray();
+            }
+
+            // $fileUrls = array_merge($img_arr, $video_arr, $pdf_arr);
+            // dd($fileUrls);
 
 
         $groupMessage=GroupChat::with('userInfo','media')->where(['group_id'=>$data['group_id'], 'message'=>$data['message'],'sender_id'=>$sender_id,])->first();
@@ -122,12 +143,18 @@ class GroupChatController extends Controller
     }
 
     public function deleteMessage($id){
-        $chat=GroupChat::find($id);
-        if($chat){
+        // $chat=GroupChat::find($id);
+        // if($chat){
 
-            if($chat->hasMedia('group_chat_image') || $chat->hasMedia('group_chat_video') || $chat->hasMedia('group_chat_pdf') ){
-                DB::table('media')->where('model_type','App\Models\GroupChat')->where('model_id',$chat->id)->delete();
-            }
+        //     if($chat->hasMedia('group_chat_image') || $chat->hasMedia('group_chat_video') || $chat->hasMedia('group_chat_pdf') ){
+        //         DB::table('media')->where('model_type','App\Models\GroupChat')->where('model_id',$chat->id)->delete();
+        //     }
+        //     $chat->delete();
+        // }
+        $chat = GroupChat::find($id);
+
+        if ($chat) {
+            $chat->clearMediaCollection(['group_chat_image', 'group_chat_video', 'group_chat_pdf']);
             $chat->delete();
         }
 
@@ -197,20 +224,29 @@ class GroupChatController extends Controller
     }
     public function DeleteGroupImageFile(Request $request){
         $id=$request->id;
-        if($id){
-            DB::table('media')->where('id',$id)->delete();
 
-            return response()->json([
-                'status'=>true,
-                'message'=>'Success'
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>false,
-                'message'=>'Not found id'
-            ]);
-        }
+if ($id) {
+    $media = Media::find($id);
+
+    if ($media) {
+        $media->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Success'
+        ]);
+    } else {
+        return response()->json([
+            'status' => false,
+            'message' => 'Media not found'
+        ]);
+    }
+} else {
+    return response()->json([
+        'status' => false,
+        'message' => 'Invalid ID'
+    ]);
+}
     }
 
 }
