@@ -383,7 +383,6 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-12">
-                                   
                                 <div class="row">
                                     <div class="image_div_post">
                                             {{-- <label for="image">Image Upload</label> --}}
@@ -394,25 +393,21 @@
                                 <label for="title">Post Title</label>
                                 <input type="text" name="name" id="name_post"
                                     class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
-                                
+
                                     </div>
                                     <div class="col-lg-6">
                                 <label for="description">Description</label>
                                 <textarea name="description" id="description_post" style="resize:none"
                                     class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
-                                
+
                                     </div>
                                 </div>
-
-                                
-
                                 <a onclick="PostFormData()" class="btn btn-primary btn-sm mt-3 float-right">Create Post</a>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-          
         </div>
     </div>
 </div>
@@ -428,7 +423,7 @@
                 $('#allpost').hide();
                 $('#friendpost').show();
             });
-          
+
        function likeunlike(postId,countDivId,buttonText,statusDiv){
           let status=$('#'+statusDiv).val();
           var url="{{ route('likeStore',':id') }}";
@@ -444,7 +439,7 @@
                     $('#'+buttonText).text(res.text);
                     $('#'+statusDiv).val(res.text);
                     $.notify(res.message,"success");
-                   
+
                 }
               }
           });
@@ -454,7 +449,7 @@
             var comment=$('#comment'+postId).val();
             var url="{{ route('post.comment',':id') }}";
             url=url.replace(':id',postId);
-            
+
 
             $.ajax({
                 type: "post",
@@ -463,7 +458,7 @@
                 success: function (res) {
                     $('#comment_count'+postId).text(res.count==1?res.count +' comment':res.count +' comments');
 
-                
+
                     $('#accordion-body'+key).append(res.view);
                     $.notify("Comment Added", "success");
 
@@ -488,7 +483,7 @@
                     commentHtml += `<small><b>` + comment.user_id +`</b>`+ comment.comment + `</small>`;
                     commentHtml +=` <p>`+ comment.comment + `</p><span>` + comment.user_id +`</span>`;
                 });
-                
+
                 $('#comments'+postId).html(commentHtml);
 
                  }
@@ -498,10 +493,10 @@
 
         function commentshowhide(key){
             $('#collapseOne'+key).toggle();
-        }   
-    
+        }
+
         function updatecomment(id){
-    
+
          // var comment_id=$('#comment_id').val();
             var comment=$('#comment_update'+id).val();
                 let url="{{ route('comment_update',':id') }}";
@@ -512,17 +507,17 @@
                 url: url,
                 data: {id:id,comment:comment},
                 success: function (res) {
-        
+
                     $('#exampleModal'+id).hide();
                     $('.modal-backdrop').hide();
                     $('#comment_update'+id).val(res.data.comment);
                         $('#commentshow'+id).text(res.data.comment);
                         $.notify("Comment Updated", "success");
-                    
-                    
+
+
                 }
             });
-        }   
+        }
         function deletecomment(id,postId){
             let url="{{ route('comment_delete',':id') }}";
             url=url.replace(':id',id);
@@ -566,7 +561,7 @@
                 return false;
             }
         }
-    //   for mode 
+    //   for mode
         function modeChange(){
             $('#allpage').toggleClass('dark-mode');
             $('#allpost').toggleClass('dark-mode');
@@ -577,11 +572,11 @@
         }
 
 
-        // post form validation 
+        // post form validation
         function PostFormData(){
             let allField=$('#postForm').find('input,textarea');
             let error =0;
-            $.each(allField, function (indexInArray, element) { 
+            $.each(allField, function (indexInArray, element) {
                 let name=element.name;
                 let type=element.type;
                 let val=element.value;
@@ -590,9 +585,9 @@
                             error++;
                             $(element).addClass('border border-danger');
                         }
-                    
+
                 }
-                 
+
             });
         }
 </script>
