@@ -1,0 +1,253 @@
+body{
+    margin: 0;
+    height: 100vh;
+    /* background-image: url('background.jpg'); */
+    /* background-image: url('{{ asset('image/background.jpg')}}'); */
+    /* background-image: {{asset("/image/background.jpg")}}; */
+    /* background-image: url('{{ asset("images/background.jpg") }}'); */
+
+    /* background-image: url('{{ asset("image/background.jpg")}}'); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #2e5574;
+}
+#login_data{
+    background-image: url('/image/login2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+header{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width:100%;
+    height: 50px;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
+    /* overflow: hidden; */
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    z-index: 99;
+}
+.logo{
+    margin-left: 30px;
+    font-weight: 700px;
+}
+.navbar {
+    margin-left: 40px;
+}
+.navbar a{
+    position: relative;
+    margin-left: 50px;
+    font-weight: 500px;
+    font-size: 20px;
+    color: white;
+}
+.navbar .btn-login{
+    padding: 10px 20px;
+    margin-left: 20px;
+    margin-right: 5px;
+    font-weight: 500px;
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    outline: none;
+    cursor: pointer;
+    transition: 0.6s;
+}
+.navbar a::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    border-radius: 5px;
+    left: 0;
+    bottom: -5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+
+
+}
+.navbar a:hover::after{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+.btn-login:hover{
+    background-color: white;
+    color: #162938;
+}
+/* for form */
+.div_container{
+    padding: 20px;
+    height: 500px;
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    /* border: 1px solid red; */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 7px 8px 40px rgba(255, 255, 255, 0.25);
+   /* background: rgba(22, 41, 56, 0.5);  Use the desired rgba value for glass-like color */
+    /* background: rgba(255, 255, 255, 0.835);Set the background color with transparency */
+    background:2px solid transparent;
+    border-radius: 20px; /* Apply rounded corners */
+    /* display: none; */
+    
+    
+      
+    
+
+}
+
+#slide:checked ~ .container{
+
+    left:-400px;
+    position: absolute;
+}
+#slide:checked ~ .signup_form{
+
+   display: unset;
+}
+#slide{
+    display: none;
+
+}
+
+
+.container{
+
+    width: 800px;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    left: 0;;
+    display: flex;
+    flex-direction: row;
+    /* border: 1px solid red; */
+}
+.login_form{
+    margin-top: -30px;
+    width: 400px;
+    height: 100%;
+    padding: 20px;
+}
+.signup_form{
+    /* margin-top: -10px; */
+    width: 400px;
+    height: 100%;
+    padding: 15px;
+    display: none;
+
+}
+.login_form form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+form .form_input{
+    height: 30px;
+    margin: 35px 10px;
+    width: 95%;
+} 
+.form_input label{
+    font-size: 18px;
+    display: flex;
+    color: black;
+}
+.form_input input{
+    height: 40px;
+    width: 100%;
+    padding-left:10px;
+    font-size: 17px;
+    border: 1px solid #162938;
+    outline: none;
+    border-radius: 5px;
+    /* margin-top: 10px; */
+}
+
+.form_input input:focus{
+    border-color: #1f79c3;
+    border-bottom-width: 2.5px;
+}
+.forget-div{
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-self: self-end;
+    margin: 10px 0px;
+    /* color: wheat; */
+    background: white;
+}
+.forget-div a{
+    text-decoration: none;
+    color: #1f7cc3;
+    background: #1f79c3
+}
+.forget-div a:hover{
+    text-decoration: underline;
+}
+.login-div{
+    /* margin-top: 52px 0px 20px 0px; */
+    margin-top: 30px;
+    width: 100%;
+    height: 45px;
+}
+.sign_up_div{
+    margin-top: 18px;
+    color: black;
+    background: whitesmoke;
+}
+.login-div button {
+    height: 100%;
+    width:95% ;
+    background-color: #162938;
+    color: aliceblue;
+    text-transform: uppercase;
+    cursor: pointer;
+
+}
+.login-div button:hover{
+    background-color: rgb(164, 208, 247);
+    border: 1px solid rgb(54, 54, 184);
+    color:#1f79c3;
+}
+
+.signup-div{
+    margin-top: 10px;
+    font-size: 17px;
+    text-align: center;
+    color: black;
+    
+}
+.signup-div a{
+    text-decoration: none;
+    color:white;
+}
+.signup-div a:hover{
+    text-decoration: underline;
+    color: #1f79c3;
+
+}
+form .sign_up_div .slide{
+    cursor: pointer;
+}
+
+form .sign_up_div .slide:hover{
+    text-decoration: underline;
+}
+

@@ -38,6 +38,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
     @if(Auth::check())
         <script>
                 var sender_id=@json(auth()->user()->id);
@@ -47,9 +48,9 @@
     
     @endif
 </head>
-<body>
+<body id="login_data">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -102,14 +103,172 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
 
-        <main class="py-4">
+        <main>
+            <div class="div_container">
+                <input type="checkbox" name="" id="slide">
+                <div class="container">
+                    <div class="login_form">
+                        <h2>Login</h2>
+                        <h5 class="text-danger" id="login_error"></h5>
+                        <form method="POST" action="{{ route('login') }}" id="login_submit">
+                            @csrf
+                        <div class="form_input">
+                            <span class="icon"></span>
+                            <label>Email</label>
+                            <input type="text" class="input" name="email" id="email">
+                            <h6 class="text-danger" id="email_valid"></h6>
+                         
+                        </div>
+                        <div class="form_input">
+                            <span class="icon"></span>
+                            <label>Password</label>
+                            <input type="password" class="input" name="password" id="password">
+                            <h6 class="text-danger" id="password_valid"></h6>
+                    
+                        </div>
+                        <div class="forget-div">
+                            {{-- <a href="">Forget Password</a> --}}
+                        </div>
+                        <div class="login-div">
+                            <button class="" >Login</button>
+                        </div>
+                        
+                    </form>
+                        <div class="signup-div">
+                            Are you not a member? <a href="#"><label for="slide" class="slide" id="register_show">Sign Up</label></a>
+                        </div>
+                    </div>
+                    <div class="signup_form ">
+                            <h2>Register</h2>
+                            <form action="" id="signup_formm">
+                            <div class="form_input">
+                                <span class="icon"></span><label>Full Name</label>
+                                <input type="text" class="input" name="name">
+                            </div>
+                            <div class="form_input">
+                                <span class="icon"></span>
+                                <label>Email</label>
+                                <input type="email" class="input" name="email">
+                            </div>
+                            <div class="form_input">
+                                <span class="icon"></span>
+                                <label>Password</label>
+                                <input type="password" class="input" id="password" name="password">
+                            </div>
+                            <div class="form_input">
+                                <span class="icon"></span><label>Confirm Password</label>
+                                <input type="password" class="input"  id="connfirm_password" name="password_confirmation">
+                            </div>
+                        
+                            <div class="sign-div sign_up_div login-div">
+                                <button class="sign-text" type="submit">Sign Up</button>
+                            </div>
+                        </form>
+                        <div class="signup-div">
+                            Are you member? <a href="#"><label for="slide" class="slide">Login</label></a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+       
+        
+        {{-- <main class="py-4">
             @yield('content')
             @include('sweetalert::alert')
-        </main>
+        </main> --}}
     </div>
 
-    
+    <script>
+      
+//   function loginForm(){
+        //         let password=$('#password').val();
+        //         let email=$('#email').val();
+        //         $.ajax({
+        //                 type: "post",
+        //                 url: "{{ route('login') }}",
+        //                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        //                 data: {
+        //                     email:email,
+        //                     password:password
+        //                 },
+        //                 success: function (res) {
+        //                     if(res.status==true){
+        //                         // $('#login_error').text(res.message);
+        //                         window.location.href = "{{ route('home')}}";
+        //                     }
+        //                     if(res.status==false){
+        //                         $('#login_error').text(res.message);
+        //                     }
+        //                     if(res.status==null && res.data){
+        //                         if(res.data.email){
+        //                             $('#email_valid').text(res.data.email[0]);
+        //                             setTimeout(()=>{
+        //                                 $('#email_valid').text('');
+        //                             },4000);
+        //                         }
+        //                         if(res.data.password){
+        //                             $('#password_valid').text(res.data.password[0]);
+        //                             setTimeout(()=>{
+        //                                 $('#password_valid').text('');
+        //                             },4000);
+        //                         }
+                                
+        //                     }
+        //                 }
+        //             });
+        
+//   }
+     $('#login_submit').submit(function(e){
+                e.preventDefault();
+               let password=$('#password').val();
+                let email=$('#email').val();
+                $.ajax({
+                        type: "post",
+                    url: "{{ route('login') }}",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    data: {
+                        email:email,
+                        password:password
+                    },
+                    success: function (res) {
+                        if(res.status==true){
+                            // $('#login_error').text(res.message);
+                            window.location.href = "{{ route('home')}}";
+                        }
+                        if(res.status==false){
+                            $('#login_error').text(res.message);
+                        }
+                        if(res.status==null && res.data){
+                            if(res.data.email){
+                                $('#email_valid').text(res.data.email[0]);
+                                setTimeout(()=>{
+                                    $('#email_valid').text('');
+                                },6000);
+                            }
+                            if(res.data.password){
+                                $('#password_valid').text(res.data.password[0]);
+                                setTimeout(()=>{
+                                    $('#password_valid').text('');
+                                },6000);
+                            }
+                            
+                        }
+                    }
+                });
+    });
+        $('#signup_formm').click(function(e){
+            e.preventDefault();
+            alert()
+        });
+        $('#register_show').click(function(e){
+            $('.signup_form').show();
+        });
+        
+    </script>
 </body>
 </html>
