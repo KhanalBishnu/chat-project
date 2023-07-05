@@ -22,6 +22,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    {{-- font awesome  --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     {{-- jquery link 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> --}}
     {{-- script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
@@ -115,7 +118,7 @@
                         <form method="POST" action="{{ route('login') }}" id="login_submit">
                             @csrf
                         <div class="form_input">
-                            <span class="icon"></span>
+                            <span class="icon"><i class="fa-solid fa-user"></i></span>
                             <label>Email</label>
                             <input type="text" class="input" name="email" id="email">
                             <h6 class="text-danger" id="email_valid"></h6>
@@ -140,7 +143,7 @@
                             Are you not a member? <a href="#"><label for="slide" class="slide" id="register_show">Sign Up</label></a>
                         </div>
                     </div>
-                    <div class="signup_form ">
+                    {{-- <div class="signup_form ">
                             <h2>Register</h2>
                             <form action="" id="signup_formm">
                             <div class="form_input">
@@ -166,10 +169,10 @@
                                 <button class="sign-text" type="submit">Sign Up</button>
                             </div>
                         </form>
-                        <div class="signup-div">
-                            Are you member? <a href="#"><label for="slide" class="slide">Login</label></a>
-                        </div>
-                        </div>
+                            <div class="signup-div">
+                                Are you member? <a href="#"><label for="slide" class="slide">Login</label></a>
+                            </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

@@ -229,7 +229,7 @@ form .form_input{
 
 .signup-div{
     margin-top: 10px;
-    font-size: 17px;
+    font-size: 14px;
     text-align: center;
     color: black;
     
@@ -249,5 +249,10 @@ form .sign_up_div .slide{
 
 form .sign_up_div .slide:hover{
     text-decoration: underline;
+}
+
+.form_input .icon{
+    position: absolute;
+    margin: 45px 0 0  120px;
 }
 
