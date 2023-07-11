@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Providers\RouteServiceProvider;
+use Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -41,21 +42,51 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function register(Request $request){
+       $data=$request->all();
+        $validator=Validator::make($request->all(),[
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+           
+        ]);
+        
+        if($validator->fails()){
+            return response()->json(['status'=>null,'data'=>$validator->errors()]);
+        }
+        dd($data);
+        try {
+            
+            $user= User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+           
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status'=>false,
+                'message'=>$th->getMessage(),
+            ]);
+        }
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'image'=>'nullable',
-        ]);
-    }
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+            
+    //     ]);
+       
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -63,20 +94,21 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
+    // protected function create(array $data)
+    // {
+    //     dd($data);
         
        
       
-        $user= User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-        if(array_key_exists('file',$data)){
-            $file=$data['image'];
-            $user->addMedia($file)->toMediaCollection('user_image');
-        }
-        return $user;
-    }
+    //     $user= User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => Hash::make($data['password']),
+    //     ]);
+    //     if(array_key_exists('file',$data)){
+    //         $file=$data['image'];
+    //         $user->addMedia($file)->toMediaCollection('user_image');
+    //     }
+    //     return $user;
+    // }
 }
