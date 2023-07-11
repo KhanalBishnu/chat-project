@@ -41,7 +41,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    
     @if(Auth::check())
         <script>
                 var sender_id=@json(auth()->user()->id);
@@ -109,40 +109,43 @@
         </nav> --}}
 
         <main>
-            <div class="div_container">
-                <input type="checkbox" name="" id="slide">
-                <div class="container">
-                    <div class="login_form">
-                        <h2>Login</h2>
-                        <h5 class="text-danger" id="login_error"></h5>
-                        <form method="POST" action="{{ route('login') }}" id="login_submit">
-                            @csrf
-                        <div class="form_input">
-                            <span class="icon"><i class="fa-solid fa-user"></i></span>
-                            <label>Email</label>
-                            <input type="text" class="input" name="email" id="email">
-                            <h6 class="text-danger" id="email_valid"></h6>
-                         
-                        </div>
-                        <div class="form_input">
-                            <span class="icon"></span>
-                            <label>Password</label>
-                            <input type="password" class="input" name="password" id="password">
-                            <h6 class="text-danger" id="password_valid"></h6>
-                    
-                        </div>
-                        <div class="forget-div">
-                            {{-- <a href="">Forget Password</a> --}}
-                        </div>
-                        <div class="login-div">
-                            <button class="" >Login</button>
-                        </div>
-                        
-                    </form>
-                        <div class="signup-div">
-                            Are you not a member? <a href="#"><label for="slide" class="slide" id="register_show">Sign Up</label></a>
-                        </div>
+                <div class="div_container">
+                        <!-- <div class="container"> -->
+                            <div class="login_form">
+                                <h2>Login</h2>
+                                <h5 class="text-danger" id="login_error"></h5>
+                                <form method="POST" action="{{ route('login') }}" id="login_submit">
+                                    <!-- @csrf -->
+                                <div class="form_input" style="--i:1">
+                                    <label>Email</label>
+                                    <span class="icon animation_icon"><i class="fa-solid fa-user"></i></span>
+                                    <input type="text" class="input" name="email" id="email">
+                                    <h6 class="text-danger" id="email_valid"></h6>
+                                 
+                                </div>
+                                <div class="form_input password" style="--i:2">
+                                    <span class="icon1 animation_icon"><i class="fa-solid fa-lock"></i></span>
+                                    <label>Password</label>
+                                    <input type="password" class="input" name="password" id="password">
+                                    <h6 class="text-danger" id="password_valid"></h6>
+                            
+                                </div>
+                                <div class="forget-div">
+                                 <a  class="forget-signup" href="">Forget Password</a> 
+                                </div>
+                                <div class="login-div">
+                                    <button class="" >Login</button>
+                                </div>
+                                
+                            </form>
+                                <div class="signup-div ">
+                                    Are you not a member? <a class="forget-signup" href="#"><label for="slide" class="slide" id="register_show">Sign Up</label></a>
+                                </div>
+                            </div>
+                           
+                        <!-- </div> -->
                     </div>
+          
                     {{-- <div class="signup_form ">
                             <h2>Register</h2>
                             <form action="" id="signup_formm">
@@ -173,9 +176,7 @@
                                 Are you member? <a href="#"><label for="slide" class="slide">Login</label></a>
                             </div>
                         </div> --}}
-                    </div>
-                </div>
-            </div>
+                    
 
         </main>
        

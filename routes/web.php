@@ -27,7 +27,7 @@ use App\Http\Controllers\FriendShipController;
 //     return view('userView');
 // });
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('home.index');
 });
 
 Route::get('/user', [App\Http\Controllers\HomeController::class, 'userHome']);

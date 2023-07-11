@@ -1,258 +1,353 @@
-body{
+*{
     margin: 0;
+    padding: 0;
+
+}
+body{
     height: 100vh;
-    /* background-image: url('background.jpg'); */
-    /* background-image: url('{{ asset('image/background.jpg')}}'); */
-    /* background-image: {{asset("/image/background.jpg")}}; */
-    /* background-image: url('{{ asset("images/background.jpg") }}'); */
-
-    /* background-image: url('{{ asset("image/background.jpg")}}'); */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    background: #2e5574;
+    background: #228cdc;
 }
-#login_data{
-    background-image: url('/image/login2.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-
-}
-header{
-    position: fixed;
-    left: 0;
-    top: 0;
-    width:100%;
-    height: 50px;
-    /* background-color: red; */
-    display: flex;
-    flex-direction: row;
-    /* overflow: hidden; */
-    justify-content: space-between;
-    text-align: center;
-    align-items: center;
-    z-index: 99;
-}
-.logo{
-    margin-left: 30px;
-    font-weight: 700px;
-}
-.navbar {
-    margin-left: 40px;
-}
-.navbar a{
-    position: relative;
-    margin-left: 50px;
-    font-weight: 500px;
-    font-size: 20px;
-    color: white;
-}
-.navbar .btn-login{
-    padding: 10px 20px;
-    margin-left: 20px;
-    margin-right: 5px;
-    font-weight: 500px;
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-    outline: none;
-    cursor: pointer;
-    transition: 0.6s;
-}
-.navbar a::after{
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    background-color: white;
-    border-radius: 5px;
-    left: 0;
-    bottom: -5px;
-    transform-origin: right;
-    transform: scaleX(0);
-    transition: transform .5s;
-
-
-}
-.navbar a:hover::after{
-    transform: scaleX(1);
-    transform-origin: left;
-}
-.btn-login:hover{
-    background-color: white;
-    color: #162938;
-}
-/* for form */
 .div_container{
-    padding: 20px;
-    height: 500px;
-    width: 400px;
+    height: 400px;
+    width: 420px;
     display: flex;
-    flex-direction: row;
-    /* border: 1px solid red; */
-    justify-content: center;
-    align-items: center;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    overflow: hidden;
-    box-shadow: 7px 8px 40px rgba(255, 255, 255, 0.25);
-   /* background: rgba(22, 41, 56, 0.5);  Use the desired rgba value for glass-like color */
-    /* background: rgba(255, 255, 255, 0.835);Set the background color with transparency */
-    background:2px solid transparent;
-    border-radius: 20px; /* Apply rounded corners */
-    /* display: none; */
-    
-    
-      
-    
-
+    background:transparent;
+    /* background:rgba(255, 254, 254, 0.74); */
+    padding: 10px 5px;
+    border-radius:10px;
+    box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    animation: ZoomIn 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
 }
-
-#slide:checked ~ .container{
-
-    left:-400px;
-    position: absolute;
-}
-#slide:checked ~ .signup_form{
-
-   display: unset;
-}
-#slide{
-    display: none;
-
-}
-
-
-.container{
-
-    width: 800px;
+.div_container .login_form{
     height: 100%;
-    padding: 20px;
-    position: absolute;
-    left: 0;;
-    display: flex;
-    flex-direction: row;
-    /* border: 1px solid red; */
+    width: 100%;
+    border-radius: 8px;
+    border-radius: 8px;
+    /* border: 20px solid red; */
 }
-.login_form{
-    margin-top: -30px;
-    width: 400px;
-    height: 100%;
-    padding: 20px;
-}
-.signup_form{
-    /* margin-top: -10px; */
-    width: 400px;
-    height: 100%;
-    padding: 15px;
-    display: none;
-
+.div_container .login_form h2{
+    margin-top: 5px;
+    display: inline-block;
+    font-size: 25px;
+    font-weight: 700;
+    box-shadow: 1px 2px 3px rgba(192, 30, 30, 0.157);
+    /* background: rgb(19, 133, 209); */
+    /*color: rgb(211, 216, 221);
+    */padding: 2px 10px;
+    opacity: 0;
+    animation: ZoomIn 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
+  
 }
 .login_form form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* border: 5px solid red; */
+    height: 300px;
+    padding: 3px;
 }
-form .form_input{
-    height: 30px;
-    margin: 35px 10px;
-    width: 95%;
-} 
-.form_input label{
-    font-size: 18px;
-    display: flex;
-    color: black;
+.login_form form .form_input{
+   height: 60px;
+   margin:20px 0px;
+   /*border: 2px solid red;
+   */padding: 5px 5px;
+   margin-top: 8px;
+   position: relative;
+   opacity: 1;
+   
+   
 }
-.form_input input{
-    height: 40px;
+.login_form form .form_input label{
+    font-size: 20px;
+    display: block;
+    text-align: left;
+    padding: 5px 0;
+    opacity: 0;
+    animation: SlideRight 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
+}
+.login_form form .form_input input{
+    font-size: 15px;
+    height: 38px;
     width: 100%;
-    padding-left:10px;
-    font-size: 17px;
-    border: 1px solid #162938;
+    padding: 5px 5px;
+    /* border: none; */
     outline: none;
-    border-radius: 5px;
-    /* margin-top: 10px; */
+    border: 1px solid gray;
+    border-radius: 6px;
+    font-weight: 400;
+    opacity: 0;
+    animation: SlideLeft 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
+   
 }
+.login_form form .form_input input:focus{
 
-.form_input input:focus{
-    border-color: #1f79c3;
-    border-bottom-width: 2.5px;
-}
-.forget-div{
-    font-size: 17px;
-    display: flex;
-    justify-content: center;
-    align-self: self-end;
-    margin: 10px 0px;
-    /* color: wheat; */
-    background: white;
-}
-.forget-div a{
-    text-decoration: none;
-    color: #1f7cc3;
-    background: #1f79c3
-}
-.forget-div a:hover{
-    text-decoration: underline;
-}
-.login-div{
-    /* margin-top: 52px 0px 20px 0px; */
-    margin-top: 30px;
+    font-size: 15px;
+    height: 30px;
     width: 100%;
-    height: 45px;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    border-bottom: 5px solid #228cdc ;
 }
-.sign_up_div{
-    margin-top: 18px;
-    color: black;
-    background: whitesmoke;
+
+.login_form form .form_input .animation_icon{
+    position: absolute;
+    left: 380px;
+    margin-top: 11px;
+    z-index: 99;
+    /* opacity: 0;
+    animation: SlideRight 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i)); */
+   
 }
-.login-div button {
-    height: 100%;
-    width:95% ;
-    background-color: #162938;
-    color: aliceblue;
-    text-transform: uppercase;
+
+.login_form form .form_input .icon1{
+    position: absolute;
+    left: 380px;
+    margin-top: 45px;
+    z-index: 99;
     cursor: pointer;
-
-}
-.login-div button:hover{
-    background-color: rgb(164, 208, 247);
-    border: 1px solid rgb(54, 54, 184);
-    color:#1f79c3;
 }
 
-.signup-div{
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
-    color: black;
+.login_form form .forget-div{
+  padding: 10px 3px;
+  display: flex;
+  width: 100%;
+  margin-top: 5px;
+  height: 10px;
+  justify-content: end;
+}
+
+.login_form form .forget-div a{
+ text-decoration: none;
+ display: flex;
+ color: rgb(10, 10, 68);
+ justify-content: end;
+ padding: 2px 10px;
+ transition: 0.6s;
+}
+.login_form form .forget-div a:hover{
+    text-decoration: underline;
+    color: blue;
+}
+.login_form form .login-div{
+   width: 100%;
+   height: 40px;
+   margin-top:10px; 
+}
+.login_form form .login-div button{
+   width: 100%;
+   font-size: 18px;
+   font-weight: 700;
+   display: flex;
+   height: 100%;
+   background: rgb(19, 133, 209);
+   cursor: pointer;
+   border-radius: 6px;
+   padding: 25px 0;
+   justify-content: center;
+   align-items: center;
+   opacity: 0;
+   animation: SlideButton 1s ease forwards ;
+   animation-delay: calc(0.2*var(--i));
+  
+}
+.login_form form .login-div button:hover{
+   width: 100%;
+   height: 100%;
+   background:black;
+   color: white;
+   
+   cursor: pointer;
+}
+.login_form .signup-div{
+   width: 100%;
+   height: 60%;
+   height: 10px;
+   padding: 20px 5px;
+   margin-top: 20px ;
+   font-size: 17px;
+   display: flex;
+   justify-content: center;
+   font-weight: 500;
+  margin-top: -30px;
+}
+.login_form .forget-signup{
+    opacity: 0;
+    animation: SlideTop 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
     
 }
-.signup-div a{
+.login_form .signup-div a{
     text-decoration: none;
-    color:white;
+    color:blue;
+   transition: 0.7s;
 }
-.signup-div a:hover{
+
+.login_form .signup-div a:hover{
     text-decoration: underline;
-    color: #1f79c3;
+  
+   color: #228cdc;
+}
+
+@keyframes SlideRight{
+    0%{
+        transform: translateX(400px) ;
+        opacity: 0;
+        
+    }
+    100%{
+        transform: translateX(0) ;
+        opacity: 1;
+       
+    }
+}
+@keyframes SlideLeft{
+    0%{
+        transform: translateX(-400px) ;
+        opacity: 0;
+    }
+    50%{
+        transform: translateX(-20px) ;
+        opacity: 1;
+        
+    }
+    100%{
+        transform: translateX(0) ;
+        opacity: 1;
+        
+    }
+}
+@keyframes SlideTop{
+    0%{
+        transform: translateY(-400px) ;
+        opacity: 0;
+        
+}
+100%{
+    transform: translateY(0) ;
+        opacity: 1;
+        
+}
 
 }
-form .sign_up_div .slide{
+@keyframes SlideButton{
+    0%{
+        transform: translateY(400px) ;
+        opacity: 0;
+       
+    }
+    100%{
+        transform: translateY(0) ;
+        opacity: 1;
+        
+}
+
+}
+@keyframes ZoomIn{
+    0%{
+        transform: scale(1.3) ;
+        opacity: 0;
+        -webkit-transform: scale(1.3) ;
+        -moz-transform: scale(1.3) ;
+        -ms-transform: scale(1.3) ;
+        -o-transform: scale(1.3) ;
+}
+100%{
+        transform: scale(1) ;
+        opacity: 1;
+       
+    }
+    
+}
+
+/* sign up */
+
+.Sign_div_container{
+    height: 550px;
+    width: 420px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background:white;
+    padding: 10px 5px;
+    border-radius:10px;
+    box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    animation: ZoomIn 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
+}
+
+.Sign_div_container .signup_form{
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    border-radius: 8px;
+    /* border: 20px solid red; */
+}
+.Sign_div_container .signup_form h2{
+    margin-top: 5px;
+    display: inline-block;
+    font-size: 25px;
+    font-weight: 700;
+    box-shadow: 1px 2px 3px rgba(192, 30, 30, 0.157);
+    /* background: rgb(19, 133, 209); */
+    /*color: rgb(211, 216, 221);
+    */padding: 2px 10px;
+    opacity: 0;
+    animation: ZoomIn 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
+  
+}
+.login_form .loginbutton-div{
+   width: 100%;
+   height: 100%;
+   height: 10px;
+   padding: 20px 5px;
+   margin-top: 150px ;
+   font-size: 17px;
+ 
+  
+   font-weight: 500;
+}
+.login_form form .form_input input{
+    font-size: 20px;
+    height: 25px;
+    width: 95%;
+    padding: 5px 5px;
+    /* border: none; */
+    outline: none;
+    border: 1px solid gray;
+    border-radius: 6px;
+    opacity: 0;
+    animation: SlideLeft 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
+   
+}
+.login_open{
     cursor: pointer;
+    text-decoration: none;
+    color: blue;
 }
-
-form .sign_up_div .slide:hover{
+.login_open:hover{
+  
     text-decoration: underline;
+    color: #228cdc;
 }
 
-.form_input .icon{
-    position: absolute;
-    margin: 45px 0 0  120px;
+.text-danger{
+    color: red;
 }
+
 
