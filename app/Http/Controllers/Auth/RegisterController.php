@@ -73,7 +73,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        if($file=$data['image']){
+        if(array_key_exists('file',$data)){
+            $file=$data['image'];
             $user->addMedia($file)->toMediaCollection('user_image');
         }
         return $user;

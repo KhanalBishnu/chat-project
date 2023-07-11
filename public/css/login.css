@@ -9,6 +9,12 @@ body{
     justify-content: center;
     align-items: center;
     background: #228cdc;
+    /* background-image: url("/image/back-div.jpg"); */
+    background-image: url("/image/back-div.jpg");
+
+
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .div_container{
     height: 400px;
@@ -18,11 +24,23 @@ body{
     align-items: center;
     justify-content: center;
     position: relative;
-    background:transparent;
-    /* background:rgba(255, 254, 254, 0.74); */
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    /* backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(0px);
+    border: 1px solid rgba(255, 255, 255, 0.94);
+    /* background-image: url("/image/test.jpg"); */
+    background-image: url("/image/final.jpg");
+
+
+    /* background:transparent; 
+    background-repeat: no-repeat;
+    background-size: cover; */
+    
     padding: 10px 5px;
     border-radius:10px;
-    box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.2);
+    background: transparent;
+    /* box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.2); */
     opacity: 0;
     animation: ZoomIn 1s ease forwards ;
     animation-delay: calc(0.2*var(--i));
@@ -82,7 +100,7 @@ body{
     outline: none;
     border: 1px solid gray;
     border-radius: 6px;
-    font-weight: 400;
+    font-weight: 600;
     opacity: 0;
     animation: SlideLeft 1s ease forwards ;
     animation-delay: calc(0.2*var(--i));
@@ -150,7 +168,7 @@ body{
    font-weight: 700;
    display: flex;
    height: 100%;
-   background: rgb(19, 133, 209);
+   background: rgba(138, 33, 120, 0.561);
    cursor: pointer;
    border-radius: 6px;
    padding: 25px 0;
@@ -280,10 +298,18 @@ body{
     align-items: center;
     justify-content: center;
     position: relative;
-    background:white;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    border: 1px solid rgba(255, 255, 255, 0.94);
+
+    background:transparent;
+    
+   
     padding: 10px 5px;
     border-radius:10px;
-    box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.2);
+    
     opacity: 0;
     animation: ZoomIn 1s ease forwards ;
     animation-delay: calc(0.2*var(--i));
@@ -349,5 +375,38 @@ body{
 .text-danger{
     color: red;
 }
+.login_form form .login-div a{
+    width: 100%;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    height: 100%;
+    background: rgba(138, 33, 120, 0.561);
+    cursor: pointer;
+    border-radius: 6px;
+    margin-top: 40px;
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    animation: SlideButton 1s ease forwards ;
+    animation-delay: calc(0.2*var(--i));
+    
+   
+ }
+ .login_form form .login-div a:hover{
+    width: 100%;
+    height: 100%;
+    background:black;
+    color: white;
+    
+    cursor: pointer;
+ }
+ small{
+     font-size: 16px;
+     font-family: sans-serif;
+     display: flex;
+     align-items: flex-start;
+ }
 
 

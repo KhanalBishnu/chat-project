@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
-       <!-- CSRF Token -->
-       <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -18,9 +18,9 @@
 
 <body>
 
-    <div class="div_container" >
+    <div class="div_container">
 
-        <div class="login_form" >
+        <div class="login_form">
             <h5 class="text-danger" id="login_error"></h5>
             <h2>Login</h2>
             <form method="POST" action="{{ route('login') }}" id="login_submit">
@@ -59,7 +59,8 @@
 
         <div class="signup_form login_form ">
             <h2>Register</h2>
-            <form action="" id="signup_formm">
+            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" id="signup_formm">
+                @csrf
                 <div class="form_input">
                     <span class="icon"></span><label>Full Name</label>
                     <input type="text" class="input" name="name">
@@ -72,15 +73,17 @@
                 <div class="form_input">
                     <span class="icon"></span>
                     <label>Password</label>
-                    <input type="password" class="input" id="password" name="password">
+                    <input type="password" class="input" id="password" name="password"><br>
                 </div>
                 <div class="form_input">
                     <span class="icon"></span><label>Confirm Password</label>
                     <input type="password" class="input" id="connfirm_password" name="password_confirmation">
+                    <span class="text-danger" id="password_error"></span>
                 </div>
-
+                
                 <div class="sign-div sign_up_div login-div">
-                    <button class="sign-text" type="submit">Sign Up</button>
+                    {{-- <button class="sign-text" type="submit">Sign Up</button> --}}
+                    <a onclick="signupValidation()" class="sign-text" >Sign Up</a>
                 </div>
             </form>
             <div class="loginbutton-div">
@@ -118,43 +121,122 @@ function signUpForm(){
    
 }
     $('#login_submit').submit(function(e){
-                e.preventDefault();
-               let password=$('#password').val();
-                let email=$('#email').val();
-                $.ajax({
-                        type: "post",
-                    url: "{{ route('login') }}",
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    data: {
-                        email:email,
-                        password:password
-                    },
-                    success: function (res) {
-                        if(res.status==true){
-                            // $('#login_error').text(res.message);
-                            window.location.href = "{{ route('home')}}";
-                        }
-                        if(res.status==false){
-                            $('#login_error').text(res.message);
-                        }
-                        if(res.status==null && res.data){
-                            if(res.data.email){
-                                $('#email_valid').text(res.data.email[0]);
-                                setTimeout(()=>{
-                                    $('#email_valid').text('');
-                                },4000);
-                            }
-                            if(res.data.password){
-                                $('#password_valid').text(res.data.password[0]);
-                                setTimeout(()=>{
-                                    $('#password_valid').text('');
-                                },4000);
-                            }
-                            
-                        }
+            e.preventDefault();
+            let password=$('#password').val();
+            let email=$('#email').val();
+            $.ajax({
+                    type: "post",
+                url: "{{ route('login') }}",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                data: {
+                    email:email,
+                    password:password
+                },
+                success: function (res) {
+                    if(res.status==true){
+                        // $('#login_error').text(res.message);
+                        window.location.href = "{{ route('home')}}";
                     }
-                });
+                    if(res.status==false){
+                        $('#login_error').text(res.message);
+                    }
+                    if(res.status==null && res.data){
+                        if(res.data.email){
+                            $('#email_valid').text(res.data.email[0]);
+                            setTimeout(()=>{
+                                $('#email_valid').text('');
+                            },4000);
+                        }
+                        if(res.data.password){
+                            $('#password_valid').text(res.data.password[0]);
+                            setTimeout(()=>{
+                                $('#password_valid').text('');
+                            },4000);
+                        }
+                        
+                    }
+                }
+            });
     });
+
+    function signupValidation(){
+        let allField=$('#signup_formm').find('input');
+        let error=0;
+        let password=$('#password').val();
+        let confirm_password=$('#connfirm_password').val();
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        $.each(allField, function (indexInArray, element) { 
+             let name=element.name;
+             let type=element.type;
+             let val=element.value;
+             let NextEl=$(element).next();
+             if($(NextEl).prop("tagName")=="SMALL"){
+                 $(NextEl).remove();
+             }
+             if(type=="text" || type=="password" ){
+                 if(val=="" || val==null){
+                    $(`<small class="text-danger">Required ${name} field!</small>`).insertAfter($(element));
+                 error++;
+                    setTimeout(()=>{
+                           if($(element).next().prop("tagName")=="SMALL"){
+                               $(element).next().remove();
+                           }
+                        },4000);
+                 }else{
+
+                    if(type=="password" && val.length<7 && name=="password"){
+                        $(`<small class="text-danger"> Password must be at least 8 character</small>`).insertAfter($(element));
+                        error++;
+                        setTimeout(()=>{
+                           if($(element).next().prop("tagName")=="SMALL"){
+                               $(element).next().remove();
+                           }
+                        },4000);
+                    }
+                 }
+
+             }
+             if(type=="email" ){
+                if(val=="" || val==null){
+                    $(`<small class="text-danger">Required ${name} field!</small>`).insertAfter($(element));
+                    error++;
+                    setTimeout(()=>{
+                           if($(element).next().prop("tagName")=="SMALL"){
+                               $(element).next().remove();
+                           }
+                        },4000);
+                }else{
+                    if(!val.match(validRegex)){
+                        error++;
+                        $(`<small class="text-danger">Invalide Email format</small>`).insertAfter($(element));
+                        setTimeout(()=>{
+                           if($(element).next().prop("tagName")=="SMALL"){
+                               $(element).next().remove();
+                           }
+                        },4000);
+                    }
+                }
+             }
+        });
+        
+        if(password && confirm_password){
+
+            if(password!=confirm_password){
+                error++;
+                $('#password_error').text('Password and Confirm password does not match');
+                setTimeout(()=>{
+                    $('#password_error').text('');
+                },4000);
+            }else{
+                
+            }
+        }
+        debugger
+        if(error<=0){
+            $('#signup_formm').submit();        
+        }
+    }
+  
 
 
     </script>
