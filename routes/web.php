@@ -34,7 +34,7 @@ Route::get('/user', [App\Http\Controllers\HomeController::class, 'userHome']);
 
 
 
-Auth::routes(['register' => false]);
+Auth::routes();
 
 Route::get('/view', [App\Http\Controllers\HomeController::class, 'index'])->name('ajaxView');
 Route::get('/view/userImage/{id}', [App\Http\Controllers\HomeController::class, 'userImage'])->name('ajaxViewImage');
