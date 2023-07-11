@@ -170,6 +170,7 @@ function signUpForm(){
             let name=$('#name').val();
             $.ajax({
                     type: "post",
+                    
                 url: "{{ route('register') }}",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 data: {
