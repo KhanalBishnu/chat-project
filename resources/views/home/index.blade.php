@@ -20,7 +20,41 @@
 
 <body>
 
-    <div class="div_container">
+
+    <div class="nav_container">
+        <div class="navbar">
+            <a class="nav_a" href="">Chats.</a>
+            <div class="na_link">
+                <a onclick="login_open()">Login</a>
+                <a onclick="signUpForm()">Sign Up</a>
+            </div>
+        </div>
+    </div>
+    <div class="home">
+        <div class="home_content">
+            <img src="{{ asset('/image/final.jpg') }}" alt="">
+
+        </div>
+        <div class="content-body">
+            <h5>WELCOME</h5>
+        </div>
+        <div class="child">
+
+            <h3>Connect to your Friend!</h3>
+        </div>
+    </div>
+    </div>
+    <div class="extra">
+        <h4></h4>
+    </div>
+    <div class="left_extra">
+        <h4></h4>
+    </div>
+    <div class="buttom_extra">
+        <h2>Welcome To Chat System</h2>
+    </div>
+
+    <div class="div_container both" style="display:none;">
 
         <div class="login_form">
             <h5 class="text-danger" id="login_error"></h5>
@@ -57,7 +91,7 @@
             </div>
         </div>
     </div>
-    <div class="Sign_div_container" style="display:none;">
+    <div class="Sign_div_container both" style="display:none;">
 
         <div class="signup_form login_form ">
             <h5 class="text-danger" id="login_error"></h5>
