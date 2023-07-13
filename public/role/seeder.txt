@@ -1,0 +1,44 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+
+class PermissionTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        // Permission::firstOrCreate(['name' => 'View ', 'module' => 'Admin', 'guard_name' => 'web']);
+        // Permission::firstOrCreate(['name' => 'Create', 'module' => 'Admin', 'guard_name' => 'web']);
+        // Permission::firstOrCreate(['name' => 'Delete', 'module' => 'Admin', 'guard_name' => 'web']);
+        // Permission::firstOrCreate(['name' => 'Update', 'module' => 'Admin', 'guard_name' => 'web']);
+
+        Permission::firstOrCreate(['name' => 'View|Category ', 'module' => 'Category', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Create|Category', 'module' => 'Category', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Delete|Category', 'module' => 'Category', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Update|Category', 'module' => 'Category', 'guard_name' => 'web']);
+
+        Permission::firstOrCreate(['name' => 'View|Product ', 'module' => 'Product', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Create|Product', 'module' => 'Product', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Delete|Product', 'module' => 'Product', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Update|Product', 'module' => 'Product', 'guard_name' => 'web']);
+
+        Permission::firstOrCreate(['name' => 'View|Footer ', 'module' => 'Footer', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Create|Footer', 'module' => 'Footer', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Delete|Footer', 'module' => 'Footer', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Update|Footer', 'module' => 'Footer', 'guard_name' => 'web']);
+
+        Permission::firstOrCreate(['name' => 'View|Slider ', 'module' => 'Slider', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Create|Slider', 'module' => 'Slider', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Delete|Slider', 'module' => 'Slider', 'guard_name' => 'web']);
+        Permission::firstOrCreate(['name' => 'Update|Slider', 'module' => 'Slider', 'guard_name' => 'web']);
+
+
+    }
+}
