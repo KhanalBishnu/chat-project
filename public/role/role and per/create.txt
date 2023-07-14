@@ -1,0 +1,126 @@
+@extends('layouts.app')
+<style>
+    .container_module {
+        height: 35px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .contain_per {
+        margin: 8px 25px;
+        padding: 2px 5px;
+    }
+</style>
+@section('content')
+<div class="container">
+        
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <a href="{{ route('role.index') }}" class="float-end btn btn-danger">Back</a>
+        </div>
+        <div class="col-md-8">
+           
+                <form action="{{route('role.store')}}" enctype="multipart/form-data" method="POST">
+                @csrf
+               
+                    <div class="col-md-12">
+
+                        <div class="mb-3 my-5 form-group">
+                            <label for="name">Role Name</label>
+                            <input type="text" name="name" class="form-control">
+                            @error('name') <small class="text-danger">{{ $message }}</small>@enderror
+                        </div>
+                        <h3 class="text-xl my-4 text-gray-600">Permissions</h3>
+                        <div class="grid grid-cols-3 gap-4">
+                            {{-- @foreach($permissions as $permission)
+                              <div class="flex flex-col justify-cente">
+                                  <div class="flex flex-col">
+                                      <label class="inline-flex items-center mt-3">
+                                          <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="permissions[]" value="{{$permission->id}}"
+                            ><span class="ml-2 text-gray-700">{{ $permission->name }}</span>
+                            </label>
+                        </div>
+                    </div>
+                    @endforeach --}}
+                    @foreach($modules as $module)
+
+                    <div class="container my-4">
+                        <div class=" text-center" style="height:35px;width:100%;background:gray;font-weight:600;">
+                            {{$module }} <input id="module_name{{$module }}"  onclick="checkedunchecked( {{$module }})" data-name="{{$module  }}" class="form-check-input mx-2" type="checkbox"></div>
+
+                        <div class="container_module">
+                            @foreach (\Spatie\Permission\Models\Permission::where('module',$module)->get() as $perm)
+                            @php
+                                $exploaded=explode('|',$perm->name);
+                                $name=$exploaded[0];
+                            @endphp
+                           
+                            <div class="form-check form-switch mt-3">
+                                    <input data-name="{{$module }}"  class="form-check-input permission{{$module }}" type="checkbox" id="permission{{$module }}" name="permissions[]" value="{{$perm->id}}">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">{{ $name }}</label>
+                                  </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+           
+                <div class="col-md-6 mt-5">
+                    <button class="btn btn-primary" type="submit">Save Role</button>
+                </div>
+
+            </div>
+       
+        </form>
+    </div>
+</div>
+</div>
+</div>
+<script>
+
+    
+    $('input[id^="module_name"]').change(function(){
+       let name= $(this).attr('data-name');
+
+       if (!$(this).is(':checked')) {
+        $(this).prop("checked", false);
+        $('.permission'+name).prop("checked", false)
+        
+        
+    }
+       if ($(this).is(':checked')) {
+        $(this).prop("checked", true);
+        $('.permission'+name).prop("checked", true);
+       
+    }
+
+
+    });
+    $('input[id^="permission"]').change(function(){
+        let name= $(this).attr('data-name');
+  
+        var allCheckedCount=0;
+        var allUncheckedCount=0;
+        let field= $('#permission'+name);
+        field= $(field[0].parentElement.parentElement).find('input')
+        let fieldLength=field.length;
+        $.each(field, function (indexInArray, element) { 
+            if($(element).is(':checked')){
+                allCheckedCount++;
+            }else{
+                allUncheckedCount++;
+            }
+        });
+      
+        if(allCheckedCount==fieldLength){
+            $('#module_name'+name).prop('checked',true);
+        }
+        if(allUncheckedCount>0){
+            $('#module_name'+name).prop('checked',false);
+        }
+
+    });
+</script>
+@endsection
