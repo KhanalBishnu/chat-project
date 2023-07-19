@@ -1,0 +1,62 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Brochure;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
+class BrochureController extends Controller
+{
+    public function store(Request $request){
+        $request->validate([
+            'file'=>'required|mimes:png,jpg,pdf,jpeg|max:2048'
+        ]);
+        // dd($request->all());
+        $brochure=Brochure::where('name','Brochure')->first();
+        $image=$request->file;
+        $size=$image->getSize()/1024/1024;
+        $fileName=$image->getClientoriginalName();
+        $exploaded=explode('.',$fileName);
+        $extension=$exploaded[count($exploaded)-1];
+        if($size<=2){
+
+            if($extension=='pdf'){
+    
+                if($brochure->hasMedia('brochure_file')){
+                    $brochure->clearMediaCollection('brochure_file');
+                }
+                if($brochure->hasMedia('brochure')){
+                    $brochure->clearMediaCollection('brochure');
+                }
+                
+                $brochure->addMedia($request->file)->toMediaCollection('brochure_file');
+            }else{
+                if($brochure->hasMedia('brochure_file')){
+                    $brochure->clearMediaCollection('brochure_file');
+                }
+                if($brochure->hasMedia('brochure')){
+                    $brochure->clearMediaCollection('brochure');
+                }
+                $brochure->addMedia($request->file)->toMediaCollection('brochure');
+            }
+            Alert::success('Success','Added Brochure Succesfully');
+            return back();
+        }
+        else{
+            Alert::error('error', 'File Size is greater then 2 MB');
+            return back();
+        }
+
+        
+    }
+
+    public function index(){
+        $brochure=Brochure::where('name','Brochure')->first();
+        return view('backend.brochure.index',compact('brochure'));
+    }
+    public function test(){
+        return 'test';
+      
+    }
+}
