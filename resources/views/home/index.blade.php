@@ -25,8 +25,12 @@
         <div class="navbar">
             <a class="nav_a" href="">Chats.</a>
             <div class="na_link">
+                @if(auth()->user())
+                <a href="{{ route('home') }}">Home</a>
+                @else
                 <a onclick="login_open()">Login</a>
                 <a onclick="signUpForm()">Sign Up</a>
+                @endif
             </div>
         </div>
     </div>
