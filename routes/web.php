@@ -31,6 +31,7 @@ Route::get('/', function () {
 });
 
 Route::get('/user', [App\Http\Controllers\HomeController::class, 'userHome']);
+Route::post('/forget-password', [App\Http\Controllers\UserController::class, 'forgetPassword'])->name('forgetPassword');
 
 
 

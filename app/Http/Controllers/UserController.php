@@ -288,4 +288,9 @@ class UserController extends Controller
 
         
     }
+
+    public function forgetPassword(Request $request){
+        $data=$request->all();
+        dd($data);
+    }
 }
