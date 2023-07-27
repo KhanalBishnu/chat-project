@@ -9,17 +9,23 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css"> --}}
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+   
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <body>
 
+    <section id="loading">
+        <div id="loading-content"></div>
+        <p style="display:none" id="loading-content-p">Please Wait ... </p>
+    </section>
 
     <div class="nav_container">
         <div class="navbar">
@@ -34,12 +40,16 @@
             </div>
         </div>
     </div>
-    <div class="home">
+    @if(session('message'))
+    <div class="text-danger">{{ session('message') }}</div>
+    @endif
+   
+    <div class="home" id="content_body">
         <div class="home_content">
             <img src="{{ asset('/image/final.jpg') }}" alt="">
 
         </div>
-        <div class="content-body">
+        <div class="content-body" id="textWelcome">
             <h5>WELCOME</h5>
         </div>
         <div class="child">
@@ -47,13 +57,14 @@
             <h3>Connect to your Friend!</h3>
         </div>
     </div>
-    </div>
+
     <div class="extra">
         <h4></h4>
     </div>
     <div class="left_extra">
         <h4></h4>
     </div>
+    @yield('content')
     <div class="buttom_extra">
         <h2>Welcome To Chat System</h2>
     </div>
@@ -83,7 +94,7 @@
 
                 </div>
                 <div class="forget-div">
-                    <a class="forget-signup" href="">Forget Password</a>
+                    <a class="forget-signup" id="forget_password_a" onclick="ForgetPassword()">Forget Password</a>
                 </div>
                 <div class="login-div">
                     <button class="">Login</button>
@@ -277,84 +288,69 @@
             });
         });
 
-        // function signupValidation(){
-        //     let allField=$('#signup_formm').find('input');
-        //     let error=0;
-        //     let password=$('#password').val();
-        //     let confirm_password=$('#connfirm_password').val();
-        //     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    //     $.each(allField, function (indexInArray, element) { 
-    //          let name=element.name;
-    //          let type=element.type;
-    //          let val=element.value;
-    //          let NextEl=$(element).next();
-    //          if($(NextEl).prop("tagName")=="SMALL"){
-    //              $(NextEl).remove();
-    //          }
-    //          if(type=="text" || type=="password" ){
-    //              if(val=="" || val==null){
-    //                 $(`<small class="text-danger">Required ${name} field!</small>`).insertAfter($(element));
-    //              error++;
-    //                 setTimeout(()=>{
-    //                        if($(element).next().prop("tagName")=="SMALL"){
-    //                            $(element).next().remove();
-    //                        }
-    //                     },4000);
-    //              }else{
+        function ForgetPassword() { 
+            Swal.fire({
+            title: 'Enter Email Address',
+            input: 'email',
+            inputLabel: 'Email',
+            inputPlaceholder: 'Enter email address',
+            showCancelButton: true,
+            confirmButtonText: 'Send',
+            cancelButtonText: 'Cancel',
+            preConfirm: (email) => {
+                if (email && !isValidEmail(email)) {
+                Swal.showValidationMessage('Invalid email address');
+                } else if (email) {
+                    $('#loading').addClass('loading');
+                     $('#loading-content').addClass('loading-content');
+                     $('#loading-content-p').addClass('loading-content-p');
+                  sendEmail(email);
+                } else {
+                Swal.showValidationMessage('Email address is required');
+                }
+            }
+            });
 
-    //                 if(type=="password" && val.length<7 && name=="password"){
-    //                     $(`<small class="text-danger"> Password must be at least 8 character</small>`).insertAfter($(element));
-    //                     error++;
-    //                     setTimeout(()=>{
-    //                        if($(element).next().prop("tagName")=="SMALL"){
-    //                            $(element).next().remove();
-    //                        }
-    //                     },4000);
-    //                 }
-    //              }
+            function isValidEmail(email) {  
+                var regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+                return regex.test(email);
+            }
 
-    //          }
-    //          if(type=="email" ){
-    //             if(val=="" || val==null){
-    //                 $(`<small class="text-danger">Required ${name} field!</small>`).insertAfter($(element));
-    //                 error++;
-    //                 setTimeout(()=>{
-    //                        if($(element).next().prop("tagName")=="SMALL"){
-    //                            $(element).next().remove();
-    //                        }
-    //                     },4000);
-    //             }else{
-    //                 if(!val.match(validRegex)){
-    //                     error++;
-    //                     $(`<small class="text-danger">Invalide Email format</small>`).insertAfter($(element));
-        //                     setTimeout(()=>{
-        //                        if($(element).next().prop("tagName")=="SMALL"){
-        //                            $(element).next().remove();
-        //                        }
-        //                     },4000);
-        //                 }
-        //             }
-        //          }
-        //     });
+            function sendEmail(email){
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('forgetPassword') }}",
+                    headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                     },
+                    data: {
+                         email:email,
+                         },
+                    success: function (res) {
+                        if(res.status){
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            $('#loading-content-p').removeClass('loading-content-p');
+                            Swal.fire({
+                                title: 'Email Sent',
+                                text: 'Email sent successfully',
+                                icon: 'success'
+                            });
+                        }else{
+                            Swal.fire({
+                                title: 'Oops...',
+                                text: res.message,
+                                icon: 'error',
+                                });
+                        }
+                    }
+                });
+            }
+           
 
-        //     if(password && confirm_password){
 
-        //         if(password!=confirm_password){
-        //             error++;
-        //             $('#password_error').text('Password and Confirm password does not match');
-        //             setTimeout(()=>{
-        //                 $('#password_error').text('');
-        //             },4000);
-        //         }else{
+         }
 
-        //         }
-        //     }
-        //     debugger
-        //     if(error<=0){
-        //         // $('#signup_formm').submit();      
-        // document.querySelector('#sign_up_button').type = "submit";  
-        //     }
-        // }
     </script>
 </body>
 

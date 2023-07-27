@@ -1,0 +1,10 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: whitesmoke;
+}
+
+.nav_logo a{
+    font-size: 25px;
+    font-weight: 700;
+}

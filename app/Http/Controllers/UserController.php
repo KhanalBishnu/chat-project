@@ -3,20 +3,22 @@
 namespace App\Http\Controllers;
 
 use Alert;
+use Validator;
 use App\Models\Chat;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\FriendShip;
 use App\Events\MessageEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\MessageDeletedEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use App\Notifications\messageSendNotify;
+use App\Notifications\ForgetPasswordNotify;
 use Illuminate\Support\Facades\Notification;
-use App\Models\FriendShip;
-use Validator;
 
 class UserController extends Controller
 {
@@ -291,6 +293,67 @@ class UserController extends Controller
 
     public function forgetPassword(Request $request){
         $data=$request->all();
-        dd($data);
+        try {
+            $user=User::where('email',$data['email'])->first();
+            if($user){
+                $domain= route('frontHome');
+                $email = Crypt::encrypt($data['email']);
+                $url=$domain.'/forget-password/'.$email;
+                Notification::route('mail',$user->email)->notify(new ForgetPasswordNotify($user,$url));
+                return ['status'=>true];
+            }else{
+                return ['status'=>false,'message'=>'Email not exists'];
+            }
+
+        } catch (\Throwable $th) {
+            return ['status'=>false,'message'=>$th->getMessage()];
+        }
     }
+
+    public function ResetPassword($email){
+    
+        $userEmail = Crypt::decrypt($email);
+
+        $user=User::where('email',$userEmail)->first();
+        if($user){
+            return view('home.forget_password',compact('user'));
+        }
+        else{
+            return redirect()->route('frontHome')->with('message',"Something went wrong!");
+        }
+    }
+
+    public function ChangePassword(Request $request){
+        $validated=Validator::make($request->all(),[
+            'password'=>'required|min:6',
+            'confirm_password'=>'same:password'
+        ]);
+
+        if($validated->fails()){
+            return response()->json([
+                'status'=>false,
+                'message'=>$validated->errors()
+            ]);
+        }
+        else{
+
+            $password=bcrypt($request->password);
+            $user=User::find($request->id);
+            if($user){
+                $user->update([
+                    'password'=>$password
+                ]);
+                return response()->json([
+                    'status'=>true,
+                    'message'=>'User Password Changed Successfully'
+                ]);
+               
+            }
+            return ['status'=>null, 'message'=>'Something Went Wrong!'];
+        }
+
+
+
+    }
+
 }

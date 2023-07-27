@@ -28,10 +28,15 @@ use App\Http\Controllers\FriendShipController;
 // });
 Route::get('/', function () {
     return view('home.index');
-});
+})->name('frontHome');
+Route::get('/test', function () {
+    return view('home.home');
+})->name('frontHome');
 
 Route::get('/user', [App\Http\Controllers\HomeController::class, 'userHome']);
 Route::post('/forget-password', [App\Http\Controllers\UserController::class, 'forgetPassword'])->name('forgetPassword');
+Route::get('/forget-password/{email}', [App\Http\Controllers\UserController::class, 'ResetPassword'])->name('ResetPassword');
+Route::post('/change-password', [App\Http\Controllers\UserController::class, 'ChangePassword'])->name('ChangePassword');
 
 
 
