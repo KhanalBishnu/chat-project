@@ -1,10 +1,104 @@
 body{
     margin: 0;
     padding: 0;
-    background: whitesmoke;
 }
 
 .nav_logo a{
     font-size: 25px;
     font-weight: 700;
+}
+.logo_center {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+.logo_center input{
+    width: 50%;
+    padding-left:30px; 
+    height: 85%;
+    border-radius: 10px;
+    border: 3px solid #ccc;
+    margin-right: 5px;
+}
+.logo_center input:focus{
+     border: 3px solid whitesmoke;
+
+}
+.logo_center .search_icon{
+    position: absolute;
+    top:8px;
+    left: -5px;
+}
+.fa-solid , .fa-user {
+    color: rgb(168, 165, 158);
+}
+
+
+.logo_end_nav{
+    display: flex;
+    flex-direction: row;
+    
+    
+}
+.logo_end_nav a{
+    padding: 0 5px;
+    margin-left:10px;
+}
+
+/* body side bar */
+
+.body_left_sidebar, .body_left_sidebar_top{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 15px  0 0 10px;
+}
+.body_left_sidebar_top{
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2)
+}
+.body_left_sidebar_end{
+    border: 1px solid rgb(189, 187, 187);
+   
+}
+.body_left_sidebar_end a{
+    margin: 5px 0;
+}
+
+.body_main_content_post_create{
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.body_main_content_post_create textarea{
+    height: 100px;
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+
+}
+
+.body_main_content_post_create_write {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    box-shadow: 1px 0 2px rgba(0, 0, 0,0.2);
+    padding: 10px 0;
+}
+
+.body_main_content_post_create_write .fa-bar,.body_main_content_post_create_icon {
+    padding: 0 15px;
+}
+.body_main_content_post_create_write .body_main_content_post_create_icon a{
+    margin-right: 15px;
+    text-decoration: none;
+
+}
+.fa-video-text{ color: red;} .fa-image-text{ color: green;} .fa-bell-text{ color: blue;}
+
+.fa-bar{
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
 }
