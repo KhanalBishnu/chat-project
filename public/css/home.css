@@ -267,7 +267,7 @@ body{
 .friend-request{
     display: flex;
     justify-content: space-evenly;
-    box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.4);
+    box-shadow: 3px 2px 2px rgba(0, 0, 0, 0.4);
 }
 
 /* friend request name */
@@ -319,7 +319,7 @@ body{
 }
 .friend-request-main-div{
     padding-top:5%; 
-    box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.4);
 
 }
 
@@ -328,10 +328,12 @@ body{
 .friend-confirm-main-div{
     padding-top:10%; 
     margin-top: 10%;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.4);
+
+    /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
-    border: 1px solid rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.94); */
 }
 
 /* suggested group  */
