@@ -3,6 +3,59 @@ body{
     padding: 0;
 }
 
+.navbar_head{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    
+}
+.sidebar-chat{
+    margin-top: 100px;
+    position: fixed;
+    left:  0;
+    /* height:  100%; */
+    
+}
+#mainDiv{
+    position: relative;
+    /* border: 1px solid green; */
+    margin-top: 100px;
+    
+}
+#sidebarDiv{
+    position: absolute;
+    width: 15%;
+    border: 1px solid red;
+    left: 0;
+    
+}
+#mainPageDiv{
+    position: absolute;
+    width: 85%;
+    border: 1px solid blue;
+    left: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#mp1{
+    border: 2px solid red;
+    width: 50%;
+    height: 100%;
+}
+#mp2{
+    border: 2px solid pink;
+    width: 25%;
+    height: 100%;
+}
+#mp3{
+    border: 2px solid green;
+    width: 25%;
+    height: 100%;
+}
+
+
 .nav_logo a{
     font-size: 25px;
     font-weight: 700;
@@ -69,6 +122,45 @@ body{
 
 .body_main_content_post_create{
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    padding-top: 15px;
+   
+}
+.body_main_content_post_other{
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    padding-top: 15px;
+    position: relative;
+    /* border: 5px solid red; */
+    margin: 20px 0 10px 5px;
+}
+.body_main_content_post_other .name-other-post{
+    position: absolute;
+    top: 25px;
+    left: 75px;
+    font-family: cursive;
+    font-weight: 800;
+    font-size: 20px;
+    word-spacing: 0;
+    letter-spacing: 0;
+}
+.body_main_content_post_other .time-other-post{
+    position: absolute;
+    top: 55px;
+    left: 75px;
+    font-family: sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    color: gray;
+    
+}
+
+
+.circle_image{
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+    /* border: 5px solid red; */
+    overflow: hidden;
+
 }
 .body_main_content_post_create textarea{
     height: 100px;
@@ -87,6 +179,7 @@ body{
     background: transparent;
     box-shadow: 1px 0 2px rgba(0, 0, 0,0.2);
     padding: 10px 0;
+    margin-bottom: 10px;
 }
 
 .body_main_content_post_create_write .fa-bar,.body_main_content_post_create_icon {
@@ -101,4 +194,119 @@ body{
 
 .fa-bar{
     box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* footer icon post */
+
+.footer-icon-post{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.like-comment-icon small{
+    padding: 0 0 0 10px;
+    
+}
+
+/* friend request div */
+
+.friend-request{
+    display: flex;
+    justify-content: space-evenly;
+    box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* friend request name */
+.friend-request_see{
+    margin-top: 5px;
+    position: relative;
+    padding: 10px 0;
+
+}
+.name-request-post{
+    position: absolute;
+    top: 5px;
+    left: 55px;
+    font-weight: 500;
+    font-size: 12px;
+}
+.friend-mutual-post{
+    position: absolute;
+    top: 25px;
+    left: 55px;
+    color: gray;
+    font-size: 12px;
+}
+.confirm-cancel-friend{
+    display: flex;
+    justify-content: space-evenly;
+    
+}
+.confirm-cancel-friend .confirm{
+    background:rgb(22, 86, 143);
+    color: aliceblue;
+    padding: 3px 8px;
+    border-radius: 4px;
+    position: absolute;
+    top: 55%;
+    left: 30%;
+
+}
+.confirm-cancel-friend .cancel{
+    background:rgba(168, 168, 168, 0.445);
+    color: black;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 400;
+    position: absolute;
+    top: 55%;
+    right:  0px;
+}
+.friend-request-main-div{
+    padding-top:5%; 
+    box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.4);
+
+}
+
+/* confirm-friend div  */
+
+.friend-confirm-main-div{
+    padding-top:10%; 
+    margin-top: 10%;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    border: 1px solid rgba(255, 255, 255, 0.94);
+}
+
+/* suggested group  */
+/* .suggest-group{
+   
+    border: 5px solid red;
+} */
+
+.suggest-group-image{
+    width: 100%;
+    height:80%;
+    overflow: hidden;
+
+
+}
+.suggest-group-join{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.suggest-group-join .post-count-group{
+    color: gray;
+    font-size: 10px;
+}
+.suggest-group-join .join{
+    color: whitesmoke;
+    font-size: 15px;
+    background:rgb(22, 86, 143);
+    padding: 4px 12px;
 }
