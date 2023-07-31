@@ -29,7 +29,7 @@
                 <small class="search_icon"><i class="fa-solid px-4 fa-magnifying-glass"></i></small> <input type="text"
                     name="" id="" placeholder="search here" class="">
                 <div class="search-another-icon">
-                    <a href=""> <i class="fa-solid fa-house  px-2"></i></a>
+                    <a href=""> <i class="fa-solid fa-house  "></i></a>
                     <a href=""> <i class="fa-solid fa-video  px-2"></i></a>
                     <a href=""> <i class="fa-regular fa-user  px-2"></i></a>
                     <a href=""> <i class="fa-solid fa-film  px-2"></i></a>
@@ -43,256 +43,237 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <div class="row border justify-content-around ">
-            <div class="sidebar-chat col-2 body_left_sidebar ">
-                            <div class="row">
-                                <div class="body_left_sidebar_top col-md-12">
-            
-                                    <p>new feeds</p>
-                                    <a href=""> <i class="fa-solid fa-bell  px-2"></i>home</a>
-                                    <a href=""> <i class="fa-solid fa-message  px-2">News feed</i></a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Testing</a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Purpose</a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Finally</a>
-                                </div>
-                                <div class="body_left_sidebar_top col-md-12">
-            
-                                    <p>new feeds</p>
-                                    <a href=""> <i class="fa-solid fa-bell  px-2"></i>home</a>
-                                    <a href=""> <i class="fa-solid fa-message  px-2">News feed</i></a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Testing</a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Purpose</a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Finally</a>
-                                </div>
-                                <div class="body_left_sidebar_top col-md-12">
-            
-                                    <p>new feeds</p>
-                                    <a href=""> <i class="fa-solid fa-bell  px-2"></i>home</a>
-                                    <a href=""> <i class="fa-solid fa-message  px-2">News feed</i></a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Testing</a>
-                                    <a href=""> <i class="fa-solid fa-gear  px-2"></i>Purpose</a>
-                                </div>
-                            </div>
+    <div id="mainDiv">
+        <div id="sidebarDiv">
+            <div class="row">
+                <div class="body_left_sidebar_top col-md-12">
+
+                    <p>new feeds</p>
+
+                    <a href="" class="icon-sidebar"> <i class="fa-solid fa-bell  "></i>home</a>
+                    <a href="" class="icon-sidebar"> <i class="fa-solid fa-message"></i>Chat</a>
+                    <a href="" class="icon-sidebar"> <i class="fa-brands fa-rocketchat"></i> Group Chat</a>
+                    <a href="" class="icon-sidebar"><i class="fa-solid fa-people-group"></i>Group</a>
+                    <a href="" class="icon-sidebar"> <i class="fa-solid fa-user-group"></i>Friends</a>
+                </div>
+                <div class="body_left_sidebar_top col-md-12">
+
+                    <p>Setting</p>
+                    <a href="" class="icon-sidebar"> <i class="fa-solid fa-bell  "></i>home</a>
+                    <a href="" class="icon-sidebar"> <i class="fa-solid fa-message  "></i>News feed</a>
+                    <a href="" class="icon-sidebar"> <i class="fa-solid fa-gear  "></i>Testing</a>
+                    <a href=""> <i class="fa-solid fa-gear  "></i>Purpose</a>
+                </div>
+                <div class="body_left_sidebar_copy ">
+
+                    <h6>CopyRight @2020</h6>
+                </div>
             </div>
-            <div class="main-page col-8 body_main_content">
+          
+        </div>
+        <div id="mainPageDiv">
+            <div id="mp1">
+                <div class="body_main_content_post_create pt-1">
+                    <div class="circle_image">
 
-                <div class="row justify-content-evenly">
-                    <div class="col-md-7 body_main_content_post">
-                        <div class="row">
-                            <div class="col-md-12 body_main_content_post_create pt-3">
-                                <div class="circle_image">
-
-                                    <img class="img-fluid" src="{{ asset('image/download.jpg') }}" alt="" height="100%"
-                                        width="100%">
-                                </div>
-
-                                <textarea name="" id="" cols="30" rows="10"
-                                    placeholder="What is on your mind?"></textarea>
-                            </div>
-                            <div class="col-md-12 body_main_content_post_create_write ">
-                                <div class="body_main_content_post_create_icon">
-
-                                    <i class="fa-solid fa-video fa-video-text  px-3"></i><a href="">Live Video</a>
-                                    <i class="fa-solid fa-bell fa-bell-text  px-3"></i><a href="">home</a>
-                                    <i class="fa-solid fa-image fa-image-text px-3"></i><a href=""> Images</a>
-                                </div>
-                                <div class="fa-bar">
-
-                                    <a id="fa-bar" href=""><i class="fa-solid fa-bars"></i></a>
-                                </div>
-                            </div>
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-12 body_main_content_post_other">
-                                        <div class="circle_image">
-
-                                            <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt=""
-                                                height="100%" width="100%">
-                                        </div>
-                                        <small class="name-other-post">Ram Bahadur Chaudhary</small><br>
-                                        <span class="time-other-post">5th mar 2023</span>
-                                        <p> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde labore eius
-                                            voluptates expedita beatae magnam, voluptatem cum impedit tenetur earum
-                                            similique soluta natus dicta optio ex aut perferendis vitae repellendus.
-                                        </p>
-                                        <div class="image-section-other-post">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <img src="{{ asset('image/download.jpg') }}" alt="Images of post"
-                                                        width="100%" height="100%">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <img src="{{ asset('image/final.jpg') }}" alt="Images of post"
-                                                        width="100%" height="100%">
-
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <img src="{{ asset('image/test.jpg') }}" alt="Images of post"
-                                                        width="100%" height="100%">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="footer-icon-post">
-                                            <div class="like-comment-icon">
-                                                <small> <i class="fa fa-thumbs-up text-primary"
-                                                        aria-hidden="true"></i></small>
-                                                <small><i class="fa-solid fa-heart text-danger"></i></small>
-                                                <small>2.4k Likes</small>
-                                                <small><i class="fa-regular fa-comment"></i></small>
-                                                <span>23 comments</span>
-                                            </div>
-                                            <div class="share-post">
-                                                <small> <i class="fas fa-share"></i></small>
-                                                <span>Share</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <img class="img-fluid" src="{{ asset('image/download.jpg') }}" alt="" height="100%"
+                            width="100%">
                     </div>
-                    <div class="col-md-3 body_main_content_friend_req">
-                        <div class="row">
-                            <div class="col-md-12 friend-request-main-div">
-                                <div class="friend-request">
-                                    <h6> Friend Request </h6>
-                                    <small><a href="">See all</a></small>
-                                </div>
-                                <div class="friend-request_see">
-                                    <div class="circle_image ">
+                    <textarea name="" id="" cols="30" rows="10" placeholder="What is on your mind?"></textarea>
+                </div>
+                <div class=" body_main_content_post_create_write ">
+                    <div class="body_main_content_post_create_icon">
 
-                                        <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
-                                            width="100%">
-                                    </div>
-                                    <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
-                                    <span class="friend-mutual-post">23 mutual friend</span>
-                                    <div class="confirm-cancel-friend">
-                                        <small class="confirm">Confirm</small>
-                                        <small class="cancel">Cancel</small>
-                                    </div>
-                                </div>
-                                <div class="friend-request_see">
-                                    <div class="circle_image ">
+                        <i class="fa-solid fa-video fa-video-text  px-3"></i><a href="">Live Video</a>
+                        <i class="fa-solid fa-bell fa-bell-text  px-3"></i><a href="">home</a>
+                        <i class="fa-solid fa-image fa-image-text px-3"></i><a href=""> Images</a>
+                    </div>
+                    <div class="fa-bar">
 
-                                        <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
-                                            width="100%">
-                                    </div>
-                                    <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
-                                    <span class="friend-mutual-post">23 mutual friend</span>
-                                    <div class="confirm-cancel-friend">
-                                        <small class="confirm">Confirm</small>
-                                        <small class="cancel">Cancel</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 friend-confirm-main-div my-2">
-                                <div class="friend-request">
-                                    <h6>Confirm Friend  </h6>
-                                    <small><a href="">See all</a></small>
-                                </div>
-                                <div class="friend-request_see">
-                                    <div class="circle_image ">
-
-                                        <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
-                                            width="100%">
-                                    </div>
-                                    <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
-                                    <span class="friend-mutual-post">23 mutual friend</span>
-                                    
-                                </div>
-                                <div class="friend-request_see">
-                                    <div class="circle_image ">
-
-                                        <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
-                                            width="100%">
-                                    </div>
-                                    <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
-                                    <span class="friend-mutual-post">23 mutual friend</span>
-                                    
-                                </div>
-                            </div>
-                            <div class="col-md-12 suggest-group">
-                                    <div class="friend-request">
-                                            <h6>Suggest group</h6>
-                                            <small><a href="">See all</a></small>
-                                        </div>
-                                <div class="suggest-group-image">
-
-                                    <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" class="img-fluid">
-                                </div>
-                                <div class="suggest-group-join">
-                                        <small class="post-count-group ">25+ posts a day</small>
-                                        <small class="join ">Join</small>
-                                       
-                                    </div>
-                            </div>
-                        </div>
+                        <a id="fa-bar" href=""><i class="fa-solid fa-bars"></i></a>
                     </div>
                 </div>
 
+                <div class=" body_main_content_post_other">
+                    <div class="circle_image">
+
+                        <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%" width="100%">
+                    </div>
+                    <small class="name-other-post">Ram Bahadur Chaudhary</small><br>
+                    <span class="time-other-post">5th mar 2023</span>
+                    <p> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde labore eius
+                        voluptates expedita beatae magnam, voluptatem cum impedit tenetur earum
+                        similique soluta natus dicta optio ex aut perferendis vitae repellendus.
+                    </p>
+                    <div class="image-section-other-post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="{{ asset('image/download.jpg') }}" alt="Images of post" width="100%"
+                                    height="100%">
+                            </div>
+                            <div class="col-md-4">
+                                <img src="{{ asset('image/final.jpg') }}" alt="Images of post" width="100%"
+                                    height="100%">
+
+                            </div>
+                            <div class="col-md-4">
+                                <img src="{{ asset('image/test.jpg') }}" alt="Images of post" width="100%"
+                                    height="100%">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-icon-post">
+                        <div class="like-comment-icon">
+                            <small> <i class="fa fa-thumbs-up text-primary" aria-hidden="true"></i></small>
+                            <small><i class="fa-solid fa-heart text-danger"></i></small>
+                            <small>2.4k Likes</small>
+                            <small><i class="fa-regular fa-comment"></i></small>
+                            <span>23 comments</span>
+                        </div>
+                        <div class="share-post">
+                            <small> <i class="fas fa-share"></i></small>
+                            <span>Share</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-2 ">
-                <div class="row ">
-                    <div class=" body_left_sidebar_end col-md-12 pr-5 pt-2">
+
+            <div id="mp2">
+
+                <div class="friend-request-main-div">
+                    <div class="friend-request">
+                        <h6> Friend Request </h6>
+                        <small><a href="">See all</a></small>
+                    </div>
+                    <div class="friend-request_see">
+                        <div class="circle_image ">
+
+                            <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
+                                width="100%">
+                        </div>
+                        <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
+                        <span class="friend-mutual-post">23 mutual friend</span>
+                        <div class="confirm-cancel-friend">
+                            <small class="confirm">Confirm</small>
+                            <small class="cancel">Cancel</small>
+                        </div>
+                    </div>
+                    <div class="friend-request_see">
+                        <div class="circle_image ">
+
+                            <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
+                                width="100%">
+                        </div>
+                        <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
+                        <span class="friend-mutual-post">23 mutual friend</span>
+                        <div class="confirm-cancel-friend">
+                            <small class="confirm">Confirm</small>
+                            <small class="cancel">Cancel</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="friend-confirm-main-div">
+                    <div class="friend-request">
+                        <h6>Confirm Friend </h6>
+                        <small><a href="">See all</a></small>
+                    </div>
+                    <div class="friend-request_see">
+                        <div class="circle_image ">
+
+                            <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
+                                width="100%">
+                        </div>
+                        <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
+                        <span class="friend-mutual-post">23 mutual friend</span>
+
+                    </div>
+                    <div class="friend-request_see">
+                        <div class="circle_image ">
+
+                            <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" height="100%"
+                                width="100%">
+                        </div>
+                        <small class="name-request-post">Ram Bahadur Chaudhary</small><br>
+                        <span class="friend-mutual-post">23 mutual friend</span>
+
+                    </div>
+                </div>
+                <div class=" suggest-group">
+                    <div class="friend-request">
+                        <h6>Suggest group</h6>
+                        <small><a href="">See all</a></small>
+                    </div>
+                    <div class="suggest-group-image">
+
+                        <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="suggest-group-join">
+                        <small class="post-count-group ">25+ posts a day</small>
+                        <small class="join ">Join</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="mp3">
+                <div class="sidebae_end">
+
+                    <div class=" body_left_sidebar_end ">
                         <p>Recent friend</p>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-
+    
                     </div>
-                    <div class="body_left_sidebar_top body_left_sidebar_end col-md-12">
+                    <div class=" body_left_sidebar_end ">
                         <p>Suggest Friend</p>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-                        <div class="recent_friend my-2">
+                        <div class="recent_friend ">
                             <a class="text-decoration-none text-dark" href=""> <img class="img-fluid"
-                                    src="{{ asset('image/download.jpg') }}" alt="" height="25" width="18"><small> Ram
+                                    src="{{ asset('image/download.jpg') }}" alt="" height="40" width="40"><small> Ram
                                     Bahadur chaudhary <sup class="text-success">*</sup> </small></a>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </body>

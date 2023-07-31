@@ -7,52 +7,66 @@ body{
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 99;
     
 }
-.sidebar-chat{
+/* .sidebar-chat{
     margin-top: 100px;
     position: fixed;
     left:  0;
-    /* height:  100%; */
+    /* height:  100%; 
     
-}
+} */
 #mainDiv{
-    position: relative;
+    width: 100%;
+    position: absolute;
+    top: 11%;
     /* border: 1px solid green; */
-    margin-top: 100px;
     
 }
 #sidebarDiv{
-    position: absolute;
-    width: 15%;
-    border: 1px solid red;
+    position: fixed;
+    width: 13%;
     left: 0;
+    top:70px;
+    height: 100%;
+    padding: 2px 10px;
+
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    
+    border: 1px solid rgba(233, 227, 227, 0.94);
     
 }
 #mainPageDiv{
+    height: 100%;
     position: absolute;
     width: 85%;
-    border: 1px solid blue;
     left: 15%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    /* border:15px solid blue; */
+
 }
 #mp1{
-    border: 2px solid red;
-    width: 50%;
+    width: 53%;
     height: 100%;
+    margin-left: 1%;
 }
 #mp2{
-    border: 2px solid pink;
+    position: absolute;
     width: 25%;
     height: 100%;
+    margin: 0 2%; 
+   left: 53%;
 }
 #mp3{
-    border: 2px solid green;
-    width: 25%;
+    position: fixed;
+    width: 16%;
     height: 100%;
+    right: 0;
+    top: 10%;
 }
 
 
@@ -109,12 +123,51 @@ body{
 }
 .body_left_sidebar_top{
     margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 15px  0 0 10px;
     border-radius: 5px;
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2)
+    box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+.body_left_sidebar_copy{
+   margin-top: 50%;
+}
+
+
+/* side bar icon design */
+.body_left_sidebar_top .icon-sidebar{
+    padding: 10px 0;
+}
+.body_left_sidebar_top a{
+    text-decoration: none;
+}
+.body_left_sidebar_top .fa-solid{
+   padding: 0 10px;
+ 
+   
+}
+
+.body_left_sidebar_top .fa-bell{
+    color: aqua;
+}
+.sidebae_end{
+    
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+  
+    border: 1px solid rgba(255, 255, 255, 0.94);
+    margin-top:4%;
+   
 }
 .body_left_sidebar_end{
-    border: 1px solid rgb(189, 187, 187);
-   
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    /* border: 1px solid rgb(134, 126, 126); */
+}
+.recent_friend{
+    margin-bottom: 3%;
+    padding: 3px 5px;
 }
 .body_left_sidebar_end a{
     margin: 5px 0;
@@ -262,7 +315,7 @@ body{
     font-weight: 400;
     position: absolute;
     top: 55%;
-    right:  0px;
+    right:  40px;
 }
 .friend-request-main-div{
     padding-top:5%; 
@@ -282,10 +335,11 @@ body{
 }
 
 /* suggested group  */
-/* .suggest-group{
+.suggest-group{
    
-    border: 5px solid red;
-} */
+    /* border: 5px solid red; */
+    margin-top: 3%;
+}
 
 .suggest-group-image{
     width: 100%;
