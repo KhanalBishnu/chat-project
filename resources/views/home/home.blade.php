@@ -22,23 +22,27 @@
     <div class="container-fluid py-3 bg-light  navbar_head ">
         <div class="row justify-content-evenly">
             <div class="col-md-3 nav_logo px-3">
-                <img class="img-fluid" src="{{ asset('image/download.jpg') }}" alt="" height="30" width="30">
+                {{-- <img class="img-fluid" src="{{ asset('image/download.jpg') }}" alt="" height="40" width="30"> --}}
                 <a href="" class=" text-decoration-none text-primary">Chat</a>
             </div>
             <div class="col-md-6 logo_center">
                 <small class="search_icon"><i class="fa-solid px-4 fa-magnifying-glass"></i></small> <input type="text"
                     name="" id="" placeholder="search here" class="">
                 <div class="search-another-icon">
-                    <a href=""> <i class="fa-solid fa-house  "></i></a>
+                    <a href=""> <i class="fa-solid fa-house"></i></a>
                     <a href=""> <i class="fa-solid fa-video  px-2"></i></a>
                     <a href=""> <i class="fa-regular fa-user  px-2"></i></a>
                     <a href=""> <i class="fa-solid fa-film  px-2"></i></a>
                 </div>
             </div>
             <div class="col-md-2  logo_end_nav  ">
-                <a href=""> <i class="fa-solid fa-bell  px-2"></i></a>
-                <a href=""> <i class="fa-solid fa-message  px-2"></i></a>
-                <a href=""> <i class="fa-solid fa-gear  px-2"></i></a>
+                <a href=""> <i class="fa-solid fa-bell  px-2  text-primary"><sup class="text-danger">*</sup></i></a>
+                <a href=""> <i class="fa-solid fa-message  px-2  text-primary"></i></a>
+                <a href=""> <i class="fa-solid fa-gear  px-2 text-primary"></i></a>
+                <div class="img-header-div">
+                    <img class="" src="{{ asset('image/download.jpg') }}" alt="" height="100%" width="100%">
+                </div>
+
             </div>
         </div>
     </div>
@@ -84,7 +88,7 @@
                 <div class=" body_main_content_post_create_write ">
                     <div class="body_main_content_post_create_icon">
 
-                        <i class="fa-solid fa-video fa-video-text  px-3"></i><a href="">Live Video</a>
+                        <i class="fa-solid fa-video fa-video-text  px-3"></i> <a href="">Live Video</a>
                         <i class="fa-solid fa-bell fa-bell-text  px-3"></i><a href="">home</a>
                         <i class="fa-solid fa-image fa-image-text px-3"></i><a href=""> Images</a>
                     </div>
@@ -200,22 +204,20 @@
                     </div>
                 </div>
                 <div class=" suggest-group">
-                    <div class="friend-request">
-                        <h6>Suggest group</h6>
-                        <small><a href="">See all</a></small>
-                    </div>
-                    <div class="suggest-group-image">
-
-                        <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" class="img-fluid">
-                    </div>
-                    <div class="suggest-group-join">
-                        <small class="post-count-group ">25+ posts a day</small>
-                        <small class="join ">Join</small>
-
+                    <div class="suggest-group-div">
+                        <div class="friend-request">
+                            <h6>Suggest group</h6>
+                            <small><a href="">See all</a></small>
+                        </div>
+                        <div class="suggest-group-image">
+                            <img class="img-fluid" src="{{ asset('image/photo.jpg') }}" alt="" class="img-fluid">
+                        </div>
+                        <div class="suggest-group-join">
+                            <small class="post-count-group ">25+ posts a day</small>
+                            <small class="join ">Join</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-
             <div id="mp3">
                 <div class="sidebae_end">
 

@@ -10,6 +10,15 @@ body{
     z-index: 99;
     
 }
+
+/* header img right side  */
+.img-header-div{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 2px solid red;
+}
 /* .sidebar-chat{
     margin-top: 100px;
     position: fixed;
@@ -73,11 +82,17 @@ body{
 .nav_logo a{
     font-size: 25px;
     font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 }
 .logo_center {
     position: relative;
     display: flex;
     flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
 }
 .logo_center input{
     width: 50%;
@@ -104,7 +119,8 @@ body{
 .logo_end_nav{
     display: flex;
     flex-direction: row;
-    
+    justify-content: center;
+    align-items: center;
     
 }
 .logo_end_nav a{
@@ -365,4 +381,14 @@ body{
     font-size: 15px;
     background:rgb(22, 86, 143);
     padding: 4px 12px;
+    margin-bottom:10px; 
+    border-radius: 5px;
+
+}
+
+.suggest-group-div{
+    border: 1px solid #dadada;
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.4);
+    
+
 }
