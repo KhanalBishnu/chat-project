@@ -1,0 +1,110 @@
+khalti
+
+order controller 
+
+   if($data['payment_mode']=='KHALTI'){
+            $args = http_build_query(array(
+                'return_url'=>route('verifyKhalti'),
+                'website_url'=>route('index'),
+                // 'amount'=>$bill['price'] * 100,
+                'amount'=>10000,
+                'purchase_order_id'=>$order['order_Id'],
+                'purchase_order_name'=>'Order',
+                'customer_info'=>['email'=>$order['email'],'name' => $order['name']],
+                "modes"=>[
+                    "KHALTI",
+                    "EBANKING",
+                    "MOBILE_BANKING",
+                    "CONNECT_IPS",
+                    "SCT"
+                ]
+            ));
+            $url = 'https://a.khalti.com/api/v2/'.'epayment/initiate/';
+            # Make the call using API.
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    
+            $headers = ['Authorization: Key ba0a86e38e464a4b9372b1e07d6280b4'];
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            // payment verification end
+    
+            // Response
+            $response = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            $decodedResponse = json_decode($response);
+
+            if(isset($decodedResponse->pidx) && isset($decodedResponse->payment_url)){
+                return redirect($decodedResponse->payment_url);
+            }
+            else{
+             Alert::error('Error', 'Something Went Wrong. Try again later.');
+             return redirect()->route('index');
+            }
+        }
+
+
+
+route
+
+Route::get('verify-khalti', [KhaltiController::class, 'verifyKhalti'])->name('verifyKhalti');
+
+khalti controller
+
+ public function verifyKhalti(Request $request)
+    {
+        $data = $request->all();    
+        // $bill = \App\Models\Bill::where('unique_bill_id',$data['purchase_order_id'])->first();
+        if(array_key_exists('message',$data)){
+            Alert::error('Error', $data['message']);
+            return redirect()->route('welcome');
+        }else{
+
+        
+        // $user=Auth::user();
+      
+        // $paymentMethod = PaymentGateway::where('name', 'khalti')->first();
+
+        $args = http_build_query(array(
+            'pidx' => $data['pidx'],
+        ));
+
+        $url = 'https://a.khalti.com/api/v2/'.'epayment/lookup/';
+
+        # Make the call using API.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $headers = ['Authorization: Key ba0a86e38e464a4b9372b1e07d6280b4'];//SECRET_KEY
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        // payment verification end
+
+        // Response
+        $response = curl_exec($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $decodedResponse = json_decode($response);
+        if ($decodedResponse->status == 'Completed') {
+            // $bill->update([
+            //     'status' => 'Paid',
+            //     'gateway_response' => $response
+            // ]);
+            Alert::success('Successful','Payment Success');
+            return redirect()->route('homepage');
+        } else {
+            // $bill->update([
+            //     'status' => 'Unpaid'
+            // ]);
+            Alert::error('Error', 'Something Went Wrong. Try again later.');
+            return redirect()->route('homepage');
+            
+        }
+    }
+    }
+
