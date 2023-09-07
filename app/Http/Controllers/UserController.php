@@ -64,7 +64,7 @@ class UserController extends Controller
             $data['sender_id']=$user->name;
             $image=$chat->hasMedia('chat_image')?$chat->getMedia('chat_image')[0]->getFullUrl():'';
             $pdf=$chat->hasMedia('chat_pdf')?$chat->getMedia('chat_pdf')[0]->getFullUrl():'';
-            $video=$chat->hasMedia('chat_video')?$chat-`>getMedia('chat_video')[0]->getFullUrl():'';
+            $video=$chat->hasMedia('chat_video')?$chat->getMedia('chat_video')[0]->getFullUrl():'';
             $user_image=$user->hasMedia('user_image')?$user->getMedia('user_image')[0]->getFullUrl():asset('image/images.jpg');
          
           
