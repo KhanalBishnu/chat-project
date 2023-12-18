@@ -6,7 +6,7 @@
     
     <div class="detailsContainer">
         <div class="imageSection">
-        <img  src="{{ $user->getMedia('user_image')[0]->getFullUrl() }}" alt="">
+        <img  src="{{ $user->hasMedia('user_image')?$user->getMedia('user_image')[0]->getFullUrl():'' }}" alt="">
             <form id="myForm" >
                 <div id="user_image">
                     <input type="hidden" id="user_id" value="{{ $user->id }}">
